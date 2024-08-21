@@ -33,7 +33,8 @@ export const LoginUser = createAsyncThunk(
 export const getMe = createAsyncThunk("user/getMe", async (_, thunkAPI) => {
   try {
     const response = await axios.get(
-      `https://aoura-backend-production.up.railway.app/api/v1/me`
+      `https://aoura-backend-production.up.railway.app/api/v1/me`,
+      { withCredentials: true }
     );
     return response.data;
   } catch (error) {
