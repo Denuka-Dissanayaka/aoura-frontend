@@ -1,0 +1,32 @@
+import ThemeContextProvider from "./context/ThemeContextProvider";
+import "./App.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import Panel from "./panel/Panel";
+import LoginPage from "./pages/LoginPage";
+import Dashboard from "./pages/Dashboard";
+import ProductsPage from "./pages/ProductsPage";
+import UsersPage from "./pages/UsersPage";
+import NetworksPage from "./pages/NetworksPage";
+import StaffsPage from "./pages/StaffsPage";
+
+function App() {
+  return (
+    <BrowserRouter>
+      <ThemeContextProvider>
+        <Routes>
+          <Route path="/" element={<LoginPage />}></Route>
+          <Route path="/dashboard" element={<Dashboard />}></Route>
+          <Route path="/products" element={<ProductsPage />}></Route>
+          <Route path="/users" element={<UsersPage />}></Route>
+          <Route path="/networks" element={<NetworksPage />}></Route>
+          <Route path="/staff" element={<StaffsPage />}></Route>
+          {/* <Panel /> */}
+          {/* <LoginPage /> */}
+        </Routes>
+      </ThemeContextProvider>
+    </BrowserRouter>
+  );
+}
+
+export default App;
