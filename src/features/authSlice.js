@@ -18,8 +18,12 @@ export const LoginUser = createAsyncThunk(
         {
           username: user.username,
           password: user.password,
+        },
+        {
+          withCredentials: true, // if you need to send cookies or auth headers
         }
       );
+      localStorage.setItem("token", response.data.token);
       return response.data;
     } catch (error) {
       if (error.response) {
@@ -34,7 +38,12 @@ export const getMe = createAsyncThunk("user/getMe", async (_, thunkAPI) => {
   try {
     const response = await axios.get(
       `https://aoura-backend-production.up.railway.app/api/v1/me`,
-      { withCredentials: true }
+      {
+        headers: {
+          "access-token": localStorage.getItem("token"),
+        },
+        withCredentials: true,
+      }
     );
     return response.data;
   } catch (error) {
