@@ -67,7 +67,13 @@ function Products() {
 
   const getProducts = async () => {
     const response = await axios.get(
-      "https://aoura-backend-production.up.railway.app/api/v1/products"
+      "https://aoura-backend-production.up.railway.app/api/v1/products",
+      {
+        headers: {
+          "access-token": localStorage.getItem("token"),
+        },
+        withCredentials: true,
+      }
     );
     setProducts(response.data);
   };
