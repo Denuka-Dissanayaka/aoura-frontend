@@ -20,6 +20,12 @@ function AddProductForm({ openModal, setOpenModal, getProductsFunc }) {
           name: productName,
           price: productPrice,
           quantity: productQuantity,
+        },
+        {
+          headers: {
+            "access-token": localStorage.getItem("token"),
+          },
+          withCredentials: true,
         }
       );
       navigate("/products");
