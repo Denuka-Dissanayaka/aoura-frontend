@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -14,7 +15,7 @@ function AddProductForm({ openModal, setOpenModal, getProductsFunc }) {
   const saveProduct = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(
+      const result = await axios.post(
         "https://aoura-backend-production.up.railway.app/api/v1/products",
         {
           name: productName,
@@ -28,6 +29,7 @@ function AddProductForm({ openModal, setOpenModal, getProductsFunc }) {
           withCredentials: true,
         }
       );
+      toast.success("sucess");
       navigate("/products");
       getProductsFunc();
       setOpenModal(false);
