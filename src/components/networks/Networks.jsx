@@ -69,14 +69,26 @@ function Networks() {
 
   const getNetworks = async () => {
     const response = await axios.get(
-      "https://aoura-backend-production.up.railway.app/api/v1/networks"
+      "https://aoura-backend-production.up.railway.app/api/v1/networks",
+      {
+        headers: {
+          "access-token": localStorage.getItem("token"),
+        },
+        withCredentials: true,
+      }
     );
     setNetworks(response.data);
   };
 
   const deleteNetwork = async (id) => {
     await axios.delete(
-      `https://aoura-backend-production.up.railway.app/api/v1/networks/${id}`
+      `https://aoura-backend-production.up.railway.app/api/v1/networks/${id}`,
+      {
+        headers: {
+          "access-token": localStorage.getItem("token"),
+        },
+        withCredentials: true,
+      }
     );
     getNetworks();
   };

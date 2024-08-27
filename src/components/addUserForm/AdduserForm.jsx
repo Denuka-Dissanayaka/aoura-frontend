@@ -17,7 +17,13 @@ function AdduserForm({ openModal, setOpenModal, getUsersFunc }) {
 
   const getNetworks = async () => {
     const response = await axios.get(
-      "https://aoura-backend-production.up.railway.app/api/v1/networks"
+      "https://aoura-backend-production.up.railway.app/api/v1/networks",
+      {
+        headers: {
+          "access-token": localStorage.getItem("token"),
+        },
+        withCredentials: true,
+      }
     );
     setNetworks(response.data);
   };
@@ -41,6 +47,12 @@ function AdduserForm({ openModal, setOpenModal, getUsersFunc }) {
           confPassword: conPassword,
           networkId: network,
           role: role,
+        },
+        {
+          headers: {
+            "access-token": localStorage.getItem("token"),
+          },
+          withCredentials: true,
         }
       );
       navigate("/users");

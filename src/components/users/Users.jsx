@@ -77,14 +77,26 @@ function Users() {
 
   const getUsers = async () => {
     const response = await axios.get(
-      "https://aoura-backend-production.up.railway.app/api/v1/users"
+      "https://aoura-backend-production.up.railway.app/api/v1/users",
+      {
+        headers: {
+          "access-token": localStorage.getItem("token"),
+        },
+        withCredentials: true,
+      }
     );
     setUsers(response.data);
   };
 
   const deleteUser = async (id) => {
     await axios.delete(
-      `https://aoura-backend-production.up.railway.app/api/v1/users/${id}`
+      `https://aoura-backend-production.up.railway.app/api/v1/users/${id}`,
+      {
+        headers: {
+          "access-token": localStorage.getItem("token"),
+        },
+        withCredentials: true,
+      }
     );
     getUsers();
   };

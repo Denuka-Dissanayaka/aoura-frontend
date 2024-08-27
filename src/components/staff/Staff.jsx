@@ -78,14 +78,26 @@ function Staff() {
 
   const getStaffs = async () => {
     const response = await axios.get(
-      "https://aoura-backend-production.up.railway.app/api/v1/staffs"
+      "https://aoura-backend-production.up.railway.app/api/v1/staffs",
+      {
+        headers: {
+          "access-token": localStorage.getItem("token"),
+        },
+        withCredentials: true,
+      }
     );
     setUsers(response.data);
   };
 
   const deleteStaff = async (id) => {
     await axios.delete(
-      `https://aoura-backend-production.up.railway.app/api/v1/staffs/${id}`
+      `https://aoura-backend-production.up.railway.app/api/v1/staffs/${id}`,
+      {
+        headers: {
+          "access-token": localStorage.getItem("token"),
+        },
+        withCredentials: true,
+      }
     );
     getStaffs();
   };

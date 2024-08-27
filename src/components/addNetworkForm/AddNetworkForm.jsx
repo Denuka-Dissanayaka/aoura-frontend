@@ -17,6 +17,12 @@ function AddNetworkForm({ openModal, setOpenModal, getNetworksFunc }) {
         "https://aoura-backend-production.up.railway.app/api/v1/networks",
         {
           networkName: networkName,
+        },
+        {
+          headers: {
+            "access-token": localStorage.getItem("token"),
+          },
+          withCredentials: true,
         }
       );
       navigate("/networks");

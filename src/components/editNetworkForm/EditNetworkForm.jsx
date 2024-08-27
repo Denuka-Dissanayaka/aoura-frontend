@@ -16,7 +16,13 @@ function EditNetworkForm({
     if (editNetworkId !== null) {
       try {
         const response = await axios.get(
-          `https://aoura-backend-production.up.railway.app/api/v1/networks/${editNetworkId}`
+          `https://aoura-backend-production.up.railway.app/api/v1/networks/${editNetworkId}`,
+          {
+            headers: {
+              "access-token": localStorage.getItem("token"),
+            },
+            withCredentials: true,
+          }
         );
         setName(response.data.name);
       } catch (error) {
@@ -38,6 +44,12 @@ function EditNetworkForm({
         `https://aoura-backend-production.up.railway.app/api/v1/networks/${editNetworkId}`,
         {
           networkName: name,
+        },
+        {
+          headers: {
+            "access-token": localStorage.getItem("token"),
+          },
+          withCredentials: true,
         }
       );
       //navigate("/products");
