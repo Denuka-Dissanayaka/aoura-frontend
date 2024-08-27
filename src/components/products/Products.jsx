@@ -55,6 +55,7 @@ function Products() {
   const [openEditModal, setOpenEditModal] = useState(false);
   const [editProductId, setEditProductId] = useState(null);
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const { user } = useSelector((state) => state.auth);
 
@@ -67,6 +68,7 @@ function Products() {
   }, [openEditModal]);
 
   const getProducts = async () => {
+    setLoading(true);
     const response = await axios.get(
       "https://aoura-backend-production.up.railway.app/api/v1/products",
       {
@@ -76,6 +78,7 @@ function Products() {
         withCredentials: true,
       }
     );
+    setLoading(false);
     setProducts(response.data);
   };
 
@@ -141,41 +144,45 @@ function Products() {
             </tr>
           </thead>
           <tbody>
-            {products.map((product, index) => (
-              <>
-                <tr key={product.uuid}>
-                  <td className="p-4 text-center">#{index + 1}</td>
-                  <td className="text-center">{product.uuid}</td>
-                  <td className="text-center">{product.name}</td>
-                  <td className="text-center">{product.price}</td>
-                  <td className="text-center">{product.quantity}</td>
-                  {user && user.role === "admin" ? (
-                    <td className="text-center">{product.network.name}</td>
-                  ) : (
-                    <td className="text-center">{`${product.user.fristname} ${product.user.lastname}`}</td>
-                  )}
-                  <td className="text-center">
-                    <button
-                      onClick={() => {
-                        setOpenEditModal(true);
-                        setEditProductId(product.uuid);
-                      }}
-                      className="bg-green-600 mr-2 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => {
-                        deleteProduct(product.uuid);
-                      }}
-                      className="bg-red-600 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              </>
-            ))}
+            {loading ? (
+              <h1 className="text-center"> loading</h1>
+            ) : (
+              products.map((product, index) => (
+                <>
+                  <tr key={product.uuid}>
+                    <td className="p-4 text-center">#{index + 1}</td>
+                    <td className="text-center">{product.uuid}</td>
+                    <td className="text-center">{product.name}</td>
+                    <td className="text-center">{product.price}</td>
+                    <td className="text-center">{product.quantity}</td>
+                    {user && user.role === "admin" ? (
+                      <td className="text-center">{product.network.name}</td>
+                    ) : (
+                      <td className="text-center">{`${product.user.fristname} ${product.user.lastname}`}</td>
+                    )}
+                    <td className="text-center">
+                      <button
+                        onClick={() => {
+                          setOpenEditModal(true);
+                          setEditProductId(product.uuid);
+                        }}
+                        className="bg-green-600 mr-2 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => {
+                          deleteProduct(product.uuid);
+                        }}
+                        className="bg-red-600 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                </>
+              ))
+            )}
           </tbody>
         </table>
       </div>
