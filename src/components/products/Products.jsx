@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { Blocks } from "react-loader-spinner";
 
 import EditProductForm from "../editProductForm/EditProductForm";
 import AddProductForm from "../addProductForm/AddProductForm";
@@ -145,7 +146,15 @@ function Products() {
           </thead>
           <tbody>
             {loading ? (
-              <h1 className="text-center"> loading</h1>
+              <Blocks
+                height="80"
+                width="80"
+                color="#4fa94d"
+                ariaLabel="blocks-loading"
+                wrapperStyle={{}}
+                wrapperClass="blocks-wrapper"
+                visible={true}
+              />
             ) : (
               products.map((product, index) => (
                 <>
