@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 import EditProductForm from "../editProductForm/EditProductForm";
 import AddProductForm from "../addProductForm/AddProductForm";
@@ -79,7 +80,7 @@ function Products() {
   };
 
   const deleteProduct = async (id) => {
-    await axios.delete(
+    const result = await axios.delete(
       `https://aoura-backend-production.up.railway.app/api/v1/products/${id}`,
       {
         headers: {
@@ -88,6 +89,7 @@ function Products() {
         withCredentials: true,
       }
     );
+    toast.success("delete sucess");
     getProducts();
   };
 
