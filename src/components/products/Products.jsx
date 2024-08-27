@@ -146,15 +146,17 @@ function Products() {
           </thead>
           <tbody>
             {loading ? (
-              <Blocks
-                height="80"
-                width="80"
-                color="#4fa94d"
-                ariaLabel="blocks-loading"
-                wrapperStyle={{}}
-                wrapperClass="blocks-wrapper"
-                visible={true}
-              />
+              <div className="flex justify-center mt-2">
+                <Blocks
+                  height="80"
+                  width="80"
+                  color="#4fa94d"
+                  ariaLabel="blocks-loading"
+                  wrapperStyle={{}}
+                  wrapperClass="blocks-wrapper"
+                  visible={true}
+                />
+              </div>
             ) : (
               products.map((product, index) => (
                 <>
