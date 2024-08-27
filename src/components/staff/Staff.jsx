@@ -88,6 +88,7 @@ function Staff() {
         withCredentials: true,
       }
     );
+    setLoading(false);
     setUsers(response.data);
   };
 
