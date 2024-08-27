@@ -142,6 +142,17 @@ function Staff() {
             </tr>
           </thead>
           <tbody>
+            <div className="flex justify-center mt-2 w-full">
+              <Blocks
+                height="80"
+                width="80"
+                color="#4fa94d"
+                ariaLabel="blocks-loading"
+                wrapperStyle={{}}
+                wrapperClass="blocks-wrapper"
+                visible={true}
+              />
+            </div>
             {loading ? (
               <div className="flex justify-center mt-2 w-full">
                 <Blocks
