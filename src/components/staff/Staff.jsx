@@ -141,7 +141,8 @@ function Staff() {
               <th>Action</th>
             </tr>
           </thead>
-          <tbody>
+
+          {loading ? (
             <div className="flex justify-center mt-2 w-full">
               <Blocks
                 height="80"
@@ -153,20 +154,9 @@ function Staff() {
                 visible={true}
               />
             </div>
-            {loading ? (
-              <div className="flex justify-center mt-2 w-full">
-                <Blocks
-                  height="80"
-                  width="80"
-                  color="#4fa94d"
-                  ariaLabel="blocks-loading"
-                  wrapperStyle={{}}
-                  wrapperClass="blocks-wrapper"
-                  visible={true}
-                />
-              </div>
-            ) : (
-              users.map((user, index) => (
+          ) : (
+            <tbody>
+              {users.map((user, index) => (
                 <tr key={user.id}>
                   <td className="p-4 text-center">{index + 1}</td>
                   <td className="text-center">{user.uuid}</td>
@@ -188,9 +178,9 @@ function Staff() {
                     </button>
                   </td>
                 </tr>
-              ))
-            )}
-          </tbody>
+              ))}
+            </tbody>
+          )}
         </table>
       </div>
     </div>
