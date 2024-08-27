@@ -17,7 +17,13 @@ function EditProductForm({
     if (editProductId !== null) {
       try {
         const response = await axios.get(
-          `https://aoura-backend-production.up.railway.app/api/v1/products/${editProductId}`
+          `https://aoura-backend-production.up.railway.app/api/v1/products/${editProductId}`,
+          {
+            headers: {
+              "access-token": localStorage.getItem("token"),
+            },
+            withCredentials: true,
+          }
         );
         setName(response.data.name);
         setPrice(response.data.price);
@@ -43,6 +49,12 @@ function EditProductForm({
           name: name,
           price: price,
           quantity: quantity,
+        },
+        {
+          headers: {
+            "access-token": localStorage.getItem("token"),
+          },
+          withCredentials: true,
         }
       );
       //navigate("/products");

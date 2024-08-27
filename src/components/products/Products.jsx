@@ -80,7 +80,13 @@ function Products() {
 
   const deleteProduct = async (id) => {
     await axios.delete(
-      `https://aoura-backend-production.up.railway.app/api/v1/products/${id}`
+      `https://aoura-backend-production.up.railway.app/api/v1/products/${id}`,
+      {
+        headers: {
+          "access-token": localStorage.getItem("token"),
+        },
+        withCredentials: true,
+      }
     );
     getProducts();
   };
