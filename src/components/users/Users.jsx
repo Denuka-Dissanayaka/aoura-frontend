@@ -144,7 +144,7 @@ function Users() {
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan={3} className="flex justify-center mt-2 w-full">
+                <td colSpan={6} className="flex justify-center mt-2 w-full">
                   <Blocks
                     height="80"
                     width="80"
