@@ -146,7 +146,7 @@ function Products() {
           </thead>
           <tbody>
             {loading ? (
-              <div className="flex justify-center mt-2">
+              <div className="flex justify-center mt-2 w-full">
                 <Blocks
                   height="80"
                   width="80"
