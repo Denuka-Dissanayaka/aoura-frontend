@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-
+import { Blocks } from "react-loader-spinner";
 import AdduserForm from "../addUserForm/AdduserForm";
 
 const recentOrderData = [
@@ -70,12 +70,14 @@ const recentOrderData = [
 function Users() {
   const [openModal, setOpenModal] = useState(false);
   const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     getUsers();
   }, []);
 
   const getUsers = async () => {
+    setLoading(true);
     const response = await axios.get(
       "https://aoura-backend-production.up.railway.app/api/v1/users",
       {
@@ -85,6 +87,7 @@ function Users() {
         withCredentials: true,
       }
     );
+    setLoading(false);
     setUsers(response.data);
   };
 
@@ -139,29 +142,45 @@ function Users() {
             </tr>
           </thead>
           <tbody>
-            {users.map((user, index) => (
-              <tr key={user.id}>
-                <td className="p-4 text-center">{index + 1}</td>
-                <td className="text-center">{user.uuid}</td>
-                <td className="text-center">{user.fristname}</td>
-                <td className="text-center">{user.lastname}</td>
-                <td className="text-center">{user.username}</td>
-                <td className="text-center">{user.network.name}</td>
-                <td className="text-center">
-                  <button className="bg-green-600 mr-2 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded">
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => {
-                      deleteUser(user.uuid);
-                    }}
-                    className="bg-red-600 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
-                  >
-                    Delete
-                  </button>
+            {loading ? (
+              <tr>
+                <td colSpan={7} className="flex justify-center mt-2 w-full">
+                  <Blocks
+                    height="80"
+                    width="80"
+                    color="#4fa94d"
+                    ariaLabel="blocks-loading"
+                    wrapperStyle={{}}
+                    wrapperClass="blocks-wrapper"
+                    visible={true}
+                  />
                 </td>
               </tr>
-            ))}
+            ) : (
+              users.map((user, index) => (
+                <tr key={user.id}>
+                  <td className="p-4 text-center">{index + 1}</td>
+                  <td className="text-center">{user.uuid}</td>
+                  <td className="text-center">{user.fristname}</td>
+                  <td className="text-center">{user.lastname}</td>
+                  <td className="text-center">{user.username}</td>
+                  <td className="text-center">{user.network.name}</td>
+                  <td className="text-center">
+                    <button className="bg-green-600 mr-2 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded">
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => {
+                        //deleteUser(user.uuid);
+                      }}
+                      className="bg-red-600 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>

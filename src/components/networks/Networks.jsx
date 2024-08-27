@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-
+import { Blocks } from "react-loader-spinner";
 //import EditProductForm from "../editProductForm/EditProductForm";
 //import AddProductForm from "../addProductForm/AddProductForm";
 import AddNetworkForm from "../addNetworkForm/AddNetworkForm";
@@ -56,7 +56,7 @@ function Networks() {
   const [openEditModal, setOpenEditModal] = useState(false);
   const [editNetworkId, setEditNetworkId] = useState(null);
   const [networks, setNetworks] = useState([]);
-
+  const [loading, setLoading] = useState(false);
   const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
@@ -68,6 +68,7 @@ function Networks() {
   }, [openEditModal]);
 
   const getNetworks = async () => {
+    setLoading(true);
     const response = await axios.get(
       "https://aoura-backend-production.up.railway.app/api/v1/networks",
       {
@@ -77,6 +78,7 @@ function Networks() {
         withCredentials: true,
       }
     );
+    setLoading(false);
     setNetworks(response.data);
   };
 
@@ -135,35 +137,49 @@ function Networks() {
             </tr>
           </thead>
           <tbody>
-            {networks.map((network, index) => (
-              <>
-                <tr key={network.uuid}>
-                  <td className="p-4 text-center">#{index + 1}</td>
-                  <td className="text-center">{network.uuid}</td>
-                  <td className="text-center">{network.name}</td>
+            {loading ? (
+              <div className="flex justify-center mt-2 w-full">
+                <Blocks
+                  height="80"
+                  width="80"
+                  color="#4fa94d"
+                  ariaLabel="blocks-loading"
+                  wrapperStyle={{}}
+                  wrapperClass="blocks-wrapper"
+                  visible={true}
+                />
+              </div>
+            ) : (
+              networks.map((network, index) => (
+                <>
+                  <tr key={network.uuid}>
+                    <td className="p-4 text-center">#{index + 1}</td>
+                    <td className="text-center">{network.uuid}</td>
+                    <td className="text-center">{network.name}</td>
 
-                  <td className="text-center">
-                    <button
-                      onClick={() => {
-                        setOpenEditModal(true);
-                        setEditNetworkId(network.uuid);
-                      }}
-                      className="bg-green-600 mr-2 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => {
-                        deleteNetwork(network.uuid);
-                      }}
-                      className="bg-red-600 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              </>
-            ))}
+                    <td className="text-center">
+                      <button
+                        onClick={() => {
+                          setOpenEditModal(true);
+                          setEditNetworkId(network.uuid);
+                        }}
+                        className="bg-green-600 mr-2 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => {
+                          deleteNetwork(network.uuid);
+                        }}
+                        className="bg-red-600 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                </>
+              ))
+            )}
           </tbody>
         </table>
       </div>
