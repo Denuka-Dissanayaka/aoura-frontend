@@ -7,6 +7,9 @@ import { RiArrowDropDownLine } from "react-icons/ri";
 import { RiFlowerFill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 
+// icons
+import { FaDiceD6 } from "react-icons/fa";
+
 function Sidebar() {
   const [navbarResize, setNavbarReside] = useState(false);
   const [submenuOpen, setSubmenuOpen] = useState(false);
@@ -14,13 +17,30 @@ function Sidebar() {
   const { isError, user } = useSelector((state) => state.auth);
 
   const menu = [
-    { title: "Dashboard", link: "/dashboard", onlyAdmin: false },
-    { title: "Products", link: "/products", onlyAdmin: false },
-    { title: "Staff", spacing: true, link: "/staff", onlyAdmin: true },
+    {
+      title: "Dashboard",
+      link: "/dashboard",
+      onlyAdmin: false,
+      icon: <MdDashboard />,
+    },
+    {
+      title: "Products",
+      link: "/products",
+      onlyAdmin: false,
+      icon: <FaDiceD6 />,
+    },
+    {
+      title: "Staff",
+      spacing: true,
+      link: "/staff",
+      onlyAdmin: true,
+      icon: <FaDiceD6 />,
+    },
     {
       title: "Networks",
       link: "/networks",
       onlyAdmin: true,
+      icon: <FaDiceD6 />,
       // submenu: true,
       // submenuItems: [
       //   { title: "Submenu 1" },
@@ -28,7 +48,7 @@ function Sidebar() {
       //   { title: "Submenu 3" },
       // ],
     },
-    { title: "Users", link: "/users", onlyAdmin: true },
+    { title: "Users", link: "/users", onlyAdmin: true, icon: <FaDiceD6 /> },
   ];
 
   function handleResize() {
@@ -70,7 +90,7 @@ function Sidebar() {
                   >
                     <NavLink to={item.link}>
                       <span className="text-2xl block float-left mr-4">
-                        <MdDashboard />
+                        {item.icon}
                       </span>
                       <span
                         className={`text-base font-medium flex-1 duration-300 ${
