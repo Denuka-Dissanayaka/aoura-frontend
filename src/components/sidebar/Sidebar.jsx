@@ -64,7 +64,7 @@ function Sidebar() {
       } duration-300`}
     >
       <BsArrowLeftShort
-        onClick={handleResize}
+        // onClick={handleResize}
         className={`${
           navbarResize && "rotate-180"
         } bg-white text-dark-purple text-3xl rounded-full absolute -right-3 top-9 border border-dark-purple cursor-pointer`}
