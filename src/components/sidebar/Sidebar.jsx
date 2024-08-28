@@ -9,6 +9,9 @@ import { useDispatch, useSelector } from "react-redux";
 
 // icons
 import { FaDiceD6 } from "react-icons/fa";
+import { IoIosPeople } from "react-icons/io";
+import { FaBuilding } from "react-icons/fa";
+import { FaUserTie } from "react-icons/fa";
 
 function Sidebar() {
   const [navbarResize, setNavbarReside] = useState(false);
@@ -34,13 +37,13 @@ function Sidebar() {
       spacing: true,
       link: "/staff",
       onlyAdmin: true,
-      icon: <FaDiceD6 />,
+      icon: <IoIosPeople />,
     },
     {
       title: "Networks",
       link: "/networks",
       onlyAdmin: true,
-      icon: <FaDiceD6 />,
+      icon: <FaBuilding />,
       // submenu: true,
       // submenuItems: [
       //   { title: "Submenu 1" },
@@ -48,7 +51,7 @@ function Sidebar() {
       //   { title: "Submenu 3" },
       // ],
     },
-    { title: "Users", link: "/users", onlyAdmin: true, icon: <FaDiceD6 /> },
+    { title: "Users", link: "/users", onlyAdmin: true, icon: <FaUserTie /> },
   ];
 
   function handleResize() {
