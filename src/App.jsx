@@ -1,6 +1,7 @@
 import ThemeContextProvider from "./context/ThemeContextProvider";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 
 import Panel from "./panel/Panel";
 import LoginPage from "./pages/LoginPage";
@@ -9,6 +10,8 @@ import ProductsPage from "./pages/ProductsPage";
 import UsersPage from "./pages/UsersPage";
 import NetworksPage from "./pages/NetworksPage";
 import StaffsPage from "./pages/StaffsPage";
+
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
@@ -24,6 +27,7 @@ function App() {
           {/* <Panel /> */}
           {/* <LoginPage /> */}
         </Routes>
+        <ToastContainer />
       </ThemeContextProvider>
     </BrowserRouter>
   );
