@@ -93,7 +93,8 @@ function Products() {
         withCredentials: true,
       }
     );
-    toast.success("delete sucess");
+    toast.success(result.data.msg);
+    console.log(result);
     getProducts();
   };
 

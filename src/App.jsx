@@ -27,7 +27,7 @@ function App() {
           {/* <Panel /> */}
           {/* <LoginPage /> */}
         </Routes>
-        <ToastContainer />
+        <ToastContainer theme="dark" />
       </ThemeContextProvider>
     </BrowserRouter>
   );
