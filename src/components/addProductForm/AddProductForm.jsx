@@ -29,7 +29,7 @@ function AddProductForm({ openModal, setOpenModal, getProductsFunc }) {
           withCredentials: true,
         }
       );
-      toast.success("sucess");
+      toast.success(result.data.msg);
       navigate("/products");
       getProductsFunc();
       setOpenModal(false);

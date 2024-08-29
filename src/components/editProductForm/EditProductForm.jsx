@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 function EditProductForm({
   openEditModal,
@@ -58,9 +59,11 @@ function EditProductForm({
         }
       );
       //navigate("/products");
+      toast.success(result.data.msg);
       setOpenEditModal(false);
     } catch (error) {
       if (error.response) {
+        toast.error(error.response.data.msg);
         setMsg(error.response.data.msg);
       }
     }
