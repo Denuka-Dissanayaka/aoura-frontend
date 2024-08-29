@@ -44,7 +44,7 @@ function EditProductForm({
   const updateProduct = async (e) => {
     e.preventDefault();
     try {
-      await axios.patch(
+      const result = await axios.patch(
         `https://aoura-backend-production.up.railway.app/api/v1/products/${editProductId}`,
         {
           name: name,
