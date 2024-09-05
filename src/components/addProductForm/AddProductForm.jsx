@@ -36,6 +36,7 @@ function AddProductForm({ openModal, setOpenModal, getProductsFunc }) {
     } catch (error) {
       if (error.response) {
         setMsg(error.response.data.msg);
+        toast.error(error.response.data.msg);
       }
     }
   };

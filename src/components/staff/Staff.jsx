@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { Blocks } from "react-loader-spinner";
 import AdduserForm from "../addUserForm/AdduserForm";
+import { toast } from "react-toastify";
 import AddStaffForm from "../addStaffForm/AddStaffForm";
 
 const recentOrderData = [
@@ -79,30 +80,43 @@ function Staff() {
 
   const getStaffs = async () => {
     setLoading(true);
-    const response = await axios.get(
-      "https://aoura-backend-production.up.railway.app/api/v1/staffs",
-      {
-        headers: {
-          "access-token": localStorage.getItem("token"),
-        },
-        withCredentials: true,
+    try {
+      const response = await axios.get(
+        "https://aoura-backend-production.up.railway.app/api/v1/staffs",
+        {
+          headers: {
+            "access-token": localStorage.getItem("token"),
+          },
+          withCredentials: true,
+        }
+      );
+      setLoading(false);
+      setUsers(response.data);
+    } catch (error) {
+      if (error.response) {
+        toast.error(error.response.data.msg);
       }
-    );
-    setLoading(false);
-    setUsers(response.data);
+    }
   };
 
   const deleteStaff = async (id) => {
-    await axios.delete(
-      `https://aoura-backend-production.up.railway.app/api/v1/staffs/${id}`,
-      {
-        headers: {
-          "access-token": localStorage.getItem("token"),
-        },
-        withCredentials: true,
+    try {
+      const result = await axios.delete(
+        `https://aoura-backend-production.up.railway.app/api/v1/staffs/${id}`,
+        {
+          headers: {
+            "access-token": localStorage.getItem("token"),
+          },
+          withCredentials: true,
+        }
+      );
+      toast.success(result.data.msg);
+      getStaffs();
+    } catch (error) {
+      if (error.response) {
+        toast.error(error.response.data.msg);
       }
-    );
-    getStaffs();
+    }
   };
 
   return (

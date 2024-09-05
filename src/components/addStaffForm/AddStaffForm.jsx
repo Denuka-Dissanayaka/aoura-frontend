@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 function AddStaffForm({ openModal, setOpenModal, getStaffsFunc }) {
   const [fristName, setFristName] = useState("");
@@ -15,16 +16,23 @@ function AddStaffForm({ openModal, setOpenModal, getStaffsFunc }) {
   const navigate = useNavigate();
 
   const getNetworks = async () => {
-    const response = await axios.get(
-      "https://aoura-backend-production.up.railway.app/api/v1/networks",
-      {
-        headers: {
-          "access-token": localStorage.getItem("token"),
-        },
-        withCredentials: true,
+    try {
+      const response = await axios.get(
+        "https://aoura-backend-production.up.railway.app/api/v1/networks",
+        {
+          headers: {
+            "access-token": localStorage.getItem("token"),
+          },
+          withCredentials: true,
+        }
+      );
+      setNetworks(response.data);
+    } catch (error) {
+      if (error.response) {
+        //setMsg(error.response.data.msg);
+        toast.error(error.response.data.msg);
       }
-    );
-    setNetworks(response.data);
+    }
   };
 
   useEffect(() => {
@@ -36,7 +44,7 @@ function AddStaffForm({ openModal, setOpenModal, getStaffsFunc }) {
   const saveStaff = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(
+      const result = await axios.post(
         "https://aoura-backend-production.up.railway.app/api/v1/staffs",
         {
           fristName: fristName,
@@ -52,12 +60,14 @@ function AddStaffForm({ openModal, setOpenModal, getStaffsFunc }) {
           withCredentials: true,
         }
       );
+      toast.success(result.data.msg);
       navigate("/staff");
       getStaffsFunc();
       setOpenModal(false);
     } catch (error) {
       if (error.response) {
         setMsg(error.response.data.msg);
+        toast.error(error.response.data.msg);
       }
     }
   };

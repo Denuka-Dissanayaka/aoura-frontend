@@ -94,7 +94,7 @@ function Products() {
       }
     );
     toast.success(result.data.msg);
-    console.log(result);
+    //console.log(result);
     getProducts();
   };
 
