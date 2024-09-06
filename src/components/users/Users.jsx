@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { Blocks } from "react-loader-spinner";
 import AdduserForm from "../addUserForm/AdduserForm";
+import { toast } from "react-toastify";
 
 const recentOrderData = [
   {
@@ -78,30 +79,43 @@ function Users() {
 
   const getUsers = async () => {
     setLoading(true);
-    const response = await axios.get(
-      "https://aoura-backend-production.up.railway.app/api/v1/users",
-      {
-        headers: {
-          "access-token": localStorage.getItem("token"),
-        },
-        withCredentials: true,
+    try {
+      const response = await axios.get(
+        "https://aoura-backend-production.up.railway.app/api/v1/users",
+        {
+          headers: {
+            "access-token": localStorage.getItem("token"),
+          },
+          withCredentials: true,
+        }
+      );
+      setLoading(false);
+      setUsers(response.data);
+    } catch (error) {
+      if (error.response) {
+        toast.error(error.response.data.msg);
       }
-    );
-    setLoading(false);
-    setUsers(response.data);
+    }
   };
 
   const deleteUser = async (id) => {
-    await axios.delete(
-      `https://aoura-backend-production.up.railway.app/api/v1/users/${id}`,
-      {
-        headers: {
-          "access-token": localStorage.getItem("token"),
-        },
-        withCredentials: true,
+    try {
+      const result = await axios.delete(
+        `https://aoura-backend-production.up.railway.app/api/v1/users/${id}`,
+        {
+          headers: {
+            "access-token": localStorage.getItem("token"),
+          },
+          withCredentials: true,
+        }
+      );
+      toast.success(result.data.msg);
+      getUsers();
+    } catch (error) {
+      if (error.response) {
+        toast.error(error.response.data.msg);
       }
-    );
-    getUsers();
+    }
   };
 
   return (

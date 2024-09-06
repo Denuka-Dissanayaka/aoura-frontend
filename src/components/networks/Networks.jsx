@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { Blocks } from "react-loader-spinner";
+import { toast } from "react-toastify";
 //import EditProductForm from "../editProductForm/EditProductForm";
 //import AddProductForm from "../addProductForm/AddProductForm";
 import AddNetworkForm from "../addNetworkForm/AddNetworkForm";
@@ -69,30 +70,43 @@ function Networks() {
 
   const getNetworks = async () => {
     setLoading(true);
-    const response = await axios.get(
-      "https://aoura-backend-production.up.railway.app/api/v1/networks",
-      {
-        headers: {
-          "access-token": localStorage.getItem("token"),
-        },
-        withCredentials: true,
+    try {
+      const response = await axios.get(
+        "https://aoura-backend-production.up.railway.app/api/v1/networks",
+        {
+          headers: {
+            "access-token": localStorage.getItem("token"),
+          },
+          withCredentials: true,
+        }
+      );
+      setLoading(false);
+      setNetworks(response.data);
+    } catch (error) {
+      if (error.response) {
+        toast.error(error.response.data.msg);
       }
-    );
-    setLoading(false);
-    setNetworks(response.data);
+    }
   };
 
   const deleteNetwork = async (id) => {
-    await axios.delete(
-      `https://aoura-backend-production.up.railway.app/api/v1/networks/${id}`,
-      {
-        headers: {
-          "access-token": localStorage.getItem("token"),
-        },
-        withCredentials: true,
+    try {
+      const result = await axios.delete(
+        `https://aoura-backend-production.up.railway.app/api/v1/networks/${id}`,
+        {
+          headers: {
+            "access-token": localStorage.getItem("token"),
+          },
+          withCredentials: true,
+        }
+      );
+      toast.success(result.data.msg);
+      getNetworks();
+    } catch (error) {
+      if (error.response) {
+        toast.error(error.response.data.msg);
       }
-    );
-    getNetworks();
+    }
   };
 
   return (

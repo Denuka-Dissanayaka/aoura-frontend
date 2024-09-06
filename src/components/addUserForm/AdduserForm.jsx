@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import axios from "axios";
 
 function AdduserForm({ openModal, setOpenModal, getUsersFunc }) {
@@ -37,7 +38,7 @@ function AdduserForm({ openModal, setOpenModal, getUsersFunc }) {
   const saveUser = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(
+      const result = await axios.post(
         "https://aoura-backend-production.up.railway.app/api/v1/users",
         {
           fristName: fristName,
@@ -55,12 +56,14 @@ function AdduserForm({ openModal, setOpenModal, getUsersFunc }) {
           withCredentials: true,
         }
       );
+      toast.success(result.data.msg);
       navigate("/users");
       getUsersFunc();
       setOpenModal(false);
     } catch (error) {
       if (error.response) {
         setMsg(error.response.data.msg);
+        toast.error(error.response.data.msg);
       }
     }
   };

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 function EditNetworkForm({
   openEditModal,
@@ -40,7 +41,7 @@ function EditNetworkForm({
   const updateNetwork = async (e) => {
     e.preventDefault();
     try {
-      await axios.patch(
+      const result = await axios.patch(
         `https://aoura-backend-production.up.railway.app/api/v1/networks/${editNetworkId}`,
         {
           networkName: name,
@@ -53,9 +54,11 @@ function EditNetworkForm({
         }
       );
       //navigate("/products");
+      toast.success(result.data.msg);
       setOpenEditModal(false);
     } catch (error) {
       if (error.response) {
+        toast.error(error.response.data.msg);
         setMsg(error.response.data.msg);
       }
     }

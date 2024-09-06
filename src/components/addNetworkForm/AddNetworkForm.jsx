@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 function AddNetworkForm({ openModal, setOpenModal, getNetworksFunc }) {
   const [networkName, setNetworkName] = useState("");
@@ -13,7 +14,7 @@ function AddNetworkForm({ openModal, setOpenModal, getNetworksFunc }) {
   const saveNetwork = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(
+      const result = await axios.post(
         "https://aoura-backend-production.up.railway.app/api/v1/networks",
         {
           networkName: networkName,
@@ -25,12 +26,14 @@ function AddNetworkForm({ openModal, setOpenModal, getNetworksFunc }) {
           withCredentials: true,
         }
       );
+      toast.success(result.data.msg);
       navigate("/networks");
       getNetworksFunc();
       setOpenModal(false);
     } catch (error) {
       if (error.response) {
         setMsg(error.response.data.msg);
+        toast.error(error.response.data.msg);
       }
     }
   };

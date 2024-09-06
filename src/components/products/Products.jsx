@@ -70,32 +70,44 @@ function Products() {
 
   const getProducts = async () => {
     setLoading(true);
-    const response = await axios.get(
-      "https://aoura-backend-production.up.railway.app/api/v1/products",
-      {
-        headers: {
-          "access-token": localStorage.getItem("token"),
-        },
-        withCredentials: true,
+    try {
+      const response = await axios.get(
+        "https://aoura-backend-production.up.railway.app/api/v1/products",
+        {
+          headers: {
+            "access-token": localStorage.getItem("token"),
+          },
+          withCredentials: true,
+        }
+      );
+      setLoading(false);
+      setProducts(response.data);
+    } catch (error) {
+      if (error.response) {
+        toast.error(error.response.data.msg);
       }
-    );
-    setLoading(false);
-    setProducts(response.data);
+    }
   };
 
   const deleteProduct = async (id) => {
-    const result = await axios.delete(
-      `https://aoura-backend-production.up.railway.app/api/v1/products/${id}`,
-      {
-        headers: {
-          "access-token": localStorage.getItem("token"),
-        },
-        withCredentials: true,
+    try {
+      const result = await axios.delete(
+        `https://aoura-backend-production.up.railway.app/api/v1/products/${id}`,
+        {
+          headers: {
+            "access-token": localStorage.getItem("token"),
+          },
+          withCredentials: true,
+        }
+      );
+      toast.success(result.data.msg);
+      //console.log(result);
+      getProducts();
+    } catch (error) {
+      if (error.response) {
+        toast.error(error.response.data.msg);
       }
-    );
-    toast.success(result.data.msg);
-    //console.log(result);
-    getProducts();
+    }
   };
 
   return (
