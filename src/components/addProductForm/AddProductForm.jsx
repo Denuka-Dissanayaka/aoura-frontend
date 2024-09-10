@@ -8,9 +8,41 @@ function AddProductForm({ openModal, setOpenModal, getProductsFunc }) {
   const [productName, setProductName] = useState("");
   const [productPrice, setProductPrice] = useState("");
   const [productQuantity, setProductQuantity] = useState("");
+  const [networks, setNetworks] = useState([]);
+  const [network, setNetwork] = useState([]);
   const [msg, setMsg] = useState("");
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
+
+  const getNetworks = async () => {
+    try {
+      const response = await axios.get(
+        `https://aoura-backend-production.up.railway.app/api/v1/networks`,
+        {
+          headers: {
+            "access-token": localStorage.getItem("token"),
+          },
+          withCredentials: true,
+        }
+      );
+      setNetworks(response.data);
+    } catch (error) {
+      if (error.response) {
+        setMsg(error.response.data.msg);
+        toast.error(error.response.data.msg);
+      }
+    }
+  };
+
+  useEffect(() => {
+    getNetworks();
+  }, []);
+
+  useEffect(() => {
+    if (user.role === "user") {
+      setNetwork(user.networkId);
+    }
+  }, [user]);
 
   const saveProduct = async (e) => {
     e.preventDefault();
@@ -21,6 +53,7 @@ function AddProductForm({ openModal, setOpenModal, getProductsFunc }) {
           name: productName,
           price: productPrice,
           quantity: productQuantity,
+          networkId: network,
         },
         {
           headers: {
@@ -155,10 +188,17 @@ function AddProductForm({ openModal, setOpenModal, getProductsFunc }) {
                   <select
                     id="category"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    value={network}
+                    onChange={(e) => {
+                      setNetwork(e.target.value);
+                    }}
                   >
-                    <option selected="">Select category</option>
-                    <option value="TV">Korian Sir</option>
-                    <option value="PC">Kogo</option>
+                    <option selected="">Select Network</option>
+                    {networks.map((item, index) => (
+                      <option key={item.id} value={item.id}>
+                        {item.name}
+                      </option>
+                    ))}
                   </select>
                 </div>
               )}
