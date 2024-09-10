@@ -5,6 +5,7 @@ import { BsArrowLeftShort } from "react-icons/bs";
 import { MdDashboard } from "react-icons/md";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { RiFlowerFill } from "react-icons/ri";
+import { FaShoppingCart } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 
 // icons
@@ -50,6 +51,24 @@ function Sidebar() {
       //   { title: "Submenu 2" },
       //   { title: "Submenu 3" },
       // ],
+    },
+    {
+      title: "Customers",
+      link: "/customers",
+      onlyAdmin: false,
+      icon: <IoIosPeople />,
+      // submenu: true,
+      // submenuItems: [
+      //   { title: "Submenu 1" },
+      //   { title: "Submenu 2" },
+      //   { title: "Submenu 3" },
+      // ],
+    },
+    {
+      title: "Orders",
+      link: "/orders",
+      onlyAdmin: false,
+      icon: <FaShoppingCart />,
     },
     { title: "Users", link: "/users", onlyAdmin: true, icon: <FaUserTie /> },
   ];
