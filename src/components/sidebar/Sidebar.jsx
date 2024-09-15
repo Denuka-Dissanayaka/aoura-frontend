@@ -6,6 +6,7 @@ import { MdDashboard } from "react-icons/md";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { RiFlowerFill } from "react-icons/ri";
 import { FaShoppingCart } from "react-icons/fa";
+import { FaMoneyBillWave } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 
 // icons
@@ -69,6 +70,12 @@ function Sidebar() {
       link: "/orders",
       onlyAdmin: false,
       icon: <FaShoppingCart />,
+    },
+    {
+      title: "Expenses",
+      link: "/expenses",
+      onlyAdmin: false,
+      icon: <FaMoneyBillWave />,
     },
     { title: "Users", link: "/users", onlyAdmin: true, icon: <FaUserTie /> },
   ];
