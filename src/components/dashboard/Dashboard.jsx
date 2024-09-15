@@ -59,7 +59,7 @@ function Dashboard() {
   const cbForGetCustomersCounts = async (network) => {
     try {
       const response = await axios.get(
-        `${api_url}/api/v1/customers/base-on-network/${network.id}`,
+        `https://aoura-backend-production.up.railway.app/api/v1/customers/base-on-network/${network.id}`,
         {
           headers: {
             "access-token": localStorage.getItem("token"),
