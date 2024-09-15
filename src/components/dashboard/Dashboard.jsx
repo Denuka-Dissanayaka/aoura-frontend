@@ -167,7 +167,7 @@ function Dashboard() {
   useEffect(() => {
     getNetworks();
     getCustomers();
-    getNetworks();
+    getStaffs();
     getOrders();
     getProducts();
   }, []);
