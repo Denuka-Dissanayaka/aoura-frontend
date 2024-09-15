@@ -12,6 +12,7 @@ import NetworksPage from "./pages/NetworksPage";
 import StaffsPage from "./pages/StaffsPage";
 import CustomerPage from "./pages/CustomerPage";
 import OrderPage from "./pages/OrderPage";
+import ExpensePage from "./pages/ExpensePage";
 
 import "react-toastify/dist/ReactToastify.css";
 
@@ -28,6 +29,7 @@ function App() {
           <Route path="/staff" element={<StaffsPage />}></Route>
           <Route path="/customers" element={<CustomerPage />}></Route>
           <Route path="/orders" element={<OrderPage />}></Route>
+          <Route path="/expenses" element={<ExpensePage />}></Route>
           {/* <Panel /> */}
           {/* <LoginPage /> */}
         </Routes>
