@@ -65,6 +65,10 @@ function AddProductForm({ openModal, setOpenModal, getProductsFunc }) {
       toast.success(result.data.msg);
       navigate("/products");
       getProductsFunc();
+      setProductName("");
+      setProductPrice("");
+      setProductQuantity("");
+      setNetwork([]);
       setOpenModal(false);
     } catch (error) {
       if (error.response) {
