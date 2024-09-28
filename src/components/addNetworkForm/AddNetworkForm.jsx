@@ -29,6 +29,7 @@ function AddNetworkForm({ openModal, setOpenModal, getNetworksFunc }) {
       toast.success(result.data.msg);
       navigate("/networks");
       getNetworksFunc();
+      setNetworkName("");
       setOpenModal(false);
     } catch (error) {
       if (error.response) {
