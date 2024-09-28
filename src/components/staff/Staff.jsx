@@ -4,75 +4,17 @@ import axios from "axios";
 import { Blocks } from "react-loader-spinner";
 import AdduserForm from "../addUserForm/AdduserForm";
 import { toast } from "react-toastify";
-import AddStaffForm from "../addStaffForm/AddStaffForm";
 
-const recentOrderData = [
-  {
-    id: "1",
-    product_id: "Denuka",
-    customer_id: "23143",
-    customer_name: "Dissanayaka",
-    order_date: "denuka123",
-    order_total: "$435.50",
-    current_order_status: "PLACED",
-    shipment_address: "Cottage Grove, OR 97424",
-  },
-  {
-    id: "7",
-    product_id: "Kasun",
-    customer_id: "96453",
-    customer_name: "Madushanka",
-    order_date: "kasun_m",
-    order_total: "$96.35",
-    current_order_status: "CONFIRMED",
-    shipment_address: "Los Angeles, CA 90017",
-  },
-  {
-    id: "2",
-    product_id: "Achala",
-    customer_id: "65345",
-    customer_name: "Mason Nash",
-    order_date: "Mash12",
-    order_total: "$836.44",
-    current_order_status: "SHIPPED",
-    shipment_address: "Westminster, CA 92683",
-  },
-  {
-    id: "3",
-    product_id: "Amila",
-    customer_id: "87832",
-    customer_name: "Gunawardana",
-    order_date: "amil1234",
-    order_total: "$334.50",
-    current_order_status: "SHIPPED",
-    shipment_address: "San Mateo, CA 94403",
-  },
-  {
-    id: "4",
-    product_id: "Pasidu",
-    customer_id: "09832",
-    customer_name: "Lakshan",
-    order_date: "pasinu34",
-    order_total: "$876.00",
-    current_order_status: "OUT_FOR_DELIVERY",
-    shipment_address: "San Mateo, CA 94403",
-  },
-  {
-    id: "5",
-    product_id: "Ranga",
-    customer_id: "97632",
-    customer_name: "Kodithuwakku",
-    order_date: "kodi20",
-    order_total: "$96.35",
-    current_order_status: "DELIVERED",
-    shipment_address: "Los Angeles, CA 90017",
-  },
-];
+import EditStaffForm from "../editStaffForm/EditStaffForm";
+import AddStaffForm from "../addStaffForm/AddStaffForm";
 
 function Staff() {
   const [openModal, setOpenModal] = useState(false);
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const [editStaffId, setEditStaffId] = useState(null);
+  const [openEditModal, setOpenEditModal] = useState(false);
 
   useEffect(() => {
     getStaffs();
@@ -143,6 +85,13 @@ function Staff() {
 
       {/* ----------------------- */}
 
+      <EditStaffForm
+        openEditModal={openEditModal}
+        setOpenEditModal={setOpenEditModal}
+        setEditStaffId={setEditStaffId}
+        editStaffId={editStaffId}
+      />
+
       <div>
         <table className=" table-auto w-full bg-white dark:bg-gray-800 rounded-lg shadow-md">
           <thead>
@@ -179,7 +128,13 @@ function Staff() {
                   <td className="text-center">{user.nic}</td>
                   <td className="text-center">{user.network.name}</td>
                   <td className="text-center">
-                    <button className="bg-green-600 mr-2 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded">
+                    <button
+                      onClick={() => {
+                        setOpenEditModal(true);
+                        setEditStaffId(user.uuid);
+                      }}
+                      className="bg-green-600 mr-2 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
+                    >
                       Edit
                     </button>
                     <button

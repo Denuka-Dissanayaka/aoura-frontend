@@ -3,7 +3,14 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-function AddStaffForm({ openModal, setOpenModal, getStaffsFunc }) {
+function EditStaffForm({
+  openEditModal,
+  setOpenEditModal,
+
+  setEditStaffId,
+  editStaffId,
+}) {
+  //const api_url = import.meta.env.VITE_API_URL;
   const [fristName, setFristName] = useState("");
   const [lastName, setLastName] = useState("");
   const [gender, setGender] = useState("");
@@ -18,7 +25,7 @@ function AddStaffForm({ openModal, setOpenModal, getStaffsFunc }) {
   const getNetworks = async () => {
     try {
       const response = await axios.get(
-        "https://aoura-backend-production.up.railway.app/api/v1/networks",
+        `https://aoura-backend-production.up.railway.app/api/v1/networks`,
         {
           headers: {
             "access-token": localStorage.getItem("token"),
@@ -35,23 +42,51 @@ function AddStaffForm({ openModal, setOpenModal, getStaffsFunc }) {
     }
   };
 
+  const getStaffById = async () => {
+    if (editStaffId !== null) {
+      try {
+        const response = await axios.get(
+          `https://aoura-backend-production.up.railway.app/api/v1/staffs/${editStaffId}`,
+          {
+            headers: {
+              "access-token": localStorage.getItem("token"),
+            },
+            withCredentials: true,
+          }
+        );
+        setFristName(response.data.fristname);
+        setLastName(response.data.lastname);
+        setGender(response.data.gender);
+        setNic(response.data.nic);
+      } catch (error) {
+        if (error.response) {
+          setMsg(error.response.data.msg);
+        }
+      }
+    }
+  };
+
   useEffect(() => {
     getNetworks();
   }, []);
 
+  useEffect(() => {
+    getStaffById();
+  }, [editStaffId]);
+
   console.log(networks);
 
-  const saveStaff = async (e) => {
+  const updateStaff = async (e) => {
     e.preventDefault();
     try {
-      const result = await axios.post(
-        "https://aoura-backend-production.up.railway.app/api/v1/staffs",
+      const result = await axios.patch(
+        `https://aoura-backend-production.up.railway.app/api/v1/staffs/${editStaffId}`,
         {
           fristName: fristName,
           lastName: lastName,
           gender: gender,
           nic: nic,
-          networkId: network,
+          //networkId: network,
         },
         {
           headers: {
@@ -61,14 +96,9 @@ function AddStaffForm({ openModal, setOpenModal, getStaffsFunc }) {
         }
       );
       toast.success(result.data.msg);
-      navigate("/staff");
-      getStaffsFunc();
-      setFristName("");
-      setLastName("");
-      setGender("");
-      setNic("");
-      setNetwork("");
-      setOpenModal(false);
+      //navigate("/staff");
+      //getStaffsFunc();
+      setOpenEditModal(false);
     } catch (error) {
       if (error.response) {
         setMsg(error.response.data.msg);
@@ -82,17 +112,20 @@ function AddStaffForm({ openModal, setOpenModal, getStaffsFunc }) {
       tabindex="-1"
       aria-hidden="true"
       className={`${
-        openModal ? "" : "hidden"
+        openEditModal ? "" : "hidden"
       } overflow-y-auto flex overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full bg-black bg-opacity-70`}
     >
       <div className="relative p-4 w-full max-w-md max-h-full">
         <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
           <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-              Create New Staff Member
+              Update Staff Member
             </h3>
             <button
-              onClick={() => setOpenModal(false)}
+              onClick={() => {
+                setOpenEditModal(false);
+                setEditStaffId(null);
+              }}
               type="button"
               className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
               data-modal-toggle="crud-modal"
@@ -116,7 +149,7 @@ function AddStaffForm({ openModal, setOpenModal, getStaffsFunc }) {
             </button>
           </div>
 
-          <form className="p-4 md:p-5" onSubmit={saveStaff}>
+          <form className="p-4 md:p-5" onSubmit={updateStaff}>
             <div className="grid gap-4 mb-4 grid-cols-2">
               <p className="text-sm text-red-600">{msg}</p>
               <div className="col-span-2">
@@ -200,7 +233,7 @@ function AddStaffForm({ openModal, setOpenModal, getStaffsFunc }) {
                   <option value="female">Female</option>
                 </select>
               </div>
-              <div className="col-span-2 sm:col-span-1">
+              {/* <div className="col-span-2 sm:col-span-1">
                 <label
                   for="network"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -222,7 +255,7 @@ function AddStaffForm({ openModal, setOpenModal, getStaffsFunc }) {
                     </option>
                   ))}
                 </select>
-              </div>
+              </div> */}
             </div>
             <button
               type="submit"
@@ -240,7 +273,7 @@ function AddStaffForm({ openModal, setOpenModal, getStaffsFunc }) {
                   clip-rule="evenodd"
                 ></path>
               </svg>
-              Add new Member
+              Update Member
             </button>
           </form>
         </div>
@@ -249,4 +282,4 @@ function AddStaffForm({ openModal, setOpenModal, getStaffsFunc }) {
   );
 }
 
-export default AddStaffForm;
+export default EditStaffForm;
