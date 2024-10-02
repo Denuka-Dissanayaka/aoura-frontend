@@ -57,6 +57,13 @@ function AdduserForm({ openModal, setOpenModal, getUsersFunc }) {
         }
       );
       toast.success(result.data.msg);
+      setFristName("");
+      setLastName("");
+      setRole("");
+      setNetwork("");
+      setUserName("");
+      setPassword("");
+      setConPassword("");
       navigate("/users");
       getUsersFunc();
       setOpenModal(false);
