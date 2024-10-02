@@ -4,7 +4,12 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function AddOrderForm({ openModal, setOpenModal, getOrdersFunc }) {
+function EditOrderForm({
+  openEditModal,
+  setOpenEditModal,
+  editOrderId,
+  setEditOrderId,
+}) {
   //const api_url = import.meta.env.VITE_API_URL;
   const [network, setNetwork] = useState("");
   const [customer, setCustomer] = useState("");
@@ -12,6 +17,7 @@ function AddOrderForm({ openModal, setOpenModal, getOrdersFunc }) {
   const [price, setPrice] = useState("");
   const [date, setDate] = useState("");
   const [quantity, setQuantity] = useState(0);
+  const [status, setStatus] = useState("");
   const [networks, setNetworks] = useState([]);
   const [customers, setCustomers] = useState([]);
   const [products, setProducts] = useState([]);
@@ -22,75 +28,96 @@ function AddOrderForm({ openModal, setOpenModal, getOrdersFunc }) {
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
-  const getNetworks = async () => {
-    try {
-      const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/networks`,
-        {
-          headers: {
-            "access-token": localStorage.getItem("token"),
-          },
-          withCredentials: true,
+  const getOrderById = async () => {
+    if (editOrderId !== null) {
+      try {
+        const response = await axios.get(
+          `https://aoura-backend-production.up.railway.app/api/v1/orders/${editOrderId}`,
+          {
+            headers: {
+              "access-token": localStorage.getItem("token"),
+            },
+            withCredentials: true,
+          }
+        );
+        setStatus(response.data.status);
+        setTotalPrice(response.data.price);
+        setQuantity(response.data.quantity);
+        setProduct(response.data.productId);
+      } catch (error) {
+        if (error.response) {
+          setMsg(error.response.data.msg);
         }
-      );
-      setNetworks(response.data);
-    } catch (error) {
-      if (error.response) {
-        setMsg(error.response.data.msg);
-        toast.error(error.response.data.msg);
       }
     }
   };
+
+  //   const getNetworks = async () => {
+  //     try {
+  //       const response = await axios.get(`${api_url}/api/v1/networks`, {
+  //         headers: {
+  //           "access-token": localStorage.getItem("token"),
+  //         },
+  //         withCredentials: true,
+  //       });
+  //       setNetworks(response.data);
+  //     } catch (error) {
+  //       if (error.response) {
+  //         setMsg(error.response.data.msg);
+  //         toast.error(error.response.data.msg);
+  //       }
+  //     }
+  //   };
 
   // get customers based on network
-  const getCustomers = async () => {
-    try {
-      const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/customers/base-on-network/${network}`,
-        {
-          headers: {
-            "access-token": localStorage.getItem("token"),
-          },
-          withCredentials: true,
-        }
-      );
-      setCustomers(response.data);
-    } catch (error) {
-      if (error.response) {
-        //setMsg(error.response.data.msg);
-        //toast.error(error.response.data.msg);
-        console.log(error.response.data.msg);
-      }
-    }
-  };
+  //   const getCustomers = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         `${api_url}/api/v1/customers/base-on-network/${network}`,
+  //         {
+  //           headers: {
+  //             "access-token": localStorage.getItem("token"),
+  //           },
+  //           withCredentials: true,
+  //         }
+  //       );
+  //       setCustomers(response.data);
+  //     } catch (error) {
+  //       if (error.response) {
+  //         //setMsg(error.response.data.msg);
+  //         //toast.error(error.response.data.msg);
+  //         console.log(error.response.data.msg);
+  //       }
+  //     }
+  //   };
 
   // get products based on network
-  const getProducts = async () => {
-    try {
-      const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/products/base-on-network/${network}`,
-        {
-          headers: {
-            "access-token": localStorage.getItem("token"),
-          },
-          withCredentials: true,
-        }
-      );
-      setProducts(response.data);
-    } catch (error) {
-      if (error.response) {
-        //setMsg(error.response.data.msg);
-        //toast.error(error.response.data.msg);
-        console.log(error.response.data.msg);
-      }
-    }
-  };
+  //   const getProducts = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         `${api_url}/api/v1/products/base-on-network/${network}`,
+  //         {
+  //           headers: {
+  //             "access-token": localStorage.getItem("token"),
+  //           },
+  //           withCredentials: true,
+  //         }
+  //       );
+  //       setProducts(response.data);
+  //     } catch (error) {
+  //       if (error.response) {
+  //         //setMsg(error.response.data.msg);
+  //         //toast.error(error.response.data.msg);
+  //         console.log(error.response.data.msg);
+  //       }
+  //     }
+  //   };
 
   //get product price
   const getProductPrice = async () => {
     try {
       const response = await axios.get(
-        `$https://aoura-backend-production.up.railway.app/api/v1/products/get-price/${product}`,
+        `https://aoura-backend-production.up.railway.app/api/v1/products/get-price/${product}`,
         {
           headers: {
             "access-token": localStorage.getItem("token"),
@@ -112,24 +139,27 @@ function AddOrderForm({ openModal, setOpenModal, getOrdersFunc }) {
   };
 
   useEffect(() => {
+    getOrderById();
+  }, [editOrderId]);
+
+  useEffect(() => {
     getProductPrice();
-    setTotalPrice(0);
-    setQuantity(0);
-    //console.log(totalPrice);
+    //setTotalPrice(0);
+    //setQuantity(0);
   }, [product]);
 
   useEffect(() => {
-    setTotalPrice(quantity * unitPrice);
-  }, [quantity]);
+    //setTotalPrice(quantity * unitPrice);
+  }, [quantity, unitPrice]);
 
-  useEffect(() => {
-    getCustomers();
-    getProducts();
-  }, [network]);
+  //   useEffect(() => {
+  //     getCustomers();
+  //     getProducts();
+  //   }, [network]);
 
-  useEffect(() => {
-    getNetworks();
-  }, []);
+  //   useEffect(() => {
+  //     getNetworks();
+  //   }, []);
 
   useEffect(() => {
     if (user.role === "user") {
@@ -137,18 +167,19 @@ function AddOrderForm({ openModal, setOpenModal, getOrdersFunc }) {
     }
   }, [user]);
 
-  const saveOrder = async (e) => {
+  const updateOrder = async (e) => {
     e.preventDefault();
     try {
-      const result = await axios.post(
-        `https://aoura-backend-production.up.railway.app/api/v1/orders`,
+      const result = await axios.patch(
+        `https://aoura-backend-production.up.railway.app/api/v1/orders/${editOrderId}`,
         {
-          productId: product,
+          //productId: product,
           price: totalPrice,
           quantity: quantity,
-          customerId: customer,
-          date: date,
-          networkId: network,
+          status: status,
+          //customerId: customer,
+          //date: date,
+          //networkId: network,
         },
         {
           headers: {
@@ -158,16 +189,9 @@ function AddOrderForm({ openModal, setOpenModal, getOrdersFunc }) {
         }
       );
       toast.success(result.data.msg);
-      setNetwork("");
-      setCustomer("");
-      setProduct("");
-      setDate("");
-      setQuantity("");
-      setUnitPrice("");
-      setTotalPrice(0);
-      navigate("/orders");
-      getOrdersFunc();
-      setOpenModal(false);
+      //navigate("/orders");
+
+      setOpenEditModal(false);
     } catch (error) {
       if (error.response) {
         setMsg(error.response.data.msg);
@@ -182,17 +206,20 @@ function AddOrderForm({ openModal, setOpenModal, getOrdersFunc }) {
       tabindex="-1"
       aria-hidden="true"
       className={`${
-        openModal ? "" : "hidden"
+        openEditModal ? "" : "hidden"
       } overflow-y-auto flex overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full bg-black bg-opacity-70`}
     >
       <div className="relative p-4 w-full max-w-md max-h-full">
         <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
           <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-              Create New Order
+              Update Order
             </h3>
             <button
-              onClick={() => setOpenModal(false)}
+              onClick={() => {
+                setOpenEditModal(false);
+                setEditOrderId(null);
+              }}
               type="button"
               className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
               data-modal-toggle="crud-modal"
@@ -216,10 +243,10 @@ function AddOrderForm({ openModal, setOpenModal, getOrdersFunc }) {
             </button>
           </div>
 
-          <form className="p-4 md:p-5" onSubmit={saveOrder}>
+          <form className="p-4 md:p-5" onSubmit={updateOrder}>
             <div className="grid gap-4 mb-4 grid-cols-2">
               <p className="text-sm text-red-600">{msg}</p>
-              {user && user.role === "admin" && (
+              {/* {user && user.role === "admin" && (
                 <div className="col-span-2 ">
                   <label
                     for="network"
@@ -243,8 +270,9 @@ function AddOrderForm({ openModal, setOpenModal, getOrdersFunc }) {
                     ))}
                   </select>
                 </div>
-              )}
-              <div className={`col-span-2 ${network != "" ? "" : "hidden"}`}>
+              )} */}
+
+              {/* <div className={`col-span-2 ${network != "" ? "" : "hidden"}`}>
                 <label
                   for="customer"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -266,9 +294,9 @@ function AddOrderForm({ openModal, setOpenModal, getOrdersFunc }) {
                     </option>
                   ))}
                 </select>
-              </div>
+              </div> */}
 
-              <div className={`col-span-2 ${network != "" ? "" : "hidden"}`}>
+              {/* <div className={`col-span-2 ${network != "" ? "" : "hidden"}`}>
                 <label
                   for="product"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -290,9 +318,9 @@ function AddOrderForm({ openModal, setOpenModal, getOrdersFunc }) {
                     </option>
                   ))}
                 </select>
-              </div>
+              </div> */}
 
-              <div className="col-span-2">
+              {/* <div className="col-span-2">
                 <label
                   for="date"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -310,9 +338,9 @@ function AddOrderForm({ openModal, setOpenModal, getOrdersFunc }) {
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="Date"
                 />
-              </div>
+              </div> */}
 
-              <div className="col-span-2 sm:col-span-1">
+              <div className="col-span-2">
                 <label
                   for="quantity"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -333,7 +361,7 @@ function AddOrderForm({ openModal, setOpenModal, getOrdersFunc }) {
                 />
               </div>
 
-              <div className="col-span-2 sm:col-span-1">
+              <div className="col-span-2">
                 <label
                   for="price"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -349,6 +377,28 @@ function AddOrderForm({ openModal, setOpenModal, getOrdersFunc }) {
                   placeholder="$Price"
                   required
                 />
+              </div>
+
+              <div className="col-span-2">
+                <label
+                  for="status"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Status
+                </label>
+                <select
+                  id="status"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  value={status}
+                  onChange={(e) => {
+                    setStatus(e.target.value);
+                  }}
+                >
+                  <option selected="">Select Status</option>
+
+                  <option value="pending">Pending</option>
+                  <option value="complete">Complete</option>
+                </select>
               </div>
 
               {/* <div className="col-span-2">
@@ -382,7 +432,7 @@ function AddOrderForm({ openModal, setOpenModal, getOrdersFunc }) {
                   clip-rule="evenodd"
                 ></path>
               </svg>
-              Add new Order
+              Update Order
             </button>
           </form>
         </div>
@@ -391,4 +441,4 @@ function AddOrderForm({ openModal, setOpenModal, getOrdersFunc }) {
   );
 }
 
-export default AddOrderForm;
+export default EditOrderForm;

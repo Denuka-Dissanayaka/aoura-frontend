@@ -5,13 +5,14 @@ import { ToastContainer, toast } from "react-toastify";
 import { Blocks } from "react-loader-spinner";
 
 import AddCustomerForm from "../addCustomerForm/AddCustomerForm";
+import EditCustomerForm from "../editCustomerForm/EditCustomerForm";
 
 function Customers() {
   //const api_url = import.meta.env.VITE_API_URL;
 
   const [openModal, setOpenModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
-  const [editProductId, setEditProductId] = useState(null);
+  const [editCustomerId, setEditCustomerId] = useState(null);
   const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -19,7 +20,9 @@ function Customers() {
     getCustomers();
   }, []);
 
-  console.log(customers);
+  useEffect(() => {
+    getCustomers();
+  }, [openEditModal]);
 
   const getCustomers = async () => {
     setLoading(true);
@@ -86,12 +89,12 @@ function Customers() {
 
       {/* ----------------------- */}
 
-      {/* <EditProductForm
+      <EditCustomerForm
         openEditModal={openEditModal}
         setOpenEditModal={setOpenEditModal}
-        setEditProductId={setEditProductId}
-        editProductId={editProductId}
-      /> */}
+        setEditCustomerId={setEditCustomerId}
+        editCustomerId={editCustomerId}
+      />
 
       <div>
         <table className=" table-auto w-full bg-white dark:bg-gray-800 rounded-lg shadow-md">
@@ -134,7 +137,7 @@ function Customers() {
                       <button
                         onClick={() => {
                           setOpenEditModal(true);
-                          setEditProductId(customer.uuid);
+                          setEditCustomerId(customer.uuid);
                         }}
                         className="bg-green-600 mr-2 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
                       >

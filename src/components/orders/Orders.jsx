@@ -6,13 +6,14 @@ import { ToastContainer, toast } from "react-toastify";
 import { Blocks } from "react-loader-spinner";
 
 import AddOrderForm from "../addOrderForm/AddOrderForm";
+import EditOrderForm from "../editOrderForm/EditOrderForm";
 
 function Orders() {
   //const api_url = import.meta.env.VITE_API_URL;
 
   const [openModal, setOpenModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
-  const [editProductId, setEditProductId] = useState(null);
+  const [editOrderId, setEditOrderId] = useState(null);
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -91,12 +92,12 @@ function Orders() {
 
       {/* ----------------------- */}
 
-      {/* <EditProductForm
+      <EditOrderForm
         openEditModal={openEditModal}
         setOpenEditModal={setOpenEditModal}
-        setEditProductId={setEditProductId}
-        editProductId={editProductId}
-      /> */}
+        setEditOrderId={setEditOrderId}
+        editOrderId={editOrderId}
+      />
 
       <div>
         <table className=" table-auto w-full bg-white dark:bg-gray-800 rounded-lg shadow-md">
@@ -142,7 +143,7 @@ function Orders() {
                       <button
                         onClick={() => {
                           setOpenEditModal(true);
-                          //setEditorderId(order.uuid);
+                          setEditOrderId(order.uuid);
                         }}
                         className="bg-green-600 mr-2 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
                       >
