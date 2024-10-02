@@ -6,13 +6,14 @@ import { ToastContainer, toast } from "react-toastify";
 import { Blocks } from "react-loader-spinner";
 
 import AddExpensesForm from "../addExpensesForm/AddExpensesForm.jsx";
+import EditExpensesForm from "../editExpensesForm/EditExpensesForm.jsx";
 
 function Expenses() {
   //const api_url = import.meta.env.VITE_API_URL;
 
   const [openModal, setOpenModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
-  const [editProductId, setEditProductId] = useState(null);
+  const [editExpensesId, setEditExpensesId] = useState(null);
   const [expenses, setExpenses] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -91,12 +92,12 @@ function Expenses() {
 
       {/* ----------------------- */}
 
-      {/* <EditProductForm
+      <EditExpensesForm
         openEditModal={openEditModal}
         setOpenEditModal={setOpenEditModal}
-        setEditProductId={setEditProductId}
-        editProductId={editProductId}
-      /> */}
+        setEditExpensesId={setEditExpensesId}
+        editExpensesId={editExpensesId}
+      />
 
       <div>
         <table className=" table-auto w-full bg-white dark:bg-gray-800 rounded-lg shadow-md">
@@ -138,7 +139,7 @@ function Expenses() {
                       <button
                         onClick={() => {
                           setOpenEditModal(true);
-                          //setEditexpenseId(expense.uuid);
+                          setEditExpensesId(expense.uuid);
                         }}
                         className="bg-green-600 mr-2 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
                       >

@@ -4,7 +4,12 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function AddExpensesForm({ openModal, setOpenModal, getExpensesFunc }) {
+function EditExpensesForm({
+  openEditModal,
+  setOpenEditModal,
+  editExpensesId,
+  setEditExpensesId,
+}) {
   //const api_url = import.meta.env.VITE_API_URL;
   const [network, setNetwork] = useState("");
   const [type, setType] = useState("");
@@ -17,6 +22,30 @@ function AddExpensesForm({ openModal, setOpenModal, getExpensesFunc }) {
   const [msg, setMsg] = useState("");
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
+
+  const getExpensesById = async () => {
+    if (editExpensesId !== null) {
+      try {
+        const response = await axios.get(
+          `https://aoura-backend-production.up.railway.app/api/v1/expenses/${editExpensesId}`,
+          {
+            headers: {
+              "access-token": localStorage.getItem("token"),
+            },
+            withCredentials: true,
+          }
+        );
+        setNetwork(response.data.networkId);
+        setType(response.data.type);
+        setValue(response.data.value);
+        setDate(response.data.date);
+      } catch (error) {
+        if (error.response) {
+          setMsg(error.response.data.msg);
+        }
+      }
+    }
+  };
 
   const getNetworks = async () => {
     try {
@@ -43,22 +72,26 @@ function AddExpensesForm({ openModal, setOpenModal, getExpensesFunc }) {
   }, []);
 
   useEffect(() => {
+    getExpensesById();
+  }, [editExpensesId]);
+
+  useEffect(() => {
     if (user.role === "user") {
       setNetwork(user.networkId);
     }
   }, [user]);
 
-  const saveRecord = async (e) => {
+  const updateRecord = async (e) => {
     e.preventDefault();
     try {
-      const result = await axios.post(
-        `https://aoura-backend-production.up.railway.app/api/v1/expenses`,
+      const result = await axios.patch(
+        `https://aoura-backend-production.up.railway.app/api/v1/expenses/${editExpensesId}`,
         {
           type: type,
           value: value,
 
           date: date,
-          networkId: network,
+          //networkId: network,
         },
         {
           headers: {
@@ -68,13 +101,9 @@ function AddExpensesForm({ openModal, setOpenModal, getExpensesFunc }) {
         }
       );
       toast.success(result.data.msg);
-      setNetwork("");
-      setType("");
-      setValue("");
-      setDate("");
-      navigate("/expenses");
-      getExpensesFunc();
-      setOpenModal(false);
+      //navigate("/expenses");
+      //getExpensesFunc();
+      setOpenEditModal(false);
     } catch (error) {
       if (error.response) {
         setMsg(error.response.data.msg);
@@ -89,17 +118,20 @@ function AddExpensesForm({ openModal, setOpenModal, getExpensesFunc }) {
       tabindex="-1"
       aria-hidden="true"
       className={`${
-        openModal ? "" : "hidden"
+        openEditModal ? "" : "hidden"
       } overflow-y-auto flex overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full bg-black bg-opacity-70`}
     >
       <div className="relative p-4 w-full max-w-md max-h-full">
         <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
           <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-              Create New Record
+              Update Record
             </h3>
             <button
-              onClick={() => setOpenModal(false)}
+              onClick={() => {
+                setOpenEditModal(false);
+                setEditExpensesId(null);
+              }}
               type="button"
               className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
               data-modal-toggle="crud-modal"
@@ -123,10 +155,10 @@ function AddExpensesForm({ openModal, setOpenModal, getExpensesFunc }) {
             </button>
           </div>
 
-          <form className="p-4 md:p-5" onSubmit={saveRecord}>
+          <form className="p-4 md:p-5" onSubmit={updateRecord}>
             <div className="grid gap-4 mb-4 grid-cols-2">
               <p className="text-sm text-red-600">{msg}</p>
-              {user && user.role === "admin" && (
+              {/* {user && user.role === "admin" && (
                 <div className="col-span-2 ">
                   <label
                     for="network"
@@ -150,7 +182,7 @@ function AddExpensesForm({ openModal, setOpenModal, getExpensesFunc }) {
                     ))}
                   </select>
                 </div>
-              )}
+              )} */}
               <div className="col-span-2">
                 <label
                   for="type"
@@ -229,7 +261,7 @@ function AddExpensesForm({ openModal, setOpenModal, getExpensesFunc }) {
                   clip-rule="evenodd"
                 ></path>
               </svg>
-              Add new Record
+              Update Record
             </button>
           </form>
         </div>
@@ -238,4 +270,4 @@ function AddExpensesForm({ openModal, setOpenModal, getExpensesFunc }) {
   );
 }
 
-export default AddExpensesForm;
+export default EditExpensesForm;
