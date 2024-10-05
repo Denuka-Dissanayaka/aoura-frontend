@@ -7,6 +7,7 @@ import axios from "axios";
 function AddProductForm({ openModal, setOpenModal, getProductsFunc }) {
   const [productName, setProductName] = useState("");
   const [productPrice, setProductPrice] = useState("");
+  const [type, setType] = useState("");
   const [productQuantity, setProductQuantity] = useState("");
   const [networks, setNetworks] = useState([]);
   const [network, setNetwork] = useState([]);
@@ -91,7 +92,7 @@ function AddProductForm({ openModal, setOpenModal, getProductsFunc }) {
         <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
           <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-              Create New Product
+              Create New Product or Package
             </h3>
             <button
               onClick={() => setOpenModal(false)}
@@ -121,68 +122,31 @@ function AddProductForm({ openModal, setOpenModal, getProductsFunc }) {
           <form className="p-4 md:p-5" onSubmit={saveProduct}>
             <div className="grid gap-4 mb-4 grid-cols-2">
               <p className="text-sm text-red-600">{msg}</p>
-              <div className="col-span-2">
+
+              <div className="col-span-2 ">
                 <label
-                  for="name"
+                  for="productType"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Name
+                  Type
                 </label>
-                <input
-                  type="text"
-                  name="name"
-                  value={productName}
+                <select
+                  id="productType"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  value={type}
                   onChange={(e) => {
-                    setProductName(e.target.value);
+                    setType(e.target.value);
                   }}
-                  id="name"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Type product name"
-                  required
-                />
-              </div>
-              <div className="col-span-2 sm:col-span-1">
-                <label
-                  for="price"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Price
-                </label>
-                <input
-                  type="number"
-                  name="price"
-                  value={productPrice}
-                  onChange={(e) => {
-                    setProductPrice(e.target.value);
-                  }}
-                  id="price"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="$Price"
-                  required
-                />
+                  <option selected="">Select Type</option>
+
+                  <option value="product">Product</option>
+                  <option value="package">Package</option>
+                </select>
               </div>
-              <div className="col-span-2 sm:col-span-1">
-                <label
-                  for="quantity"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Quantity
-                </label>
-                <input
-                  type="number"
-                  name="quantity"
-                  value={productQuantity}
-                  onChange={(e) => {
-                    setProductQuantity(e.target.value);
-                  }}
-                  id="quantity"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="$Quantity"
-                  required
-                />
-              </div>
+
               {user && user.role === "admin" && (
-                <div className="col-span-2 ">
+                <div className={`col-span-2 ${type === "" ? "hidden" : ""} `}>
                   <label
                     for="category"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -206,6 +170,76 @@ function AddProductForm({ openModal, setOpenModal, getProductsFunc }) {
                   </select>
                 </div>
               )}
+
+              <div className={`col-span-2 ${type === "" ? "hidden" : ""}`}>
+                <label
+                  for="name"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Name
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  value={productName}
+                  onChange={(e) => {
+                    setProductName(e.target.value);
+                  }}
+                  id="name"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  placeholder="Type product name"
+                  required
+                />
+              </div>
+
+              <div
+                className={`col-span-2 sm:col-span-1 ${
+                  type === "" ? "hidden" : ""
+                }`}
+              >
+                <label
+                  for="price"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Price
+                </label>
+                <input
+                  type="number"
+                  name="price"
+                  value={productPrice}
+                  onChange={(e) => {
+                    setProductPrice(e.target.value);
+                  }}
+                  id="price"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  placeholder="$Price"
+                  required
+                />
+              </div>
+              <div
+                className={`col-span-2 sm:col-span-1 ${
+                  type === "product" ? "" : "hidden"
+                }`}
+              >
+                <label
+                  for="quantity"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Quantity
+                </label>
+                <input
+                  type="number"
+                  name="quantity"
+                  value={productQuantity}
+                  onChange={(e) => {
+                    setProductQuantity(e.target.value);
+                  }}
+                  id="quantity"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  placeholder="$Quantity"
+                  required
+                />
+              </div>
 
               {/* <div className="col-span-2">
                 <label
@@ -238,7 +272,7 @@ function AddProductForm({ openModal, setOpenModal, getProductsFunc }) {
                   clip-rule="evenodd"
                 ></path>
               </svg>
-              Add new Product
+              Add new Product or Package
             </button>
           </form>
         </div>
