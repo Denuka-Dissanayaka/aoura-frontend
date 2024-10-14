@@ -47,36 +47,36 @@ function AddProductForm({ openModal, setOpenModal, getProductsFunc }) {
 
   const saveProduct = async (e) => {
     e.preventDefault();
-    try {
-      const result = await axios.post(
-        "https://aoura-backend-production.up.railway.app/api/v1/products",
-        {
-          name: productName,
-          price: productPrice,
-          quantity: productQuantity,
-          networkId: network,
-        },
-        {
-          headers: {
-            "access-token": localStorage.getItem("token"),
-          },
-          withCredentials: true,
-        }
-      );
-      toast.success(result.data.msg);
-      navigate("/products");
-      getProductsFunc();
-      setProductName("");
-      setProductPrice("");
-      setProductQuantity("");
-      setNetwork([]);
-      setOpenModal(false);
-    } catch (error) {
-      if (error.response) {
-        setMsg(error.response.data.msg);
-        toast.error(error.response.data.msg);
-      }
-    }
+    // try {
+    //   const result = await axios.post(
+    //     "https://aoura-backend-production.up.railway.app/api/v1/products",
+    //     {
+    //       name: productName,
+    //       price: productPrice,
+    //       quantity: productQuantity,
+    //       networkId: network,
+    //     },
+    //     {
+    //       headers: {
+    //         "access-token": localStorage.getItem("token"),
+    //       },
+    //       withCredentials: true,
+    //     }
+    //   );
+    //   toast.success(result.data.msg);
+    //   navigate("/products");
+    //   getProductsFunc();
+    //   setProductName("");
+    //   setProductPrice("");
+    //   setProductQuantity("");
+    //   setNetwork([]);
+    //   setOpenModal(false);
+    // } catch (error) {
+    //   if (error.response) {
+    //     setMsg(error.response.data.msg);
+    //     toast.error(error.response.data.msg);
+    //   }
+    // }
   };
 
   return (
