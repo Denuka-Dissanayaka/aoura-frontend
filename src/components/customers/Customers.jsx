@@ -28,6 +28,10 @@ function Customers() {
     getCustomers();
   }, [openEditModal]);
 
+  useEffect(() => {
+    network !== "" ? getCustomersBasedOnNetwork() : getCustomers();
+  }, [network]);
+
   const getCustomers = async () => {
     setLoading(true);
     try {
@@ -66,6 +70,30 @@ function Customers() {
       if (error.response) {
         //setMsg(error.response.data.msg);
         toast.error(error.response.data.msg);
+      }
+    }
+  };
+
+  // get customers based on network
+  const getCustomersBasedOnNetwork = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `https://aoura-backend-production.up.railway.app/api/v1/customers/base-on-network/${network}`,
+        {
+          headers: {
+            "access-token": localStorage.getItem("token"),
+          },
+          withCredentials: true,
+        }
+      );
+      setLoading(false);
+      setCustomers(response.data);
+    } catch (error) {
+      if (error.response) {
+        //setMsg(error.response.data.msg);
+        toast.error(error.response.data.msg);
+        console.log(error.response.data.msg);
       }
     }
   };
