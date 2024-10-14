@@ -71,6 +71,10 @@ function Products() {
     getProducts();
   }, [openEditModal]);
 
+  useEffect(() => {
+    network !== "" ? getProductsBasedOnNetwork() : getProducts();
+  }, [network]);
+
   const getProducts = async () => {
     setLoading(true);
     try {
@@ -109,6 +113,30 @@ function Products() {
       if (error.response) {
         //setMsg(error.response.data.msg);
         toast.error(error.response.data.msg);
+      }
+    }
+  };
+
+  // get products based on network
+  const getProductsBasedOnNetwork = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `https://aoura-backend-production.up.railway.app/api/v1/products/base-on-network/${network}`,
+        {
+          headers: {
+            "access-token": localStorage.getItem("token"),
+          },
+          withCredentials: true,
+        }
+      );
+      setLoading(false);
+      setProducts(response.data);
+    } catch (error) {
+      if (error.response) {
+        //setMsg(error.response.data.msg);
+        toast.error(error.response.data.msg);
+        console.log(error.response.data.msg);
       }
     }
   };
