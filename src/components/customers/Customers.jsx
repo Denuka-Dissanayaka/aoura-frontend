@@ -17,6 +17,7 @@ function Customers() {
   const [network, setNetwork] = useState("");
   const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(false);
+  const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     getCustomers();
@@ -50,12 +51,15 @@ function Customers() {
 
   const getNetworks = async () => {
     try {
-      const response = await axios.get(`${api_url}/api/v1/networks`, {
-        headers: {
-          "access-token": localStorage.getItem("token"),
-        },
-        withCredentials: true,
-      });
+      const response = await axios.get(
+        `https://aoura-backend-production.up.railway.app/api/v1/networks`,
+        {
+          headers: {
+            "access-token": localStorage.getItem("token"),
+          },
+          withCredentials: true,
+        }
+      );
 
       setNetworks(response.data);
     } catch (error) {
@@ -99,28 +103,30 @@ function Customers() {
         >
           Add new Customer
         </button>
-        <div className="grid gap-4 mb-4 grid-cols-4 mt-4">
-          <div className="col-span-1 ">
-            <select
-              id="productType"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              value={network}
-              onChange={(e) => {
-                setNetwork(e.target.value);
-              }}
-            >
-              <option selected value={""}>
-                Search By Network
-              </option>
-
-              {networks.map((item, index) => (
-                <option key={item.id} value={item.id}>
-                  {item.name}
+        {user && user.role === "admin" && (
+          <div className="grid gap-4 mb-4 grid-cols-4 mt-4">
+            <div className="col-span-1 ">
+              <select
+                id="productType"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                value={network}
+                onChange={(e) => {
+                  setNetwork(e.target.value);
+                }}
+              >
+                <option selected value={""}>
+                  Search By Network
                 </option>
-              ))}
-            </select>
+
+                {networks.map((item, index) => (
+                  <option key={item.id} value={item.id}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* -------------------- */}
