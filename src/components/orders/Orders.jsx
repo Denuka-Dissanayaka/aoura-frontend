@@ -232,7 +232,15 @@ function Orders() {
                     <td className="text-center">{order.network.name}</td>
                     <td className="text-center">{order.quantity}</td>
                     <td className="text-center">{order.price}</td>
-                    <td className="text-center">{order.status}</td>
+                    <td
+                      className={`text-center ${
+                        order.status === "pending"
+                          ? "text-red-600"
+                          : "text-green-600"
+                      }`}
+                    >
+                      {order.status}
+                    </td>
 
                     <td className="text-center">
                       <button
