@@ -222,10 +222,10 @@ function Products() {
           <thead>
             <tr>
               <th className="p-4">ID</th>
-              <th>Product ID</th>
+              {/* <th>Product ID</th> */}
               <th>Product Name</th>
               <th>Price</th>
-              <th>Quantity</th>
+              {/* <th>Quantity</th> */}
               {user && user.role === "admin" ? (
                 <th>Network Name</th>
               ) : (
@@ -252,10 +252,10 @@ function Products() {
                 <>
                   <tr key={product.uuid}>
                     <td className="p-4 text-center">#{index + 1}</td>
-                    <td className="text-center">{product.uuid}</td>
+                    {/* <td className="text-center">{product.uuid}</td> */}
                     <td className="text-center">{product.name}</td>
                     <td className="text-center">{product.price}</td>
-                    <td className="text-center">{product.quantity}</td>
+                    {/* <td className="text-center">{product.quantity}</td> */}
                     {user && user.role === "admin" ? (
                       <td className="text-center">{product.network.name}</td>
                     ) : (
