@@ -36,8 +36,11 @@ function ViewNetwork({ openViewModal, setOpenViewModal, viewNetworkId }) {
     }
   };
 
-  console.log(network);
+  //console.log(network);
   useEffect(() => {
+    setNetwork("");
+    setUuid("");
+    setCreateDate("");
     getNetwork();
   }, [viewNetworkId]);
 
