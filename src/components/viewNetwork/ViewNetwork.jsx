@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function ViewNetwork({ openViewModal, setOpenViewModal, viewNetworkId }) {
-  const api_url = import.meta.env.VITE_API_URL;
+  //const api_url = import.meta.env.VITE_API_URL;
 
   const [network, setNetwork] = useState("");
   const [uuid, setUuid] = useState("");
@@ -17,7 +17,7 @@ function ViewNetwork({ openViewModal, setOpenViewModal, viewNetworkId }) {
   const getNetwork = async () => {
     try {
       const response = await axios.get(
-        `${api_url}/api/v1/networks/${viewNetworkId}`,
+        `https://aoura-backend-production.up.railway.app/api/v1/networks/${viewNetworkId}`,
         {
           headers: {
             "access-token": localStorage.getItem("token"),
