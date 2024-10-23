@@ -8,54 +8,14 @@ import { toast } from "react-toastify";
 //import AddProductForm from "../addProductForm/AddProductForm";
 import AddNetworkForm from "../addNetworkForm/AddNetworkForm";
 import EditNetworkForm from "../editNetworkForm/EditNetworkForm";
-
-const recentOrderData = [
-  {
-    id: "1",
-    product_id: "1255",
-    customer_id: "23143",
-    customer_name: "Product 1",
-    order_date: "$435.50",
-    order_total: "355",
-    current_order_status: "PLACED",
-    shipment_address: "Cottage Grove, OR 97424",
-  },
-  {
-    id: "7",
-    product_id: "45322",
-    customer_id: "96453",
-    customer_name: "Product 2",
-    order_date: "$96.35",
-    order_total: "96",
-    current_order_status: "CONFIRMED",
-    shipment_address: "Los Angeles, CA 90017",
-  },
-  {
-    id: "2",
-    product_id: "34789",
-    customer_id: "65345",
-    customer_name: "Product 3",
-    order_date: "$836.44",
-    order_total: "36",
-    current_order_status: "SHIPPED",
-    shipment_address: "Westminster, CA 92683",
-  },
-  {
-    id: "3",
-    product_id: "09545",
-    customer_id: "87832",
-    customer_name: "Product 4",
-    order_date: "$334.50",
-    order_total: "50",
-    current_order_status: "SHIPPED",
-    shipment_address: "San Mateo, CA 94403",
-  },
-];
+import ViewNetwork from "../viewNetwork/ViewNetwork";
 
 function Networks() {
   const [openModal, setOpenModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
+  const [openViewModal, setOpenViewModal] = useState(false);
   const [editNetworkId, setEditNetworkId] = useState(null);
+  const [viewNetworkId, setViewNetworkId] = useState(null);
   const [networks, setNetworks] = useState([]);
   const [loading, setLoading] = useState(false);
   const { user } = useSelector((state) => state.auth);
@@ -139,6 +99,12 @@ function Networks() {
         editNetworkId={editNetworkId}
       />
 
+      <ViewNetwork
+        openViewModal={openViewModal}
+        setOpenViewModal={setOpenViewModal}
+        viewNetworkId={viewNetworkId}
+      />
+
       <div>
         <table className=" table-auto w-full bg-white dark:bg-gray-800 rounded-lg shadow-md">
           <thead>
@@ -172,6 +138,15 @@ function Networks() {
                     <td className="text-center">{network.name}</td>
 
                     <td className="text-center">
+                      <button
+                        onClick={() => {
+                          setOpenViewModal(true);
+                          setViewNetworkId(network.uuid);
+                        }}
+                        className="bg-blue-600 mr-2 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
+                      >
+                        View
+                      </button>
                       <button
                         onClick={() => {
                           setOpenEditModal(true);
