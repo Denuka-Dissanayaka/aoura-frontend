@@ -7,16 +7,20 @@ import { Blocks } from "react-loader-spinner";
 
 import AddOrderForm from "../addOrderForm/AddOrderForm";
 import EditOrderForm from "../editOrderForm/EditOrderForm";
+import ViewOrder from "../viewOrder/ViewOrder";
 
 function Orders() {
   //const api_url = import.meta.env.VITE_API_URL;
 
   const [openModal, setOpenModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
+  const [openViewModal, setOpenViewModal] = useState(false);
   const [editOrderId, setEditOrderId] = useState(null);
+  const [viewOrderId, setViewOrderId] = useState(null);
   const [networks, setNetworks] = useState([]);
   const [network, setNetwork] = useState("");
   const [orders, setOrders] = useState([]);
+  const [id, setId] = useState("");
   const [loading, setLoading] = useState(false);
 
   const { user } = useSelector((state) => state.auth);
@@ -194,6 +198,13 @@ function Orders() {
         editOrderId={editOrderId}
       />
 
+      <ViewOrder
+        openViewModal={openViewModal}
+        setOpenViewModal={setOpenViewModal}
+        viewOrderId={viewOrderId}
+        id={id}
+      />
+
       <div>
         <table className=" table-auto w-full bg-white dark:bg-gray-800 rounded-lg shadow-md">
           <thead>
@@ -202,7 +213,7 @@ function Orders() {
               <th>Product</th>
               <th>Customer</th>
               <th>Network</th>
-              <th>Quantity</th>
+              {/* <th>Quantity</th> */}
               <th>Total</th>
               <th>Status</th>
 
@@ -230,7 +241,7 @@ function Orders() {
                     <td className="text-center">{order.product.name}</td>
                     <td className="text-center">{order.customer.name}</td>
                     <td className="text-center">{order.network.name}</td>
-                    <td className="text-center">{order.quantity}</td>
+                    {/* <td className="text-center">{order.quantity}</td> */}
                     <td className="text-center">{order.price}</td>
                     <td
                       className={`text-center ${
@@ -243,6 +254,16 @@ function Orders() {
                     </td>
 
                     <td className="text-center">
+                      <button
+                        onClick={() => {
+                          setOpenViewModal(true);
+                          setViewOrderId(order.uuid);
+                          setId(index + 1);
+                        }}
+                        className="bg-blue-600 mr-2 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
+                      >
+                        View
+                      </button>
                       <button
                         onClick={() => {
                           setOpenEditModal(true);
