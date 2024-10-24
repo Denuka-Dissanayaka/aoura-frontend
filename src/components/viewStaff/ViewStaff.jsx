@@ -4,20 +4,23 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function ViewNetwork({ openViewModal, setOpenViewModal, viewNetworkId }) {
+function ViewStaff({ openViewModal, setOpenViewModal, viewStaffId }) {
   //const api_url = import.meta.env.VITE_API_URL;
 
-  const [network, setNetwork] = useState("");
+  const [staffName, setStaffName] = useState("");
   const [uuid, setUuid] = useState("");
+  const [gender, setGender] = useState("");
+  const [NIC, setNIC] = useState("");
+  const [network, setNetwork] = useState("");
   const [createDate, setCreateDate] = useState("");
 
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
-  const getNetwork = async () => {
+  const getStaff = async () => {
     try {
       const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/networks/${viewNetworkId}`,
+        `https://aoura-backend-production.up.railway.app/api/v1/staffs/${viewStaffId}`,
         {
           headers: {
             "access-token": localStorage.getItem("token"),
@@ -25,8 +28,11 @@ function ViewNetwork({ openViewModal, setOpenViewModal, viewNetworkId }) {
           withCredentials: true,
         }
       );
-      setNetwork(response.data.name);
+      setStaffName(`${response.data.fristname} ${response.data.lastname}`);
       setUuid(response.data.uuid);
+      setGender(response.data.gender);
+      setNIC(response.data.nic);
+      setNetwork(response.data.nic);
       setCreateDate(response.data.createdAt);
     } catch (error) {
       if (error.response) {
@@ -38,11 +44,14 @@ function ViewNetwork({ openViewModal, setOpenViewModal, viewNetworkId }) {
 
   //console.log(network);
   useEffect(() => {
-    setNetwork("");
+    setStaffName("");
     setUuid("");
+    setGender("");
+    setNIC("");
+    setNetwork("");
     setCreateDate("");
-    getNetwork();
-  }, [viewNetworkId]);
+    getStaff();
+  }, [viewStaffId]);
 
   return (
     <div
@@ -57,7 +66,7 @@ function ViewNetwork({ openViewModal, setOpenViewModal, viewNetworkId }) {
         <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
           <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-              Network Info
+              Staff Member Info
             </h3>
             <button
               onClick={() => setOpenViewModal(false)}
@@ -86,12 +95,20 @@ function ViewNetwork({ openViewModal, setOpenViewModal, viewNetworkId }) {
 
           <div className="p-4">
             <div className="m-2">
-              <p className="font-semibold text-lg">Network Name :</p>
-              <p>{`${network}`}</p>
+              <p className="font-semibold text-lg">Full Name :</p>
+              <p>{`${staffName}`}</p>
             </div>
             <div className="m-2">
-              <p className="font-semibold text-lg">Network ID :</p>
+              <p className="font-semibold text-lg">Staff ID :</p>
               <p>{`${uuid}`}</p>
+            </div>
+            <div className="m-2">
+              <p className="font-semibold text-lg">NIC :</p>
+              <p>{`${NIC}`}</p>
+            </div>
+            <div className="m-2">
+              <p className="font-semibold text-lg">Gender :</p>
+              <p>{`${gender}`}</p>
             </div>
             <div className="m-2">
               <p className="font-semibold text-lg">Created Date :</p>
@@ -104,4 +121,4 @@ function ViewNetwork({ openViewModal, setOpenViewModal, viewNetworkId }) {
   );
 }
 
-export default ViewNetwork;
+export default ViewStaff;

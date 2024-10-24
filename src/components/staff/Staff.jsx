@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 
 import EditStaffForm from "../editStaffForm/EditStaffForm";
 import AddStaffForm from "../addStaffForm/AddStaffForm";
+import ViewStaff from "../viewStaff/ViewStaff";
 
 function Staff() {
   const [openModal, setOpenModal] = useState(false);
@@ -16,7 +17,9 @@ function Staff() {
   const [networks, setNetworks] = useState([]);
   const [network, setNetwork] = useState("");
   const [editStaffId, setEditStaffId] = useState(null);
+  const [viewStaffId, setViewStaffId] = useState(null);
   const [openEditModal, setOpenEditModal] = useState(false);
+  const [openViewModal, setOpenViewModal] = useState(false);
 
   const { user } = useSelector((state) => state.auth);
 
@@ -175,6 +178,12 @@ function Staff() {
         editStaffId={editStaffId}
       />
 
+      <ViewNetwork
+        openViewModal={openViewModal}
+        setOpenViewModal={setOpenViewModal}
+        viewStaffId={viewStaffId}
+      />
+
       <div>
         <table className=" table-auto w-full bg-white dark:bg-gray-800 rounded-lg shadow-md">
           <thead>
@@ -211,6 +220,15 @@ function Staff() {
                   <td className="text-center">{user.nic}</td>
                   <td className="text-center">{user.network.name}</td>
                   <td className="text-center">
+                    <button
+                      onClick={() => {
+                        setOpenViewModal(true);
+                        setViewStaffId(user.uuid);
+                      }}
+                      className="bg-blue-600 mr-2 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
+                    >
+                      View
+                    </button>
                     <button
                       onClick={() => {
                         setOpenEditModal(true);
