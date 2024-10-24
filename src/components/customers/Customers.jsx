@@ -6,13 +6,16 @@ import { Blocks } from "react-loader-spinner";
 
 import AddCustomerForm from "../addCustomerForm/AddCustomerForm";
 import EditCustomerForm from "../editCustomerForm/EditCustomerForm";
+import ViewCustomer from "../viewCustomer/VIewCustomer";
 
 function Customers() {
   //const api_url = import.meta.env.VITE_API_URL;
 
   const [openModal, setOpenModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
+  const [openViewModal, setOpenViewModal] = useState(false);
   const [editCustomerId, setEditCustomerId] = useState(null);
+  const [viewCustomerId, setViewCustomerId] = useState(null);
   const [networks, setNetworks] = useState([]);
   const [network, setNetwork] = useState("");
   const [customers, setCustomers] = useState([]);
@@ -173,6 +176,12 @@ function Customers() {
         editCustomerId={editCustomerId}
       />
 
+      <ViewCustomer
+        openViewModal={openViewModal}
+        setOpenViewModal={setOpenViewModal}
+        viewCustomerId={viewCustomerId}
+      />
+
       <div>
         <table className=" table-auto w-full bg-white dark:bg-gray-800 rounded-lg shadow-md">
           <thead>
@@ -181,7 +190,7 @@ function Customers() {
               <th>Name</th>
               <th>Email</th>
               <th>Address</th>
-              <th>Phone No</th>
+              {/* <th>Phone No</th> */}
               <th>Network</th>
               <th>Action</th>
             </tr>
@@ -207,10 +216,19 @@ function Customers() {
                     <td className="text-center">{customer.name}</td>
                     <td className="text-center">{customer.email}</td>
                     <td className="text-center">{customer.address}</td>
-                    <td className="text-center">{customer.phone}</td>
+                    {/* <td className="text-center">{customer.phone}</td> */}
                     <td className="text-center">{customer.network.name}</td>
 
                     <td className="text-center">
+                      <button
+                        onClick={() => {
+                          setOpenViewModal(true);
+                          setViewCustomerId(customer.uuid);
+                        }}
+                        className="bg-blue-600 mr-2 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
+                      >
+                        View
+                      </button>
                       <button
                         onClick={() => {
                           setOpenEditModal(true);
