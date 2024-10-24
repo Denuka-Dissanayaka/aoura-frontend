@@ -192,7 +192,7 @@ function Staff() {
               <th>User ID</th>
               <th>Frist Name</th>
               <th>Last Name</th>
-              <th>NIC</th>
+              {/* <th>NIC</th> */}
               <th>Network Name</th>
               <th>Action</th>
             </tr>
@@ -217,7 +217,7 @@ function Staff() {
                   <td className="text-center">{user.uuid}</td>
                   <td className="text-center">{user.fristname}</td>
                   <td className="text-center">{user.lastname}</td>
-                  <td className="text-center">{user.nic}</td>
+                  {/* <td className="text-center">{user.nic}</td> */}
                   <td className="text-center">{user.network.name}</td>
                   <td className="text-center">
                     <button
