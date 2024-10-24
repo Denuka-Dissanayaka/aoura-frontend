@@ -178,7 +178,7 @@ function Staff() {
         editStaffId={editStaffId}
       />
 
-      <ViewNetwork
+      <ViewStaff
         openViewModal={openViewModal}
         setOpenViewModal={setOpenViewModal}
         viewStaffId={viewStaffId}
