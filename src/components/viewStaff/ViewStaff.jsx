@@ -32,7 +32,7 @@ function ViewStaff({ openViewModal, setOpenViewModal, viewStaffId }) {
       setUuid(response.data.uuid);
       setGender(response.data.gender);
       setNIC(response.data.nic);
-      setNetwork(response.data.nic);
+      setNetwork(response.data.network.name);
       setCreateDate(response.data.createdAt);
     } catch (error) {
       if (error.response) {
@@ -109,6 +109,10 @@ function ViewStaff({ openViewModal, setOpenViewModal, viewStaffId }) {
             <div className="m-2">
               <p className="font-semibold text-lg">Gender :</p>
               <p>{`${gender}`}</p>
+            </div>
+            <div className="m-2">
+              <p className="font-semibold text-lg">Network :</p>
+              <p>{`${network}`}</p>
             </div>
             <div className="m-2">
               <p className="font-semibold text-lg">Created Date :</p>
