@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function ViewCustomer({ openViewModal, setOpenViewModal, viewCustomerId }) {
+function ViewCustomer({ openViewModal, setOpenViewModal, viewCustomerId, id }) {
   //const api_url = import.meta.env.VITE_API_URL;
 
   const [fullName, setFullName] = useState("");
@@ -69,7 +69,7 @@ function ViewCustomer({ openViewModal, setOpenViewModal, viewCustomerId }) {
         <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
           <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-              Customer Info
+              {`Customer Info ${id}`}
             </h3>
             <button
               onClick={() => setOpenViewModal(false)}

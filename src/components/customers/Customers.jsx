@@ -18,6 +18,7 @@ function Customers() {
   const [viewCustomerId, setViewCustomerId] = useState(null);
   const [networks, setNetworks] = useState([]);
   const [network, setNetwork] = useState("");
+  const [id, setId] = useState("");
   const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(false);
   const { user } = useSelector((state) => state.auth);
@@ -180,6 +181,7 @@ function Customers() {
         openViewModal={openViewModal}
         setOpenViewModal={setOpenViewModal}
         viewCustomerId={viewCustomerId}
+        id={id}
       />
 
       <div>
@@ -224,6 +226,7 @@ function Customers() {
                         onClick={() => {
                           setOpenViewModal(true);
                           setViewCustomerId(customer.uuid);
+                          setId(index + 1);
                         }}
                         className="bg-blue-600 mr-2 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
                       >
