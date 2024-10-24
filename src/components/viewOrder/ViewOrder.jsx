@@ -45,7 +45,8 @@ function ViewOrder({ openViewModal, setOpenViewModal, viewOrderId, id }) {
     } catch (error) {
       if (error.response) {
         //setMsg(error.response.data.msg);
-        toast.error(error.response.data.msg);
+        //toast.error(error.response.data.msg);
+        console.log(error.response.data.msg);
       }
     }
   };
