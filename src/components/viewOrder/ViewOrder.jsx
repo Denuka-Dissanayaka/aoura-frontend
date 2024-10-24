@@ -9,6 +9,8 @@ function ViewOrder({ openViewModal, setOpenViewModal, viewOrderId, id }) {
 
   const [productName, setProductName] = useState("");
   const [customer, setCustomer] = useState("");
+  const [customerEmail, setCustomerEmail] = useState("");
+  const [customerPhone, setCustomerPhone] = useState("");
   const [quantity, setQuantity] = useState("");
   const [total, setTotal] = useState("");
   const [status, setStatus] = useState("");
@@ -32,9 +34,11 @@ function ViewOrder({ openViewModal, setOpenViewModal, viewOrderId, id }) {
       );
       setProductName(response.data.product.name);
       setCustomer(response.data.customer.name);
+      setCustomerEmail(response.data.customer.email);
+      setCustomerPhone(response.data.customer.phone);
       setQuantity(response.data.quantity);
       setStatus(response.data.status);
-      setTotal(response.data.total);
+      setTotal(response.data.price);
       setNetwork(response.data.network.name);
       setUuid(response.data.uuid);
       setCreateDate(response.data.createdAt);
@@ -50,6 +54,8 @@ function ViewOrder({ openViewModal, setOpenViewModal, viewOrderId, id }) {
   useEffect(() => {
     setProductName("");
     setCustomer("");
+    setCustomerEmail("");
+    setCustomerPhone("");
     setQuantity("");
     setStatus("");
     setTotal("");
@@ -111,6 +117,14 @@ function ViewOrder({ openViewModal, setOpenViewModal, viewOrderId, id }) {
             <div className="m-2">
               <p className="font-semibold text-lg">Customer Name :</p>
               <p>{`${customer}`}</p>
+            </div>
+            <div className="m-2">
+              <p className="font-semibold text-lg">Customer Email :</p>
+              <p>{`${customerEmail}`}</p>
+            </div>
+            <div className="m-2">
+              <p className="font-semibold text-lg">Customer Phone :</p>
+              <p>{`${customerPhone}`}</p>
             </div>
             <div className="m-2">
               <p className="font-semibold text-lg">Status :</p>
