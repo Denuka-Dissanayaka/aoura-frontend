@@ -30,11 +30,11 @@ function ViewOrder({ openViewModal, setOpenViewModal, viewOrderId, id }) {
           withCredentials: true,
         }
       );
-      setProductName(response.data.name);
-      setCustomer(response.data.email);
-      setQuantity(response.data.phone);
-      setStatus(response.data.address);
-      setTotal(response.data.address);
+      setProductName(response.data.product.name);
+      setCustomer(response.data.customer.name);
+      setQuantity(response.data.quantity);
+      setStatus(response.data.status);
+      setTotal(response.data.total);
       setNetwork(response.data.network.name);
       setUuid(response.data.uuid);
       setCreateDate(response.data.createdAt);
