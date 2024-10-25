@@ -31,7 +31,7 @@ function ViewProduct({ openViewModal, setOpenViewModal, viewProductId, id }) {
           withCredentials: true,
         }
       );
-      setProductName(response.data.product.name);
+      setProductName(response.data.name);
 
       setQuantity(response.data.quantity);
 
