@@ -117,12 +117,12 @@ function ViewProduct({ openViewModal, setOpenViewModal, viewProductId, id }) {
               <p>{`${uuid}`}</p>
             </div>
 
-            {type === "product" && (
+            {/* {type === "product" && (
               <div className="m-2">
                 <p className="font-semibold text-lg">Quantity :</p>
                 <p>{`${quantity}`}</p>
               </div>
-            )}
+            )} */}
 
             <div className="m-2">
               <p className="font-semibold text-lg">Price :</p>
