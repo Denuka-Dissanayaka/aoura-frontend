@@ -40,6 +40,15 @@ function AddProductForm({ openModal, setOpenModal, getProductsFunc }) {
   }, []);
 
   useEffect(() => {
+    setProductName("");
+    setProductPrice("");
+    setProductQuantity(0);
+    setMsg("");
+    setType("");
+    setNetwork([]);
+  }, [openModal]);
+
+  useEffect(() => {
     if (user.role === "user") {
       setNetwork(user.networkId);
     }
@@ -69,7 +78,7 @@ function AddProductForm({ openModal, setOpenModal, getProductsFunc }) {
       getProductsFunc();
       setProductName("");
       setProductPrice("");
-      setProductQuantity("");
+      setProductQuantity(0);
       setType("");
       setNetwork([]);
       setOpenModal(false);

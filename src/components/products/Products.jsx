@@ -164,7 +164,7 @@ function Products() {
 
   return (
     <div className="grow p-8">
-      <h2 className="text-2xl mb-4">Products</h2>
+      <h2 className="text-2xl mb-4">Products and Packages</h2>
       <div className="mb-6">
         <button
           onClick={() => setOpenModal(true)}
@@ -172,7 +172,7 @@ function Products() {
           data-modal-toggle="crud-modal"
           className="bg-dark-purple dark:bg-gray-800 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
         >
-          Add new Product
+          Add new Product or Package
         </button>
 
         {user && user.role === "admin" && (
