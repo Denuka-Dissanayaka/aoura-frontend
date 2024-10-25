@@ -8,7 +8,7 @@ function AddProductForm({ openModal, setOpenModal, getProductsFunc }) {
   const [productName, setProductName] = useState("");
   const [productPrice, setProductPrice] = useState("");
   const [type, setType] = useState("");
-  const [productQuantity, setProductQuantity] = useState("");
+  const [productQuantity, setProductQuantity] = useState(0);
   const [networks, setNetworks] = useState([]);
   const [network, setNetwork] = useState([]);
   const [msg, setMsg] = useState("");
