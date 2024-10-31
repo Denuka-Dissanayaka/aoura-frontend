@@ -1,10 +1,10 @@
 import React from "react";
-//import html2pdt from "html2pdf.js";
+import html2pdt from "html2pdf.js";
 
 function Invoice2({ setOpenInvoiceModal, openInvoiceModal }) {
   function handleDownload() {
     const downloadContent = document.querySelector("#invoice");
-    //html2pdt(downloadContent);
+    html2pdt(downloadContent);
   }
   return (
     <div
