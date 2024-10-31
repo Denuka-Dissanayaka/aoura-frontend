@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
 function ViewOrder({ openViewModal, setOpenViewModal, viewOrderId, id }) {
@@ -146,6 +146,15 @@ function ViewOrder({ openViewModal, setOpenViewModal, viewOrderId, id }) {
             <div className="m-2">
               <p className="font-semibold text-lg">Created Date :</p>
               <p>{`${createDate}`}</p>
+            </div>
+            <div className="m-2">
+              <Link
+                to={`/invoice/${viewOrderId}`}
+                target="_blank"
+                className="inline-block bg-amber-500 p-4 mt-2 font-semibold"
+              >
+                Generate Invoice
+              </Link>
             </div>
           </div>
         </div>
