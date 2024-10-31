@@ -4,8 +4,12 @@ import { toast } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
+import Invoice2 from "../invoice/Invoice2";
+
 function ViewOrder({ openViewModal, setOpenViewModal, viewOrderId, id }) {
   //const api_url = import.meta.env.VITE_API_URL;
+
+  const [openInvoiceModal, setOpenInvoiceModal] = useState(false);
 
   const [productName, setProductName] = useState("");
   const [customer, setCustomer] = useState("");
@@ -148,13 +152,21 @@ function ViewOrder({ openViewModal, setOpenViewModal, viewOrderId, id }) {
               <p>{`${createDate}`}</p>
             </div>
             <div className="m-2">
-              <Link
+              {/* <Link
                 to={`/invoice/${viewOrderId}`}
                 target="_blank"
                 className="inline-block bg-amber-500 p-4 mt-2 font-semibold"
               >
                 Generate Invoice
-              </Link>
+              </Link> */}
+              <button
+                onClick={() => {
+                  setOpenInvoiceModal(true);
+                }}
+                className="inline-block bg-amber-500 p-4 mt-2 font-semibold"
+              >
+                Generate Invoice
+              </button>
             </div>
           </div>
         </div>
