@@ -23,6 +23,7 @@ function ViewOrder({ openViewModal, setOpenViewModal, viewOrderId, id }) {
   const [createDate, setCreateDate] = useState("");
 
   const forInvoice = {
+    id: viewOrderId,
     productName,
     customer,
     customerEmail,

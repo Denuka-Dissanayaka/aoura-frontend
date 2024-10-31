@@ -2,6 +2,12 @@ import React from "react";
 import html2pdt from "html2pdf.js";
 
 function Invoice2({ setOpenInvoiceModal, openInvoiceModal, invoiceDetails }) {
+  const today = new Date();
+  const date = today.getDate();
+  const month = today.getMonth() + 1;
+  const year = today.getFullYear();
+
+  const currentDate = `${year} / ${month} / ${date}`;
   function handleDownload() {
     const downloadContent = document.querySelector("#invoice");
     html2pdt(downloadContent);
@@ -51,7 +57,7 @@ function Invoice2({ setOpenInvoiceModal, openInvoiceModal, invoiceDetails }) {
                 <header className="flex flex-col items-center justify-center mb-5">
                   <div>
                     <h1 className="font-bold uppercase tracking-wide text-4xl mb-3">
-                      {`Invoice -`}
+                      {`Invoice`}
                     </h1>
                   </div>
                 </header>
@@ -80,14 +86,14 @@ function Invoice2({ setOpenInvoiceModal, openInvoiceModal, invoiceDetails }) {
                 <article className="mt-10 mb-14 flex items-end justify-end">
                   <ul>
                     <li className="p-1 ">
-                      <span className="font-bold">Invoicer number:</span>
+                      <span className="font-bold">{`Invoicer number: ${invoiceDetails.id}`}</span>
                     </li>
                     <li className="p-1 bg-gray-100">
-                      <span className="font-bold">Invoice date:</span>
+                      <span className="font-bold">{`Invoice date: ${currentDate}`}</span>
                     </li>
-                    <li className="p-1 ">
+                    {/* <li className="p-1 ">
                       <span className="font-bold">Due date:</span>
-                    </li>
+                    </li> */}
                   </ul>
                 </article>
                 {/* dates end */}
@@ -100,15 +106,15 @@ function Invoice2({ setOpenInvoiceModal, openInvoiceModal, invoiceDetails }) {
                         <td className="font-bold">Description</td>
                         <td className="font-bold">Quantity</td>
                         <td className="font-bold">Price</td>
-                        <td className="font-bold">Amount</td>
+                        {/* <td className="font-bold">Amount</td> */}
                       </tr>
                     </thead>
                     <tbody>
                       <tr className="h-10">
-                        <td>description</td>
-                        <td>quantity</td>
-                        <td>price</td>
-                        <td>amount</td>
+                        <td>{`${invoiceDetails.productName}`}</td>
+                        <td>{`${invoiceDetails.quantity}`}</td>
+                        <td>{``}</td>
+                        {/* <td>{`${invoiceDetails}`}</td> */}
                       </tr>
                     </tbody>
                     {/* {list.map(({ id, description, quantity, price, amount }) => (
@@ -125,37 +131,25 @@ function Invoice2({ setOpenInvoiceModal, openInvoiceModal, invoiceDetails }) {
         ))} */}
                   </table>
 
-                  {/* <div>
-        <h2 className="flex items-end justify-end text-gray-800 text-4xl font-bold">
-          Kshs. {total.toLocaleString()}
-        </h2>
-      </div> */}
+                  <div>
+                    <h2 className="flex items-end justify-end text-gray-800 text-4xl font-bold">
+                      {`Total : Rs ${invoiceDetails.total}`}
+                    </h2>
+                  </div>
                 </>
                 {/* table end */}
 
                 {/* footer */}
                 <footer className="footer border-t-2 border-gray-300 pt-5">
-                  <ul className="flex flex-wrap items-center justify-center">
+                  <ul className="flex flex-wrap items-center justify-center flex-col">
                     <li>
-                      <span className="font-bold">Your name:</span>
+                      <span className="font-bold">Website: www.aoura.com</span>
                     </li>
                     <li>
-                      <span className="font-bold">Your email:</span>
+                      <span className="font-bold">Email: aoura@gmail.com</span>
                     </li>
                     <li>
-                      <span className="font-bold">Phone number:</span>
-                    </li>
-                    <li>
-                      <span className="font-bold">Bank:</span>
-                    </li>
-                    <li>
-                      <span className="font-bold">Account holder:</span>
-                    </li>
-                    <li>
-                      <span className="font-bold">Account number:</span>
-                    </li>
-                    <li>
-                      <span className="font-bold">Website:</span>
+                      <span className="font-bold">Phone: 011-xxxxxxxx</span>
                     </li>
                   </ul>
                 </footer>
