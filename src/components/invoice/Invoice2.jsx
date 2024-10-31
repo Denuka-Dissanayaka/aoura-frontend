@@ -1,7 +1,7 @@
 import React from "react";
 import html2pdt from "html2pdf.js";
 
-function Invoice2({ setOpenInvoiceModal, openInvoiceModal }) {
+function Invoice2({ setOpenInvoiceModal, openInvoiceModal, invoiceDetails }) {
   function handleDownload() {
     const downloadContent = document.querySelector("#invoice");
     html2pdt(downloadContent);
@@ -62,16 +62,17 @@ function Invoice2({ setOpenInvoiceModal, openInvoiceModal }) {
                   <h2 className="font-bold text-2xl uppercase mb-1 text-sky-500">
                     Aoura
                   </h2>
-                  <p>address</p>
+                  <p>aoura, colombo</p>
                 </section>
                 {/* company detail end */}
 
                 {/* client details */}
                 <section className="mt-10">
                   <h2 className="text-2xl uppercase font-bold mb-1">
-                    clientName
+                    {invoiceDetails.customer}
                   </h2>
-                  <p>clientAddress</p>
+                  <p>{invoiceDetails.customerEmail}</p>
+                  <p>{invoiceDetails.customerPhone}</p>
                 </section>
                 {/* client details end */}
 

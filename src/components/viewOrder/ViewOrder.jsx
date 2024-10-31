@@ -22,6 +22,15 @@ function ViewOrder({ openViewModal, setOpenViewModal, viewOrderId, id }) {
   const [uuid, setUuid] = useState("");
   const [createDate, setCreateDate] = useState("");
 
+  const forInvoice = {
+    productName,
+    customer,
+    customerEmail,
+    customerPhone,
+    quantity,
+    total,
+  };
+
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
@@ -75,6 +84,7 @@ function ViewOrder({ openViewModal, setOpenViewModal, viewOrderId, id }) {
       <Invoice2
         openInvoiceModal={openInvoiceModal}
         setOpenInvoiceModal={setOpenInvoiceModal}
+        invoiceDetails={forInvoice}
       />
 
       <div
