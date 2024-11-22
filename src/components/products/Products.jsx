@@ -23,7 +23,7 @@ function Products() {
   const [loading, setLoading] = useState(false);
 
   const [page, setPage] = useState(0);
-  const [limit, setLimit] = useState(8);
+  const [limit, setLimit] = useState(1);
   const [pages, setPages] = useState(0);
   const [rows, setRows] = useState(0);
 
