@@ -4,6 +4,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { Blocks } from "react-loader-spinner";
+import ReactPaginate from "react-paginate";
 
 import EditProductForm from "../editProductForm/EditProductForm";
 import AddProductForm from "../addProductForm/AddProductForm";
@@ -21,12 +22,20 @@ function Products() {
   const [id, setId] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const [page, setPage] = useState(0);
+  const [limit, setLimit] = useState(1);
+  const [pages, setPages] = useState(0);
+  const [rows, setRows] = useState(0);
+
   const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    getProducts();
     getNetworks();
   }, []);
+
+  useEffect(() => {
+    getProducts();
+  }, [page]);
 
   useEffect(() => {
     getProducts();
@@ -40,7 +49,7 @@ function Products() {
     setLoading(true);
     try {
       const response = await axios.get(
-        "https://aoura-backend-production.up.railway.app/api/v1/products",
+        `https://aoura-backend-production.up.railway.app/api/v1/products?page=${page}&limit=${limit}`,
         {
           headers: {
             "access-token": localStorage.getItem("token"),
@@ -49,7 +58,11 @@ function Products() {
         }
       );
       setLoading(false);
-      setProducts(response.data);
+      setProducts(response.data.response);
+      setPage(response.data.page);
+      setLimit(response.data.limit);
+      setPages(response.data.totalPage);
+      setRows(response.data.totalRows);
     } catch (error) {
       if (error.response) {
         toast.error(error.response.data.msg);
@@ -121,6 +134,17 @@ function Products() {
         toast.error(error.response.data.msg);
       }
     }
+  };
+
+  const changePage = ({ selected }) => {
+    setPage(selected);
+    // if (selected === 9) {
+    //   setMsg(
+    //     "Jika tidak menemukan data yang Anda cari, silahkan cari data dengan kata kunci spesifik!"
+    //   );
+    // } else {
+    //   setMsg("");
+    // }
   };
 
   return (
@@ -266,6 +290,28 @@ function Products() {
             )}
           </tbody>
         </table>
+        <nav className="flex items-center gap-4 mt-6 justify-center">
+          <ReactPaginate
+            previousLabel={"< Prev"}
+            nextLabel={"Next >"}
+            pageCount={pages}
+            onPageChange={changePage}
+            containerClassName={"flex items-center gap-4"}
+            pageClassName={
+              "bg-dark-purple dark:bg-gray-800 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
+            }
+            activeClassName={
+              "bg-gray-500 dark:bg-gray-500 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
+            }
+            previousClassName={
+              "bg-dark-purple dark:bg-gray-800 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
+            }
+            nextClassName={
+              "bg-dark-purple dark:bg-gray-800 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
+            }
+            disabledLinkClassName={" text-gray-400 dark:text-gray-700"}
+          />
+        </nav>
       </div>
     </div>
   );
