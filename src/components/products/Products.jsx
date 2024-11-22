@@ -301,7 +301,7 @@ function Products() {
               "bg-dark-purple dark:bg-gray-800 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
             }
             activeClassName={
-              "bg-gray-500 dark:bg-dark-purple hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
+              "bg-gray-500 dark:bg-red-400 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
             }
             previousClassName={
               "bg-dark-purple dark:bg-gray-800 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
