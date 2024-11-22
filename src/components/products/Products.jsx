@@ -244,7 +244,7 @@ function Products() {
               products.map((product, index) => (
                 <>
                   <tr key={product.uuid}>
-                    <td className="p-4 text-center">#{index + 1}</td>
+                    <td className="p-4 text-center">#{product.id}</td>
                     {/* <td className="text-center">{product.uuid}</td> */}
                     <td className="text-center">{product.name}</td>
                     <td className="text-center">{product.price}</td>
