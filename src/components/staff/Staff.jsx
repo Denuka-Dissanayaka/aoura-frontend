@@ -5,6 +5,7 @@ import { Blocks } from "react-loader-spinner";
 import { useDispatch, useSelector } from "react-redux";
 import AdduserForm from "../addUserForm/AdduserForm";
 import { toast } from "react-toastify";
+import ReactPaginate from "react-paginate";
 
 import EditStaffForm from "../editStaffForm/EditStaffForm";
 import AddStaffForm from "../addStaffForm/AddStaffForm";
@@ -21,12 +22,20 @@ function Staff() {
   const [openEditModal, setOpenEditModal] = useState(false);
   const [openViewModal, setOpenViewModal] = useState(false);
 
+  const [page, setPage] = useState(0);
+  const [limit, setLimit] = useState(2);
+  const [pages, setPages] = useState(0);
+  const [rows, setRows] = useState(0);
+
   const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    getStaffs();
     getNetworks();
   }, []);
+
+  useEffect(() => {
+    getStaffs();
+  }, [page]);
 
   useEffect(() => {
     getStaffs();
@@ -40,7 +49,7 @@ function Staff() {
     setLoading(true);
     try {
       const response = await axios.get(
-        "https://aoura-backend-production.up.railway.app/api/v1/staffs",
+        `https://aoura-backend-production.up.railway.app/api/v1/staffs?page=${page}&limit=${limit}`,
         {
           headers: {
             "access-token": localStorage.getItem("token"),
@@ -49,7 +58,11 @@ function Staff() {
         }
       );
       setLoading(false);
-      setUsers(response.data);
+      setUsers(response.data.response);
+      setPage(response.data.page);
+      setLimit(response.data.limit);
+      setPages(response.data.totalPage);
+      setRows(response.data.totalRows);
     } catch (error) {
       if (error.response) {
         toast.error(error.response.data.msg);
@@ -120,6 +133,17 @@ function Staff() {
         toast.error(error.response.data.msg);
       }
     }
+  };
+
+  const changePage = ({ selected }) => {
+    setPage(selected);
+    // if (selected === 9) {
+    //   setMsg(
+    //     "Jika tidak menemukan data yang Anda cari, silahkan cari data dengan kata kunci spesifik!"
+    //   );
+    // } else {
+    //   setMsg("");
+    // }
   };
 
   return (
@@ -213,7 +237,7 @@ function Staff() {
             ) : (
               users.map((user, index) => (
                 <tr key={user.id}>
-                  <td className="p-4 text-center">{index + 1}</td>
+                  <td className="p-4 text-center">#{user.id}</td>
                   <td className="text-center">{user.uuid}</td>
                   <td className="text-center">{user.fristname}</td>
                   <td className="text-center">{user.lastname}</td>
@@ -252,6 +276,28 @@ function Staff() {
             )}
           </tbody>
         </table>
+        <nav className="flex items-center gap-4 mt-6 justify-center">
+          <ReactPaginate
+            previousLabel={"< Prev"}
+            nextLabel={"Next >"}
+            pageCount={pages}
+            onPageChange={changePage}
+            containerClassName={"flex items-center gap-4"}
+            pageClassName={
+              "bg-dark-purple dark:bg-gray-800 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
+            }
+            activeClassName={
+              "bg-gray-500 dark:bg-red-600 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
+            }
+            previousClassName={
+              "bg-dark-purple dark:bg-gray-800 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
+            }
+            nextClassName={
+              "bg-dark-purple dark:bg-gray-800 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
+            }
+            disabledLinkClassName={" text-gray-400 dark:text-gray-700"}
+          />
+        </nav>
       </div>
     </div>
   );
