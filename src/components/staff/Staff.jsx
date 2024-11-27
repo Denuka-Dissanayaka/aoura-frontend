@@ -23,6 +23,7 @@ function Staff() {
   const [openViewModal, setOpenViewModal] = useState(false);
 
   const [page, setPage] = useState(0);
+  const [pageWhenNetworkSelected, setPageWhenNetworkSelected] = useState(0);
   const [limit, setLimit] = useState(2);
   const [pages, setPages] = useState(0);
   const [rows, setRows] = useState(0);
@@ -43,7 +44,7 @@ function Staff() {
 
   useEffect(() => {
     network !== "" ? getStaffsBasedOnNetwork() : getStaffs();
-  }, [network]);
+  }, [network, pageWhenNetworkSelected]);
 
   const getStaffs = async () => {
     setLoading(true);
@@ -95,11 +96,12 @@ function Staff() {
   const getStaffsBasedOnNetwork = async () => {
     setLoading(true);
     setPage(0);
+    setPageWhenNetworkSelected(0);
     setPages(0);
     setRows(0);
     try {
       const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/staffs/base-on-network/${network}?page=${page}&limit=${limit}`,
+        `https://aoura-backend-production.up.railway.app/api/v1/staffs/base-on-network/${network}?page=${pageWhenNetworkSelected}&limit=${limit}`,
         {
           headers: {
             "access-token": localStorage.getItem("token"),
@@ -143,7 +145,8 @@ function Staff() {
   };
 
   const changePage = ({ selected }) => {
-    setPage(selected);
+    //setPage(selected);
+    network !== "" ? setPageWhenNetworkSelected(selected) : setPage(selected);
     // if (selected === 9) {
     //   setMsg(
     //     "Jika tidak menemukan data yang Anda cari, silahkan cari data dengan kata kunci spesifik!"
