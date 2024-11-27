@@ -111,7 +111,7 @@ function Staff() {
       );
       setLoading(false);
       setUsers(response.data.response);
-      setPage(response.data.page);
+      setPageWhenNetworkSelected(response.data.page);
       setLimit(response.data.limit);
       setPages(response.data.totalPage);
       setRows(response.data.totalRows);
