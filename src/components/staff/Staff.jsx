@@ -24,7 +24,7 @@ function Staff() {
 
   const [page, setPage] = useState(0);
   const [pageWhenNetworkSelected, setPageWhenNetworkSelected] = useState(0);
-  const [limit, setLimit] = useState(2);
+  const [limit, setLimit] = useState(8);
   const [pages, setPages] = useState(0);
   const [rows, setRows] = useState(0);
 
