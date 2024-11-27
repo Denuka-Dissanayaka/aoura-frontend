@@ -94,9 +94,12 @@ function Staff() {
   // get staffs based on network
   const getStaffsBasedOnNetwork = async () => {
     setLoading(true);
+    setPage(0);
+    setPages(0);
+    setRows(0);
     try {
       const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/staffs/base-on-network/${network}`,
+        `https://aoura-backend-production.up.railway.app/api/v1/staffs/base-on-network/${network}?page=${page}&limit=${limit}`,
         {
           headers: {
             "access-token": localStorage.getItem("token"),
@@ -105,7 +108,11 @@ function Staff() {
         }
       );
       setLoading(false);
-      setUsers(response.data);
+      setUsers(response.data.response);
+      setPage(response.data.page);
+      setLimit(response.data.limit);
+      setPages(response.data.totalPage);
+      setRows(response.data.totalRows);
     } catch (error) {
       if (error.response) {
         //setMsg(error.response.data.msg);
