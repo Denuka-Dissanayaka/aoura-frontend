@@ -4,8 +4,8 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { Blocks } from "react-loader-spinner";
 import { toast } from "react-toastify";
-//import EditProductForm from "../editProductForm/EditProductForm";
-//import AddProductForm from "../addProductForm/AddProductForm";
+import ReactPaginate from "react-paginate";
+
 import AddNetworkForm from "../addNetworkForm/AddNetworkForm";
 import EditNetworkForm from "../editNetworkForm/EditNetworkForm";
 import ViewNetwork from "../viewNetwork/ViewNetwork";
@@ -20,9 +20,14 @@ function Networks() {
   const [loading, setLoading] = useState(false);
   const { user } = useSelector((state) => state.auth);
 
+  const [page, setPage] = useState(0);
+  const [limit, setLimit] = useState(3);
+  const [pages, setPages] = useState(0);
+  const [rows, setRows] = useState(0);
+
   useEffect(() => {
     getNetworks();
-  }, []);
+  }, [page]);
 
   useEffect(() => {
     getNetworks();
@@ -32,7 +37,7 @@ function Networks() {
     setLoading(true);
     try {
       const response = await axios.get(
-        "https://aoura-backend-production.up.railway.app/api/v1/networks",
+        `https://aoura-backend-production.up.railway.app/api/v1/networks2?page=${page}&limit=${limit}`,
         {
           headers: {
             "access-token": localStorage.getItem("token"),
@@ -41,7 +46,11 @@ function Networks() {
         }
       );
       setLoading(false);
-      setNetworks(response.data);
+      setNetworks(response.data.response);
+      setPage(response.data.page);
+      setLimit(response.data.limit);
+      setPages(response.data.totalPage);
+      setRows(response.data.totalRows);
     } catch (error) {
       if (error.response) {
         toast.error(error.response.data.msg);
@@ -67,6 +76,10 @@ function Networks() {
         toast.error(error.response.data.msg);
       }
     }
+  };
+
+  const changePage = ({ selected }) => {
+    setPage(selected);
   };
 
   return (
@@ -133,7 +146,7 @@ function Networks() {
               networks.map((network, index) => (
                 <>
                   <tr key={network.uuid}>
-                    <td className="p-4 text-center">#{index + 1}</td>
+                    <td className="p-4 text-center">#{network.id}</td>
                     <td className="text-center">{network.uuid}</td>
                     <td className="text-center">{network.name}</td>
 
@@ -171,6 +184,28 @@ function Networks() {
             )}
           </tbody>
         </table>
+        <nav className="flex items-center gap-4 mt-6 justify-center">
+          <ReactPaginate
+            previousLabel={"< Prev"}
+            nextLabel={"Next >"}
+            pageCount={pages}
+            onPageChange={changePage}
+            containerClassName={"flex items-center gap-4"}
+            pageClassName={
+              "bg-dark-purple dark:bg-gray-800 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
+            }
+            activeClassName={
+              "bg-gray-500 dark:bg-red-600 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
+            }
+            previousClassName={
+              "bg-dark-purple dark:bg-gray-800 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
+            }
+            nextClassName={
+              "bg-dark-purple dark:bg-gray-800 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
+            }
+            disabledLinkClassName={" text-gray-400 dark:text-gray-700"}
+          />
+        </nav>
       </div>
     </div>
   );
