@@ -3,6 +3,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { Blocks } from "react-loader-spinner";
+import ReactPaginate from "react-paginate";
 
 import AddCustomerForm from "../addCustomerForm/AddCustomerForm";
 import EditCustomerForm from "../editCustomerForm/EditCustomerForm";
@@ -23,8 +24,16 @@ function Customers() {
   const [loading, setLoading] = useState(false);
   const { user } = useSelector((state) => state.auth);
 
+  const [page, setPage] = useState(0);
+  const [limit, setLimit] = useState(3);
+  const [pages, setPages] = useState(0);
+  const [rows, setRows] = useState(0);
+
   useEffect(() => {
     getCustomers();
+  }, [page]);
+
+  useEffect(() => {
     getNetworks();
   }, []);
 
@@ -40,7 +49,7 @@ function Customers() {
     setLoading(true);
     try {
       const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/customers`,
+        `https://aoura-backend-production.up.railway.app/api/v1/customers?page=${page}&limit=${limit}`,
         {
           headers: {
             "access-token": localStorage.getItem("token"),
@@ -49,7 +58,11 @@ function Customers() {
         }
       );
       setLoading(false);
-      setCustomers(response.data);
+      setCustomers(response.data.response);
+      setPage(response.data.page);
+      setLimit(response.data.limit);
+      setPages(response.data.totalPage);
+      setRows(response.data.totalRows);
     } catch (error) {
       if (error.response) {
         toast.error(error.response.data.msg);
@@ -121,6 +134,10 @@ function Customers() {
         toast.error(error.response.data.msg);
       }
     }
+  };
+
+  const changePage = ({ selected }) => {
+    setPage(selected);
   };
 
   return (
@@ -214,7 +231,7 @@ function Customers() {
               customers.map((customer, index) => (
                 <>
                   <tr key={customer.uuid}>
-                    <td className="p-4 text-center">#{index + 1}</td>
+                    <td className="p-4 text-center">#{customer.id}</td>
                     <td className="text-center">{customer.name}</td>
                     <td className="text-center">{customer.email}</td>
                     <td className="text-center">{customer.address}</td>
@@ -256,6 +273,28 @@ function Customers() {
             )}
           </tbody>
         </table>
+        <nav className="flex items-center gap-4 mt-6 justify-center">
+          <ReactPaginate
+            previousLabel={"< Prev"}
+            nextLabel={"Next >"}
+            pageCount={pages}
+            onPageChange={changePage}
+            containerClassName={"flex items-center gap-4"}
+            pageClassName={
+              "bg-dark-purple dark:bg-gray-800 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
+            }
+            activeClassName={
+              "bg-gray-500 dark:bg-red-600 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
+            }
+            previousClassName={
+              "bg-dark-purple dark:bg-gray-800 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
+            }
+            nextClassName={
+              "bg-dark-purple dark:bg-gray-800 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
+            }
+            disabledLinkClassName={" text-gray-400 dark:text-gray-700"}
+          />
+        </nav>
       </div>
     </div>
   );
