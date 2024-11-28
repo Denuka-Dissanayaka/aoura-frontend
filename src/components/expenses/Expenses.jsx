@@ -21,7 +21,7 @@ function Expenses() {
   const [loading, setLoading] = useState(false);
 
   const [page, setPage] = useState(0);
-  const [limit, setLimit] = useState(1);
+  const [limit, setLimit] = useState(3);
   const [pages, setPages] = useState(0);
   const [rows, setRows] = useState(0);
 
@@ -134,9 +134,9 @@ function Expenses() {
     }
   };
 
-  const changePage = ({ selected }) => {
-    setPage(selected);
-  };
+  // const changePage = ({ selected }) => {
+  //   setPage(selected);
+  // };
 
   return (
     <div className="grow p-8">
@@ -254,7 +254,7 @@ function Expenses() {
             )}
           </tbody>
         </table>
-        <nav className="flex items-center gap-4 mt-6 justify-center">
+        {/* <nav className="flex items-center gap-4 mt-6 justify-center">
           <ReactPaginate
             previousLabel={"< Prev"}
             nextLabel={"Next >"}
@@ -275,7 +275,7 @@ function Expenses() {
             }
             disabledLinkClassName={" text-gray-400 dark:text-gray-700"}
           />
-        </nav>
+        </nav> */}
       </div>
     </div>
   );
