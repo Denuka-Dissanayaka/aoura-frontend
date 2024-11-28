@@ -4,6 +4,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { Blocks } from "react-loader-spinner";
+import ReactPaginate from "react-paginate";
 
 import AddExpensesForm from "../addExpensesForm/AddExpensesForm.jsx";
 import EditExpensesForm from "../editExpensesForm/EditExpensesForm.jsx";
@@ -19,10 +20,18 @@ function Expenses() {
   const [expenses, setExpenses] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const [page, setPage] = useState(0);
+  const [limit, setLimit] = useState(1);
+  const [pages, setPages] = useState(0);
+  const [rows, setRows] = useState(0);
+
   const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     getExpenses();
+  }, [page]);
+
+  useEffect(() => {
     getNetworks();
   }, []);
 
@@ -38,7 +47,7 @@ function Expenses() {
     setLoading(true);
     try {
       const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/expenses`,
+        `https://aoura-backend-production.up.railway.app/api/v1/expenses?page=${page}&limit=${limit}`,
         {
           headers: {
             "access-token": localStorage.getItem("token"),
@@ -47,7 +56,11 @@ function Expenses() {
         }
       );
       setLoading(false);
-      setExpenses(response.data);
+      setExpenses(response.data.response);
+      setPage(response.data.page);
+      setLimit(response.data.limit);
+      setPages(response.data.totalPage);
+      setRows(response.data.totalRows);
     } catch (error) {
       if (error.response) {
         toast.error(error.response.data.msg);
@@ -119,6 +132,10 @@ function Expenses() {
         toast.error(error.response.data.msg);
       }
     }
+  };
+
+  const changePage = ({ selected }) => {
+    setPage(selected);
   };
 
   return (
@@ -206,7 +223,7 @@ function Expenses() {
               expenses.map((expense, index) => (
                 <>
                   <tr key={expense.uuid}>
-                    <td className="p-4 text-center">#{index + 1}</td>
+                    <td className="p-4 text-center">#{expense.id}</td>
                     <td className="text-center">{expense.type}</td>
                     <td className="text-center">{expense.network.name}</td>
                     <td className="text-center">{expense.date}</td>
@@ -237,6 +254,28 @@ function Expenses() {
             )}
           </tbody>
         </table>
+        <nav className="flex items-center gap-4 mt-6 justify-center">
+          <ReactPaginate
+            previousLabel={"< Prev"}
+            nextLabel={"Next >"}
+            pageCount={pages}
+            onPageChange={changePage}
+            containerClassName={"flex items-center gap-4"}
+            pageClassName={
+              "bg-dark-purple dark:bg-gray-800 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
+            }
+            activeClassName={
+              "bg-gray-500 dark:bg-red-600 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
+            }
+            previousClassName={
+              "bg-dark-purple dark:bg-gray-800 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
+            }
+            nextClassName={
+              "bg-dark-purple dark:bg-gray-800 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
+            }
+            disabledLinkClassName={" text-gray-400 dark:text-gray-700"}
+          />
+        </nav>
       </div>
     </div>
   );
