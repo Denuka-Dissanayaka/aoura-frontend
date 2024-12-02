@@ -8,7 +8,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 
 import { dataLine, dataBar } from "../../assets/chartData";
-import { Line, Bar } from "react-chartjs-2";
+import { Line, Bar, Pie } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   LineElement,
@@ -24,6 +24,33 @@ ChartJS.register(
   LinearScale,
   PointElement
 );
+
+const data = {
+  labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+  datasets: [
+    {
+      label: "# of Votes",
+      data: [12, 19, 3, 5, 2, 3],
+      backgroundColor: [
+        "rgba(255, 99, 132, 0.2)",
+        "rgba(54, 162, 235, 0.2)",
+        "rgba(255, 206, 86, 0.2)",
+        "rgba(75, 192, 192, 0.2)",
+        "rgba(153, 102, 255, 0.2)",
+        "rgba(255, 159, 64, 0.2)",
+      ],
+      borderColor: [
+        "rgba(255, 99, 132, 1)",
+        "rgba(54, 162, 235, 1)",
+        "rgba(255, 206, 86, 1)",
+        "rgba(75, 192, 192, 1)",
+        "rgba(153, 102, 255, 1)",
+        "rgba(255, 159, 64, 1)",
+      ],
+      borderWidth: 1,
+    },
+  ],
+};
 
 function Dashboard() {
   //const api_url = import.meta.env.VITE_API_URL;
@@ -214,6 +241,12 @@ function Dashboard() {
         <div className="bg-white p-4 dark:bg-gray-800 rounded-lg shadow-md">
           <h3 className="text-lg font-semibold mb-4">Customers Data</h3>
           <Bar data={dataBar1} />
+        </div>
+      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div className="bg-white p-4 dark:bg-gray-800 rounded-lg shadow-md">
+          <h3 className="text-lg font-semibold mb-4">Sales Data</h3>
+          <Pie data={data} />
         </div>
       </div>
     </div>
