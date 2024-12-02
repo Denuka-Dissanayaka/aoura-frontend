@@ -30,7 +30,7 @@ function Dashboard() {
   const { user } = useSelector((state) => state.auth);
 
   const [networks, setNetworks] = useState([]);
-  const [orders, setOrders] = useState([]);
+  const [ordersCount, setOrdersCount] = useState([]);
   const [products, setProducts] = useState([]);
   const [staffs, setStaffs] = useState([]);
   const [customers, setCustomers] = useState([]);
@@ -77,10 +77,10 @@ function Dashboard() {
     }
   };
 
-  const getOrders = async () => {
+  const getOrdersCount = async () => {
     try {
       const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/orders`,
+        `https://aoura-backend-production.up.railway.app/api/v1/orders/count`,
         {
           headers: {
             "access-token": localStorage.getItem("token"),
@@ -89,7 +89,7 @@ function Dashboard() {
         }
       );
 
-      setOrders(response.data);
+      setOrdersCount(response.data.response);
     } catch (error) {
       if (error.response) {
         console.log(error.response.data.msg);
@@ -168,7 +168,7 @@ function Dashboard() {
     getNetworks();
     getCustomers();
     getStaffs();
-    getOrders();
+    getOrdersCount();
     getProducts();
   }, []);
 
@@ -200,7 +200,7 @@ function Dashboard() {
     <div className="grow p-8">
       <h2 className="text-2xl mb-4">Dashboard</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <Card icon={<FaShoppingCart />} title="Orders" value={orders.length} />
+        <Card icon={<FaShoppingCart />} title="Orders" value={ordersCount} />
         <Card
           icon={<AiFillProduct />}
           title="Products"
