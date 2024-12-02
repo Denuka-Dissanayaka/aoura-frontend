@@ -31,8 +31,8 @@ function Dashboard() {
 
   const [networks, setNetworks] = useState([]);
   const [ordersCount, setOrdersCount] = useState([]);
-  const [products, setProducts] = useState([]);
-  const [staffs, setStaffs] = useState([]);
+  const [productsCount, setProductsCount] = useState([]);
+  const [staffsCount, setStaffsCount] = useState([]);
   const [customers, setCustomers] = useState([]);
   const [networkNames, setNetworkNames] = useState([]);
   const [customersCount, setCustomersCount] = useState([]);
@@ -57,10 +57,10 @@ function Dashboard() {
     }
   };
 
-  const getProducts = async () => {
+  const getProductsCount = async () => {
     try {
       const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/products`,
+        `https://aoura-backend-production.up.railway.app/api/v1/products/count`,
         {
           headers: {
             "access-token": localStorage.getItem("token"),
@@ -69,7 +69,7 @@ function Dashboard() {
         }
       );
 
-      setProducts(response.data);
+      setProductsCount(response.data.response);
     } catch (error) {
       if (error.response) {
         console.log(error.response.data.msg);
@@ -97,10 +97,10 @@ function Dashboard() {
     }
   };
 
-  const getStaffs = async () => {
+  const getStaffsCount = async () => {
     try {
       const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/staffs`,
+        `https://aoura-backend-production.up.railway.app/api/v1/staffs/count`,
         {
           headers: {
             "access-token": localStorage.getItem("token"),
@@ -109,7 +109,7 @@ function Dashboard() {
         }
       );
 
-      setStaffs(response.data);
+      setStaffsCount(response.data.response);
     } catch (error) {
       if (error.response) {
         console.log(error.response.data.msg);
@@ -120,7 +120,7 @@ function Dashboard() {
   const getCustomers = async () => {
     try {
       const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/customers`,
+        `https://aoura-backend-production.up.railway.app/api/v1/customers/count`,
         {
           headers: {
             "access-token": localStorage.getItem("token"),
@@ -129,7 +129,7 @@ function Dashboard() {
         }
       );
 
-      setCustomers(response.data);
+      setCustomers(response.data.response);
     } catch (error) {
       if (error.response) {
         console.log(error.response.data.msg);
@@ -167,9 +167,9 @@ function Dashboard() {
   useEffect(() => {
     getNetworks();
     getCustomers();
-    getStaffs();
+    getStaffsCount();
     getOrdersCount();
-    getProducts();
+    getProductsCount();
   }, []);
 
   useEffect(() => {
@@ -201,13 +201,9 @@ function Dashboard() {
       <h2 className="text-2xl mb-4">Dashboard</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <Card icon={<FaShoppingCart />} title="Orders" value={ordersCount} />
-        <Card
-          icon={<AiFillProduct />}
-          title="Products"
-          value={products.length}
-        />
-        <Card icon={<FaUser />} title="Customers" value={customers.length} />
-        <Card icon={<FaUserTie />} title="Staffs" value={staffs.length} />
+        <Card icon={<AiFillProduct />} title="Products" value={productsCount} />
+        <Card icon={<FaUser />} title="Customers" value={customers} />
+        <Card icon={<FaUserTie />} title="Staffs" value={staffsCount} />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
