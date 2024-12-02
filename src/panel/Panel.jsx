@@ -29,7 +29,7 @@ function Panel({ children }) {
   return (
     <div className="flex">
       <Sidebar />
-      <div className="grow ml-72 h-full lg:h-max bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-white">
+      <div className="grow ml-72 h-full lg:min-h-[100vh] bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-white">
         <Navbar />
         <div>
           {children}
