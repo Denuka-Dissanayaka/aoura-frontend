@@ -16,13 +16,19 @@ import {
   CategoryScale,
   LinearScale,
   PointElement,
+  ArcElement,
+  Tooltip,
+  Legend,
 } from "chart.js";
 ChartJS.register(
   LineElement,
   BarElement,
   CategoryScale,
   LinearScale,
-  PointElement
+  PointElement,
+  ArcElement,
+  Tooltip,
+  Legend
 );
 
 const data = {
