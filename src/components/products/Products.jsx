@@ -23,7 +23,8 @@ function Products() {
   const [loading, setLoading] = useState(false);
 
   const [page, setPage] = useState(0);
-  const [limit, setLimit] = useState(1);
+  const [pageWhenNetworkSelected, setPageWhenNetworkSelected] = useState(0);
+  const [limit, setLimit] = useState(3);
   const [pages, setPages] = useState(0);
   const [rows, setRows] = useState(0);
 
@@ -43,7 +44,7 @@ function Products() {
 
   useEffect(() => {
     network !== "" ? getProductsBasedOnNetwork() : getProducts();
-  }, [network]);
+  }, [network, pageWhenNetworkSelected]);
 
   const getProducts = async () => {
     setLoading(true);
@@ -96,7 +97,7 @@ function Products() {
     setLoading(true);
     try {
       const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/products/base-on-network/${network}`,
+        `https://aoura-backend-production.up.railway.app/api/v1/products/base-on-network2/${network}?page=${pageWhenNetworkSelected}&limit=${limit}`,
         {
           headers: {
             "access-token": localStorage.getItem("token"),
@@ -105,7 +106,11 @@ function Products() {
         }
       );
       setLoading(false);
-      setProducts(response.data);
+      setProducts(response.data.response);
+      setPageWhenNetworkSelected(response.data.page);
+      setLimit(response.data.limit);
+      setPages(response.data.totalPage);
+      setRows(response.data.totalRows);
     } catch (error) {
       if (error.response) {
         //setMsg(error.response.data.msg);
@@ -137,14 +142,7 @@ function Products() {
   };
 
   const changePage = ({ selected }) => {
-    setPage(selected);
-    // if (selected === 9) {
-    //   setMsg(
-    //     "Jika tidak menemukan data yang Anda cari, silahkan cari data dengan kata kunci spesifik!"
-    //   );
-    // } else {
-    //   setMsg("");
-    // }
+    network !== "" ? setPageWhenNetworkSelected(selected) : setPage(selected);
   };
 
   return (
