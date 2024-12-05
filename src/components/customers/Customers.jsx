@@ -43,8 +43,17 @@ function Customers() {
   }, [openEditModal]);
 
   useEffect(() => {
+    setPageWhenNetworkSelected(0);
+    setPage(0);
+    setPages(0);
+    setRows(0);
+
     network !== "" ? getCustomersBasedOnNetwork() : getCustomers();
-  }, [network, pageWhenNetworkSelected]);
+  }, [network]);
+
+  useEffect(() => {
+    getCustomersBasedOnNetwork();
+  }, [pageWhenNetworkSelected]);
 
   const getCustomers = async () => {
     setLoading(true);
@@ -97,7 +106,7 @@ function Customers() {
     setLoading(true);
     try {
       const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/customers/base-on-network/${network}`,
+        `https://aoura-backend-production.up.railway.app/api/v1/customers/base-on-network2/${network}?page=${pageWhenNetworkSelected}&limit=${limit}`,
         {
           headers: {
             "access-token": localStorage.getItem("token"),
@@ -106,7 +115,11 @@ function Customers() {
         }
       );
       setLoading(false);
-      setCustomers(response.data);
+      setCustomers(response.data.response);
+      setPageWhenNetworkSelected(response.data.page);
+      setLimit(response.data.limit);
+      setPages(response.data.totalPage);
+      setRows(response.data.totalRows);
     } catch (error) {
       if (error.response) {
         //setMsg(error.response.data.msg);
@@ -138,7 +151,7 @@ function Customers() {
   };
 
   const changePage = ({ selected }) => {
-    setPage(selected);
+    network !== "" ? setPageWhenNetworkSelected(selected) : setPage(selected);
   };
 
   return (
