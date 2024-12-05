@@ -43,8 +43,17 @@ function Products() {
   }, [openEditModal]);
 
   useEffect(() => {
+    setPageWhenNetworkSelected(0);
+    setPage(0);
+    setPages(0);
+    setRows(0);
+
     network !== "" ? getProductsBasedOnNetwork() : getProducts();
-  }, [network, pageWhenNetworkSelected]);
+  }, [network]);
+
+  useEffect(() => {
+    getProductsBasedOnNetwork();
+  }, [pageWhenNetworkSelected]);
 
   const getProducts = async () => {
     setLoading(true);
