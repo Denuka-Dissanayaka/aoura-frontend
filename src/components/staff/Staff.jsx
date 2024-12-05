@@ -43,8 +43,13 @@ function Staff() {
   }, [openEditModal]);
 
   useEffect(() => {
+    setPageWhenNetworkSelected(0);
     network !== "" ? getStaffsBasedOnNetwork() : getStaffs();
-  }, [network, pageWhenNetworkSelected]);
+  }, [network]);
+
+  useEffect(() => {
+    getStaffsBasedOnNetwork();
+  }, [pageWhenNetworkSelected]);
 
   const getStaffs = async () => {
     setLoading(true);
@@ -96,7 +101,7 @@ function Staff() {
   const getStaffsBasedOnNetwork = async () => {
     setLoading(true);
     setPage(0);
-    setPageWhenNetworkSelected(0);
+    //setPageWhenNetworkSelected(0);
     setPages(0);
     setRows(0);
     try {
