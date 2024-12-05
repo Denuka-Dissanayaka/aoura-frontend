@@ -44,6 +44,10 @@ function Staff() {
 
   useEffect(() => {
     setPageWhenNetworkSelected(0);
+    setPage(0);
+    setPages(0);
+    setRows(0);
+
     network !== "" ? getStaffsBasedOnNetwork() : getStaffs();
   }, [network]);
 
@@ -100,10 +104,7 @@ function Staff() {
   // get staffs based on network
   const getStaffsBasedOnNetwork = async () => {
     setLoading(true);
-    setPage(0);
-    //setPageWhenNetworkSelected(0);
-    setPages(0);
-    setRows(0);
+
     try {
       const response = await axios.get(
         `https://aoura-backend-production.up.railway.app/api/v1/staffs/base-on-network/${network}?page=${pageWhenNetworkSelected}&limit=${limit}`,
