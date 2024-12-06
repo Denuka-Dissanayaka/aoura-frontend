@@ -11,6 +11,8 @@ import AddProductForm from "../addProductForm/AddProductForm";
 import ViewProduct from "../viewProduct/ViewProduct";
 
 function Products() {
+  const api_url = import.meta.env.VITE_API_URL;
+
   const [openModal, setOpenModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [openViewModal, setOpenViewModal] = useState(false);
@@ -59,7 +61,7 @@ function Products() {
     setLoading(true);
     try {
       const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/products?page=${page}&limit=${limit}`,
+        `${api_url}/api/v1/products?page=${page}&limit=${limit}`,
         {
           headers: {
             "access-token": localStorage.getItem("token"),
@@ -82,15 +84,12 @@ function Products() {
 
   const getNetworks = async () => {
     try {
-      const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/networks`,
-        {
-          headers: {
-            "access-token": localStorage.getItem("token"),
-          },
-          withCredentials: true,
-        }
-      );
+      const response = await axios.get(`${api_url}/api/v1/networks`, {
+        headers: {
+          "access-token": localStorage.getItem("token"),
+        },
+        withCredentials: true,
+      });
 
       setNetworks(response.data);
     } catch (error) {
@@ -106,7 +105,7 @@ function Products() {
     setLoading(true);
     try {
       const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/products/base-on-network2/${network}?page=${pageWhenNetworkSelected}&limit=${limit}`,
+        `${api_url}/api/v1/products/base-on-network2/${network}?page=${pageWhenNetworkSelected}&limit=${limit}`,
         {
           headers: {
             "access-token": localStorage.getItem("token"),
@@ -131,15 +130,12 @@ function Products() {
 
   const deleteProduct = async (id) => {
     try {
-      const result = await axios.delete(
-        `https://aoura-backend-production.up.railway.app/api/v1/products/${id}`,
-        {
-          headers: {
-            "access-token": localStorage.getItem("token"),
-          },
-          withCredentials: true,
-        }
-      );
+      const result = await axios.delete(`${api_url}/api/v1/products/${id}`, {
+        headers: {
+          "access-token": localStorage.getItem("token"),
+        },
+        withCredentials: true,
+      });
       toast.success(result.data.msg);
       //console.log(result);
       getProducts();
