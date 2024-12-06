@@ -24,6 +24,7 @@ function Products() {
   const [id, setId] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const [searchByName, setSearchByName] = useState("");
   const [page, setPage] = useState(0);
   const [pageWhenNetworkSelected, setPageWhenNetworkSelected] = useState(0);
   const [limit, setLimit] = useState(3);
@@ -50,8 +51,10 @@ function Products() {
     setPages(0);
     setRows(0);
 
-    network !== "" ? getProductsBasedOnNetwork() : getProducts();
-  }, [network]);
+    network !== "" || searchByName !== ""
+      ? getProductsBasedOnNetwork()
+      : getProducts();
+  }, [network, searchByName]);
 
   useEffect(() => {
     getProductsBasedOnNetwork();
@@ -105,7 +108,7 @@ function Products() {
     setLoading(true);
     try {
       const response = await axios.get(
-        `${api_url}/api/v1/products/base-on-network2/${network}?page=${pageWhenNetworkSelected}&limit=${limit}`,
+        `${api_url}/api/v1/products/base-on-network2/${network}?page=${pageWhenNetworkSelected}&limit=${limit}&search_by_name=${searchByName}`,
         {
           headers: {
             "access-token": localStorage.getItem("token"),
@@ -147,7 +150,9 @@ function Products() {
   };
 
   const changePage = ({ selected }) => {
-    network !== "" ? setPageWhenNetworkSelected(selected) : setPage(selected);
+    network !== "" || searchByName !== ""
+      ? setPageWhenNetworkSelected(selected)
+      : setPage(selected);
   };
 
   return (
@@ -163,8 +168,8 @@ function Products() {
           Add new Product or Package
         </button>
 
-        {user && user.role === "admin" && (
-          <div className="grid gap-4 mb-4 grid-cols-4 mt-4">
+        <div className="grid gap-4 mb-4 grid-cols-4 mt-4">
+          {user && user.role === "admin" && (
             <div className="col-span-1 ">
               <select
                 id="productType"
@@ -185,8 +190,21 @@ function Products() {
                 ))}
               </select>
             </div>
+          )}
+          <div className="col-span-1 ">
+            <input
+              type="text"
+              name="earchByName"
+              value={searchByName}
+              onChange={(e) => {
+                setSearchByName(e.target.value);
+              }}
+              id="earchByName"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              placeholder="Search By Name"
+            />
           </div>
-        )}
+        </div>
       </div>
 
       {/* -------------------- */}
