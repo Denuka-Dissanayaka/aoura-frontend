@@ -108,7 +108,7 @@ function Products() {
     setLoading(true);
     try {
       const response = await axios.get(
-        `${api_url}/api/v1/products/base-on-network2?networkId=${network}&page=${pageWhenNetworkSelected}&limit=${limit}&search_by_name=${searchByName}`,
+        `${api_url}/api/v1/products/base-on-network2/${network}&page=${pageWhenNetworkSelected}&limit=${limit}&search_by_name=${searchByName}`,
         {
           headers: {
             "access-token": localStorage.getItem("token"),
