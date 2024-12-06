@@ -12,6 +12,8 @@ import AddStaffForm from "../addStaffForm/AddStaffForm";
 import ViewStaff from "../viewStaff/ViewStaff";
 
 function Staff() {
+  const api_url = import.meta.env.VITE_API_URL;
+
   const [openModal, setOpenModal] = useState(false);
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -24,7 +26,7 @@ function Staff() {
 
   const [page, setPage] = useState(0);
   const [pageWhenNetworkSelected, setPageWhenNetworkSelected] = useState(0);
-  const [limit, setLimit] = useState(1);
+  const [limit, setLimit] = useState(3);
   const [pages, setPages] = useState(0);
   const [rows, setRows] = useState(0);
 
@@ -59,7 +61,7 @@ function Staff() {
     setLoading(true);
     try {
       const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/staffs?page=${page}&limit=${limit}`,
+        `${api_url}/api/v1/staffs?page=${page}&limit=${limit}`,
         {
           headers: {
             "access-token": localStorage.getItem("token"),
