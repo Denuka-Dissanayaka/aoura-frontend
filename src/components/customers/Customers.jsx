@@ -24,11 +24,18 @@ function Customers() {
   const [loading, setLoading] = useState(false);
   const { user } = useSelector((state) => state.auth);
 
+  const [searchByName, setSearchByName] = useState("");
   const [page, setPage] = useState(0);
   const [pageWhenNetworkSelected, setPageWhenNetworkSelected] = useState(0);
   const [limit, setLimit] = useState(3);
   const [pages, setPages] = useState(0);
   const [rows, setRows] = useState(0);
+
+  useEffect(() => {
+    if (user.role === "user") {
+      setNetwork(user.networkId);
+    }
+  }, [user]);
 
   useEffect(() => {
     getCustomers();
@@ -48,8 +55,10 @@ function Customers() {
     setPages(0);
     setRows(0);
 
-    network !== "" ? getCustomersBasedOnNetwork() : getCustomers();
-  }, [network]);
+    network !== "" || searchByName !== ""
+      ? getCustomersBasedOnNetwork()
+      : getCustomers();
+  }, [network, searchByName]);
 
   useEffect(() => {
     getCustomersBasedOnNetwork();
@@ -106,7 +115,7 @@ function Customers() {
     setLoading(true);
     try {
       const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/customers/base-on-network2/${network}?page=${pageWhenNetworkSelected}&limit=${limit}`,
+        `https://aoura-backend-production.up.railway.app/api/v1/customers/base-on-network2/${network}?page=${pageWhenNetworkSelected}&limit=${limit}&search_by_name=${searchByName}`,
         {
           headers: {
             "access-token": localStorage.getItem("token"),
@@ -151,7 +160,9 @@ function Customers() {
   };
 
   const changePage = ({ selected }) => {
-    network !== "" ? setPageWhenNetworkSelected(selected) : setPage(selected);
+    network !== "" || searchByName !== ""
+      ? setPageWhenNetworkSelected(selected)
+      : setPage(selected);
   };
 
   return (
@@ -187,6 +198,23 @@ function Customers() {
                   </option>
                 ))}
               </select>
+            </div>
+          </div>
+        )}
+        {user && user.role === "user" && (
+          <div className="grid gap-4 mb-4 grid-cols-4 mt-4">
+            <div className="col-span-1 ">
+              <input
+                type="text"
+                name="earchByName"
+                value={searchByName}
+                onChange={(e) => {
+                  setSearchByName(e.target.value);
+                }}
+                id="earchByName"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                placeholder="Search By Name"
+              />
             </div>
           </div>
         )}
