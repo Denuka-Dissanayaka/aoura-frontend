@@ -56,12 +56,15 @@ function Users() {
   const getUsers = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`${api_url}/api/v1/users`, {
-        headers: {
-          "access-token": localStorage.getItem("token"),
-        },
-        withCredentials: true,
-      });
+      const response = await axios.get(
+        `${api_url}/api/v1/users?page=${page}&limit=${limit}`,
+        {
+          headers: {
+            "access-token": localStorage.getItem("token"),
+          },
+          withCredentials: true,
+        }
+      );
       setLoading(false);
       setUsers(response.data.response);
       setPage(response.data.page);
