@@ -6,8 +6,11 @@ import { useDispatch, useSelector } from "react-redux";
 import AdduserForm from "../addUserForm/AdduserForm";
 import EdituserForm from "../editUserForm/EditUserForm";
 import { toast } from "react-toastify";
+import ReactPaginate from "react-paginate";
 
 function Users() {
+  const api_url = import.meta.env.VITE_API_URL;
+
   const [openModal, setOpenModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [editUserId, setEditUserId] = useState(null);
@@ -19,33 +22,52 @@ function Users() {
 
   const { user: loggedInUser } = useSelector((state) => state.auth);
 
+  const [page, setPage] = useState(0);
+  const [pageWhenNetworkSelected, setPageWhenNetworkSelected] = useState(0);
+  const [limit, setLimit] = useState(3);
+  const [pages, setPages] = useState(0);
+  const [rows, setRows] = useState(0);
+
   useEffect(() => {
-    getUsers();
     getNetworks();
   }, []);
+
+  useEffect(() => {
+    getUsers();
+  }, [page]);
 
   useEffect(() => {
     getUsers();
   }, [openEditModal]);
 
   useEffect(() => {
+    setPageWhenNetworkSelected(0);
+    setPage(0);
+    setPages(0);
+    setRows(0);
+
     network !== "" ? getUsersBasedOnNetwork() : getUsers();
   }, [network]);
+
+  useEffect(() => {
+    getUsersBasedOnNetwork();
+  }, [pageWhenNetworkSelected]);
 
   const getUsers = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(
-        "https://aoura-backend-production.up.railway.app/api/v1/users",
-        {
-          headers: {
-            "access-token": localStorage.getItem("token"),
-          },
-          withCredentials: true,
-        }
-      );
+      const response = await axios.get(`${api_url}/api/v1/users`, {
+        headers: {
+          "access-token": localStorage.getItem("token"),
+        },
+        withCredentials: true,
+      });
       setLoading(false);
-      setUsers(response.data);
+      setUsers(response.data.response);
+      setPage(response.data.page);
+      setLimit(response.data.limit);
+      setPages(response.data.totalPage);
+      setRows(response.data.totalRows);
     } catch (error) {
       if (error.response) {
         toast.error(error.response.data.msg);
@@ -55,15 +77,12 @@ function Users() {
 
   const getNetworks = async () => {
     try {
-      const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/networks`,
-        {
-          headers: {
-            "access-token": localStorage.getItem("token"),
-          },
-          withCredentials: true,
-        }
-      );
+      const response = await axios.get(`${api_url}/api/v1/networks`, {
+        headers: {
+          "access-token": localStorage.getItem("token"),
+        },
+        withCredentials: true,
+      });
 
       setNetworks(response.data);
     } catch (error) {
@@ -79,7 +98,7 @@ function Users() {
     setLoading(true);
     try {
       const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/users/base-on-network/${network}`,
+        `${api_url}/api/v1/users/base-on-network/${network}`,
         {
           headers: {
             "access-token": localStorage.getItem("token"),
@@ -100,15 +119,12 @@ function Users() {
 
   const deleteUser = async (id) => {
     try {
-      const result = await axios.delete(
-        `https://aoura-backend-production.up.railway.app/api/v1/users/${id}`,
-        {
-          headers: {
-            "access-token": localStorage.getItem("token"),
-          },
-          withCredentials: true,
-        }
-      );
+      const result = await axios.delete(`${api_url}/api/v1/users/${id}`, {
+        headers: {
+          "access-token": localStorage.getItem("token"),
+        },
+        withCredentials: true,
+      });
       toast.success(result.data.msg);
       getUsers();
     } catch (error) {
@@ -116,6 +132,10 @@ function Users() {
         toast.error(error.response.data.msg);
       }
     }
+  };
+
+  const changePage = ({ selected }) => {
+    network !== "" ? setPageWhenNetworkSelected(selected) : setPage(selected);
   };
 
   return (
@@ -253,6 +273,28 @@ function Users() {
             )}
           </tbody>
         </table>
+        <nav className="flex items-center gap-4 mt-6 justify-center">
+          <ReactPaginate
+            previousLabel={"< Prev"}
+            nextLabel={"Next >"}
+            pageCount={pages}
+            onPageChange={changePage}
+            containerClassName={"flex items-center gap-4"}
+            pageClassName={
+              "bg-dark-purple dark:bg-gray-800 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
+            }
+            activeClassName={
+              "bg-gray-500 dark:bg-red-600 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
+            }
+            previousClassName={
+              "bg-dark-purple dark:bg-gray-800 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
+            }
+            nextClassName={
+              "bg-dark-purple dark:bg-gray-800 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
+            }
+            disabledLinkClassName={" text-gray-400 dark:text-gray-700"}
+          />
+        </nav>
       </div>
     </div>
   );

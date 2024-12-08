@@ -34,6 +34,12 @@ function Products() {
   const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
+    if (user.role === "user") {
+      setNetwork(user.networkId);
+    }
+  }, [user]);
+
+  useEffect(() => {
     getNetworks();
   }, []);
 
