@@ -134,9 +134,9 @@ function Users() {
     }
   };
 
-  const changePage = ({ selected }) => {
-    network !== "" ? setPageWhenNetworkSelected(selected) : setPage(selected);
-  };
+  // const changePage = ({ selected }) => {
+  //   network !== "" ? setPageWhenNetworkSelected(selected) : setPage(selected);
+  // };
 
   return (
     <div className="grow p-8">
@@ -273,7 +273,7 @@ function Users() {
             )}
           </tbody>
         </table>
-        <nav className="flex items-center gap-4 mt-6 justify-center">
+        {/* <nav className="flex items-center gap-4 mt-6 justify-center">
           <ReactPaginate
             previousLabel={"< Prev"}
             nextLabel={"Next >"}
@@ -294,7 +294,7 @@ function Users() {
             }
             disabledLinkClassName={" text-gray-400 dark:text-gray-700"}
           />
-        </nav>
+        </nav> */}
       </div>
     </div>
   );
