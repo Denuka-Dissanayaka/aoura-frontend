@@ -48,6 +48,7 @@ function Users() {
       });
       setLoading(false);
       setUsers(response.data.response);
+      console.log({ x: users });
     } catch (error) {
       if (error.response) {
         toast.error(error.response.data.msg);
