@@ -22,11 +22,11 @@ function Users() {
 
   const { user: loggedInUser } = useSelector((state) => state.auth);
 
-  const [page, setPage] = useState(0);
-  const [pageWhenNetworkSelected, setPageWhenNetworkSelected] = useState(0);
+  // const [page, setPage] = useState(0);
+  // const [pageWhenNetworkSelected, setPageWhenNetworkSelected] = useState(0);
   const [limit, setLimit] = useState(3);
-  const [pages, setPages] = useState(0);
-  const [rows, setRows] = useState(0);
+  // const [pages, setPages] = useState(0);
+  // const [rows, setRows] = useState(0);
 
   useEffect(() => {
     getNetworks();
@@ -34,24 +34,24 @@ function Users() {
 
   useEffect(() => {
     getUsers();
-  }, [page]);
+  }, []);
 
   useEffect(() => {
     getUsers();
   }, [openEditModal]);
 
   useEffect(() => {
-    setPageWhenNetworkSelected(0);
-    setPage(0);
-    setPages(0);
-    setRows(0);
+    // setPageWhenNetworkSelected(0);
+    // setPage(0);
+    // setPages(0);
+    // setRows(0);
 
     network !== "" ? getUsersBasedOnNetwork() : getUsers();
   }, [network]);
 
-  useEffect(() => {
-    getUsersBasedOnNetwork();
-  }, [pageWhenNetworkSelected]);
+  // useEffect(() => {
+  //   getUsersBasedOnNetwork();
+  // }, [pageWhenNetworkSelected]);
 
   const getUsers = async () => {
     setLoading(true);
@@ -67,10 +67,10 @@ function Users() {
       );
       setLoading(false);
       setUsers(response.data.response);
-      setPage(response.data.page);
-      setLimit(response.data.limit);
-      setPages(response.data.totalPage);
-      setRows(response.data.totalRows);
+      // setPage(response.data.page);
+      // setLimit(response.data.limit);
+      // setPages(response.data.totalPage);
+      // setRows(response.data.totalRows);
     } catch (error) {
       if (error.response) {
         toast.error(error.response.data.msg);
