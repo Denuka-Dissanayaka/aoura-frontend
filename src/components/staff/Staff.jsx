@@ -24,6 +24,7 @@ function Staff() {
   const [openEditModal, setOpenEditModal] = useState(false);
   const [openViewModal, setOpenViewModal] = useState(false);
 
+  const [searchByName, setSearchByName] = useState("");
   const [page, setPage] = useState(0);
   const [pageWhenNetworkSelected, setPageWhenNetworkSelected] = useState(0);
   const [limit, setLimit] = useState(3);
@@ -50,7 +51,9 @@ function Staff() {
     setPages(0);
     setRows(0);
 
-    network !== "" ? getStaffsBasedOnNetwork() : getStaffs();
+    network !== "" || searchByName !== ""
+      ? getStaffsBasedOnNetwork()
+      : getStaffs();
   }, [network]);
 
   useEffect(() => {
@@ -84,15 +87,12 @@ function Staff() {
 
   const getNetworks = async () => {
     try {
-      const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/networks`,
-        {
-          headers: {
-            "access-token": localStorage.getItem("token"),
-          },
-          withCredentials: true,
-        }
-      );
+      const response = await axios.get(`${api_url}/api/v1/networks`, {
+        headers: {
+          "access-token": localStorage.getItem("token"),
+        },
+        withCredentials: true,
+      });
 
       setNetworks(response.data);
     } catch (error) {
@@ -109,7 +109,7 @@ function Staff() {
 
     try {
       const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/staffs/base-on-network/${network}?page=${pageWhenNetworkSelected}&limit=${limit}`,
+        `${api_url}/api/v1/staffs/base-on-network/${network}?page=${pageWhenNetworkSelected}&limit=${limit}&search_by_name=${searchByName}`,
         {
           headers: {
             "access-token": localStorage.getItem("token"),
@@ -134,15 +134,12 @@ function Staff() {
 
   const deleteStaff = async (id) => {
     try {
-      const result = await axios.delete(
-        `https://aoura-backend-production.up.railway.app/api/v1/staffs/${id}`,
-        {
-          headers: {
-            "access-token": localStorage.getItem("token"),
-          },
-          withCredentials: true,
-        }
-      );
+      const result = await axios.delete(`${api_url}/api/v1/staffs/${id}`, {
+        headers: {
+          "access-token": localStorage.getItem("token"),
+        },
+        withCredentials: true,
+      });
       toast.success(result.data.msg);
       getStaffs();
     } catch (error) {
@@ -198,6 +195,20 @@ function Staff() {
                   </option>
                 ))}
               </select>
+            </div>
+            <div className="col-span-1 ">
+              <input
+                type="text"
+                name="earchByName"
+                value={searchByName}
+                onChange={(e) => {
+                  setSearchByName(e.target.value);
+                }}
+                id="earchByName"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                placeholder="Search By Name"
+                disabled={!network}
+              />
             </div>
           </div>
         )}
