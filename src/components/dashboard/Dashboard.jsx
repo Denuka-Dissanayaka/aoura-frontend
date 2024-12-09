@@ -226,9 +226,14 @@ function Dashboard() {
       </div>
 
       <div className="grid grid-cols-1 gap-4">
-        <div className="bg-white p-4 dark:bg-gray-800 rounded-lg shadow-md h-80">
+        <div className="bg-white p-4 dark:bg-gray-800 rounded-lg shadow-md h-50">
           <h3 className="text-lg font-semibold mb-4">Sales Data</h3>
-          <Line data={dataLine1} />
+          <Line
+            data={dataLine1}
+            options={{
+              maintainAspectRatio: false,
+            }}
+          />
         </div>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-5">
