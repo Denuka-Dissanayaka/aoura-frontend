@@ -181,8 +181,9 @@ function Dashboard() {
     setCustomersCount([]);
     networks.forEach((item) => {
       setNetworkNames((prev) => [...prev, item.name]);
+      cbForGetCustomersCounts(item);
     });
-    getCustomersCounts();
+    //getCustomersCounts();
   }, [networks]);
 
   console.log(networkNames);
