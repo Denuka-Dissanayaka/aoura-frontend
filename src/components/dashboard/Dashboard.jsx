@@ -47,9 +47,9 @@ function Dashboard() {
   const [network, setNetwork] = useState("");
 
   useEffect(() => {
-    if (user && user.role === "user") {
-      setNetwork(user.networkId);
-    }
+    // if (user && user.role === "user") {
+    //   setNetwork(user.networkId);
+    // }
     getOrdersStatusCount("pending", setPendingOrderCount);
     getOrdersStatusCount("complete", setCompleteOrderCount);
   }, [user]);
@@ -109,7 +109,7 @@ function Dashboard() {
   const getOrdersStatusCount = async (status, setCount) => {
     try {
       const response = await axios.get(
-        `${api_url}/api/v1/orders/status-count?status=${status}&networkId=${network}`,
+        `${api_url}/api/v1/orders/status-count?status=${status}`,
         {
           headers: {
             "access-token": localStorage.getItem("token"),
