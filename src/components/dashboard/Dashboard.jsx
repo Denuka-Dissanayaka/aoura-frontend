@@ -31,19 +31,6 @@ ChartJS.register(
   Legend
 );
 
-const dataPie = {
-  labels: ["Pending", "Complete"],
-  datasets: [
-    {
-      label: "# ",
-      data: [19, 5],
-      backgroundColor: ["rgba(255, 99, 132, 0.2)", "rgba(75, 192, 192, 0.2)"],
-      borderColor: ["rgba(255, 99, 132, 1)", "rgba(75, 192, 192, 1)"],
-      borderWidth: 1,
-    },
-  ],
-};
-
 function Dashboard() {
   const api_url = import.meta.env.VITE_API_URL;
   const { user } = useSelector((state) => state.auth);
@@ -55,6 +42,17 @@ function Dashboard() {
   const [customers, setCustomers] = useState([]);
   const [networkNames, setNetworkNames] = useState([]);
   const [customersCount, setCustomersCount] = useState([]);
+  const [pendingOrderCount, setPendingOrderCount] = useState(0);
+  const [completeOrderCount, setCompleteOrderCount] = useState(0);
+  const [network, setNetwork] = useState("");
+
+  useEffect(() => {
+    if (user.role === "user") {
+      setNetwork(user.networkId);
+    }
+    getOrdersStatusCount("pending", setPendingOrderCount);
+    getOrdersStatusCount("complete", setCompleteOrderCount);
+  }, [user]);
 
   const getNetworks = async () => {
     try {
@@ -100,6 +98,27 @@ function Dashboard() {
       });
 
       setOrdersCount(response.data.response);
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data.msg);
+      }
+    }
+  };
+
+  // get status count
+  const getOrdersStatusCount = async (status, setCount) => {
+    try {
+      const response = await axios.get(
+        `${api_url}/api/v1/orders/status-count?status=${status}&networkId=${network}`,
+        {
+          headers: {
+            "access-token": localStorage.getItem("token"),
+          },
+          withCredentials: true,
+        }
+      );
+
+      setCount(response.data.count);
     } catch (error) {
       if (error.response) {
         console.log(error.response.data.msg);
@@ -211,6 +230,19 @@ function Dashboard() {
         fill: false,
         backgroundColor: "rgba(75,192,192,0.4)",
         borderColor: "rgba(75,192,192,1)",
+      },
+    ],
+  };
+
+  const dataPie = {
+    labels: ["Pending", "Complete"],
+    datasets: [
+      {
+        label: "# ",
+        data: [pendingOrderCount, completeOrderCount],
+        backgroundColor: ["rgba(255, 99, 132, 0.2)", "rgba(75, 192, 192, 0.2)"],
+        borderColor: ["rgba(255, 99, 132, 1)", "rgba(75, 192, 192, 1)"],
+        borderWidth: 1,
       },
     ],
   };
