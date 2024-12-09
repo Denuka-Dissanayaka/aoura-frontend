@@ -254,7 +254,9 @@ function Dashboard() {
         <Card icon={<FaShoppingCart />} title="Orders" value={ordersCount} />
         <Card icon={<AiFillProduct />} title="Products" value={productsCount} />
         <Card icon={<FaUser />} title="Customers" value={customers} />
-        <Card icon={<FaUserTie />} title="Staffs" value={staffsCount} />
+        {user && user.role === "admin" && (
+          <Card icon={<FaUserTie />} title="Staffs" value={staffsCount} />
+        )}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 ">
