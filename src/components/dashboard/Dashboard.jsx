@@ -228,7 +228,7 @@ function Dashboard() {
       <div className="grid grid-cols-1 gap-4">
         <div
           className="bg-white p-4 dark:bg-gray-800 rounded-lg shadow-md"
-          style={{ height: "500px" }}
+          style={{ height: "600px" }}
         >
           <h3 className="text-lg font-semibold mb-4">Sales Data</h3>
           <Line
