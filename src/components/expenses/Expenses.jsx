@@ -10,7 +10,7 @@ import AddExpensesForm from "../addExpensesForm/AddExpensesForm.jsx";
 import EditExpensesForm from "../editExpensesForm/EditExpensesForm.jsx";
 
 function Expenses() {
-  //const api_url = import.meta.env.VITE_API_URL;
+  const api_url = import.meta.env.VITE_API_URL;
 
   const [openModal, setOpenModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
@@ -21,7 +21,7 @@ function Expenses() {
   const [loading, setLoading] = useState(false);
 
   const [page, setPage] = useState(0);
-  const [limit, setLimit] = useState(3);
+  const [limit, setLimit] = useState(10);
   const [pages, setPages] = useState(0);
   const [rows, setRows] = useState(0);
 
@@ -40,6 +40,9 @@ function Expenses() {
   }, [openEditModal]);
 
   useEffect(() => {
+    setPage(0);
+    setPages(0);
+    setRows(0);
     network !== "" ? getExpensesBasedOnNetwork() : getExpenses();
   }, [network]);
 
@@ -47,7 +50,7 @@ function Expenses() {
     setLoading(true);
     try {
       const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/expenses?page=${page}&limit=${limit}`,
+        `${api_url}/api/v1/expenses?page=${page}&limit=${limit}`,
         {
           headers: {
             "access-token": localStorage.getItem("token"),
@@ -70,15 +73,12 @@ function Expenses() {
 
   const getNetworks = async () => {
     try {
-      const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/networks`,
-        {
-          headers: {
-            "access-token": localStorage.getItem("token"),
-          },
-          withCredentials: true,
-        }
-      );
+      const response = await axios.get(`${api_url}/api/v1/networks`, {
+        headers: {
+          "access-token": localStorage.getItem("token"),
+        },
+        withCredentials: true,
+      });
 
       setNetworks(response.data);
     } catch (error) {
@@ -94,7 +94,7 @@ function Expenses() {
     setLoading(true);
     try {
       const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/expenses/base-on-network/${network}`,
+        `${api_url}/api/v1/expenses/base-on-network/${network}`,
         {
           headers: {
             "access-token": localStorage.getItem("token"),
@@ -115,15 +115,12 @@ function Expenses() {
 
   const deleteExpense = async (id) => {
     try {
-      const result = await axios.delete(
-        `https://aoura-backend-production.up.railway.app/api/v1/expenses/${id}`,
-        {
-          headers: {
-            "access-token": localStorage.getItem("token"),
-          },
-          withCredentials: true,
-        }
-      );
+      const result = await axios.delete(`${api_url}/api/v1/expenses/${id}`, {
+        headers: {
+          "access-token": localStorage.getItem("token"),
+        },
+        withCredentials: true,
+      });
       toast.success(result.data.msg);
       //console.log(result);
       getExpenses();
@@ -151,7 +148,7 @@ function Expenses() {
           Add new Record
         </button>
 
-        {user && user.role === "admin" && (
+        {user?.role === "admin" && (
           <div className="grid gap-4 mb-4 grid-cols-4 mt-4">
             <div className="col-span-1 ">
               <select
@@ -253,6 +250,9 @@ function Expenses() {
               ))
             )}
           </tbody>
+          <p className="text-right mt-1 mb-1">
+            Total Rows: {rows} Page: {rows ? page + 1 : 0} of {pages}
+          </p>
         </table>
         <nav className="flex items-center gap-4 mt-6 justify-center">
           <ReactPaginate

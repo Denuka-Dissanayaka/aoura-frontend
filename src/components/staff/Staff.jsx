@@ -27,7 +27,7 @@ function Staff() {
   const [searchByName, setSearchByName] = useState("");
   const [page, setPage] = useState(0);
   const [pageWhenNetworkSelected, setPageWhenNetworkSelected] = useState(0);
-  const [limit, setLimit] = useState(3);
+  const [limit, setLimit] = useState(10);
   const [pages, setPages] = useState(0);
   const [rows, setRows] = useState(0);
 
@@ -307,6 +307,9 @@ function Staff() {
             )}
           </tbody>
         </table>
+        <p className="text-right mt-1 mb-1">
+          Total Rows: {rows} Page: {rows ? page + 1 : 0} of {pages}
+        </p>
         <nav className="flex items-center gap-4 mt-6 justify-center">
           <ReactPaginate
             previousLabel={"< Prev"}

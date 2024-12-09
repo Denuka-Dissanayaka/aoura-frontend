@@ -27,7 +27,7 @@ function Products() {
   const [searchByName, setSearchByName] = useState("");
   const [page, setPage] = useState(0);
   const [pageWhenNetworkSelected, setPageWhenNetworkSelected] = useState(0);
-  const [limit, setLimit] = useState(3);
+  const [limit, setLimit] = useState(10);
   const [pages, setPages] = useState(0);
   const [rows, setRows] = useState(0);
 

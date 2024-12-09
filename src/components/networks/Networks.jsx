@@ -11,6 +11,8 @@ import EditNetworkForm from "../editNetworkForm/EditNetworkForm";
 import ViewNetwork from "../viewNetwork/ViewNetwork";
 
 function Networks() {
+  const api_url = import.meta.env.VITE_API_URL;
+
   const [openModal, setOpenModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [openViewModal, setOpenViewModal] = useState(false);
@@ -22,7 +24,7 @@ function Networks() {
 
   const [searchByName, setSearchByName] = useState("");
   const [page, setPage] = useState(0);
-  const [limit, setLimit] = useState(3);
+  const [limit, setLimit] = useState(10);
   const [pages, setPages] = useState(0);
   const [rows, setRows] = useState(0);
 
@@ -43,7 +45,7 @@ function Networks() {
     setLoading(true);
     try {
       const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/networks2?page=${page}&limit=${limit}&search_by_name=${searchByName}`,
+        `${api_url}/api/v1/networks2?page=${page}&limit=${limit}&search_by_name=${searchByName}`,
         {
           headers: {
             "access-token": localStorage.getItem("token"),
@@ -66,15 +68,12 @@ function Networks() {
 
   const deleteNetwork = async (id) => {
     try {
-      const result = await axios.delete(
-        `https://aoura-backend-production.up.railway.app/api/v1/networks/${id}`,
-        {
-          headers: {
-            "access-token": localStorage.getItem("token"),
-          },
-          withCredentials: true,
-        }
-      );
+      const result = await axios.delete(`${api_url}/api/v1/networks/${id}`, {
+        headers: {
+          "access-token": localStorage.getItem("token"),
+        },
+        withCredentials: true,
+      });
       toast.success(result.data.msg);
       getNetworks();
     } catch (error) {
@@ -205,6 +204,9 @@ function Networks() {
             )}
           </tbody>
         </table>
+        <p className="text-right mt-1 mb-1">
+          Total Rows: {rows} Page: {rows ? page + 1 : 0} of {pages}
+        </p>
         <nav className="flex items-center gap-4 mt-6 justify-center">
           <ReactPaginate
             previousLabel={"< Prev"}

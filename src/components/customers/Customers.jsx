@@ -10,7 +10,7 @@ import EditCustomerForm from "../editCustomerForm/EditCustomerForm";
 import ViewCustomer from "../viewCustomer/VIewCustomer";
 
 function Customers() {
-  //const api_url = import.meta.env.VITE_API_URL;
+  const api_url = import.meta.env.VITE_API_URL;
 
   const [openModal, setOpenModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
@@ -27,7 +27,7 @@ function Customers() {
   const [searchByName, setSearchByName] = useState("");
   const [page, setPage] = useState(0);
   const [pageWhenNetworkSelected, setPageWhenNetworkSelected] = useState(0);
-  const [limit, setLimit] = useState(3);
+  const [limit, setLimit] = useState(10);
   const [pages, setPages] = useState(0);
   const [rows, setRows] = useState(0);
 
@@ -68,7 +68,7 @@ function Customers() {
     setLoading(true);
     try {
       const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/customers?page=${page}&limit=${limit}`,
+        `${api_url}/api/v1/customers?page=${page}&limit=${limit}`,
         {
           headers: {
             "access-token": localStorage.getItem("token"),
@@ -91,15 +91,12 @@ function Customers() {
 
   const getNetworks = async () => {
     try {
-      const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/networks`,
-        {
-          headers: {
-            "access-token": localStorage.getItem("token"),
-          },
-          withCredentials: true,
-        }
-      );
+      const response = await axios.get(`${api_url}/api/v1/networks`, {
+        headers: {
+          "access-token": localStorage.getItem("token"),
+        },
+        withCredentials: true,
+      });
 
       setNetworks(response.data);
     } catch (error) {
@@ -115,7 +112,7 @@ function Customers() {
     setLoading(true);
     try {
       const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/customers/base-on-network2/${network}?page=${pageWhenNetworkSelected}&limit=${limit}&search_by_name=${searchByName}`,
+        `${api_url}/api/v1/customers/base-on-network2/${network}?page=${pageWhenNetworkSelected}&limit=${limit}&search_by_name=${searchByName}`,
         {
           headers: {
             "access-token": localStorage.getItem("token"),
@@ -140,15 +137,12 @@ function Customers() {
 
   const deleteCustomer = async (id) => {
     try {
-      const result = await axios.delete(
-        `https://aoura-backend-production.up.railway.app/api/v1/customers/${id}`,
-        {
-          headers: {
-            "access-token": localStorage.getItem("token"),
-          },
-          withCredentials: true,
-        }
-      );
+      const result = await axios.delete(`${api_url}/api/v1/customers/${id}`, {
+        headers: {
+          "access-token": localStorage.getItem("token"),
+        },
+        withCredentials: true,
+      });
       toast.success(result.data.msg);
       //console.log(result);
       getCustomers();
@@ -315,6 +309,9 @@ function Customers() {
             )}
           </tbody>
         </table>
+        <p className="text-right mt-1 mb-1">
+          Total Rows: {rows} Page: {rows ? page + 1 : 0} of {pages}
+        </p>
         <nav className="flex items-center gap-4 mt-6 justify-center">
           <ReactPaginate
             previousLabel={"< Prev"}
