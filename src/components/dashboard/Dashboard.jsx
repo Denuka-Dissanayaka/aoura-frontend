@@ -186,6 +186,7 @@ function Dashboard() {
   }, [networks]);
 
   console.log(networkNames);
+  console.log(customersCount);
 
   const dataBar1 = {
     labels: [...networkNames],
