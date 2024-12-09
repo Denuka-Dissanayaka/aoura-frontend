@@ -230,7 +230,7 @@ function Dashboard() {
           <h3 className="text-lg font-semibold mb-4">Sales Data</h3>
           <Line
             data={dataLine1}
-            // height={300}
+            height={300}
             // width={600}
             // responsive={true}
             // options={{
