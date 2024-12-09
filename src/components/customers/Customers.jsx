@@ -61,7 +61,9 @@ function Customers() {
   }, [network, searchByName]);
 
   useEffect(() => {
-    getCustomersBasedOnNetwork();
+    if (network !== "") {
+      getCustomersBasedOnNetwork();
+    }
   }, [pageWhenNetworkSelected]);
 
   const getCustomers = async () => {

@@ -63,7 +63,9 @@ function Products() {
   }, [network, searchByName]);
 
   useEffect(() => {
-    getProductsBasedOnNetwork();
+    if (network !== "") {
+      getProductsBasedOnNetwork();
+    }
   }, [pageWhenNetworkSelected]);
 
   const getProducts = async () => {
