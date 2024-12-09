@@ -318,6 +318,9 @@ function Products() {
             )}
           </tbody>
         </table>
+        <p>
+          Total Rows: {rows} Page: {rows ? page + 1 : 0} of {pages}
+        </p>
         <nav className="flex items-center gap-4 mt-6 justify-center">
           <ReactPaginate
             previousLabel={"< Prev"}
