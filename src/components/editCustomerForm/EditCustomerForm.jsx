@@ -11,7 +11,7 @@ function EditCustomerForm({
   setEditCustomerId,
   editCustomerId,
 }) {
-  //const api_url = import.meta.env.VITE_API_URL;
+  const api_url = import.meta.env.VITE_API_URL;
 
   const [name, setname] = useState("");
   const [email, setEmail] = useState("");
@@ -25,15 +25,12 @@ function EditCustomerForm({
 
   const getNetworks = async () => {
     try {
-      const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/networks`,
-        {
-          headers: {
-            "access-token": localStorage.getItem("token"),
-          },
-          withCredentials: true,
-        }
-      );
+      const response = await axios.get(`${api_url}/api/v1/networks`, {
+        headers: {
+          "access-token": localStorage.getItem("token"),
+        },
+        withCredentials: true,
+      });
       setNetworks(response.data);
     } catch (error) {
       if (error.response) {
@@ -47,7 +44,7 @@ function EditCustomerForm({
     if (editCustomerId !== null) {
       try {
         const response = await axios.get(
-          `https://aoura-backend-production.up.railway.app/api/v1/customers/${editCustomerId}`,
+          `${api_url}/api/v1/customers/${editCustomerId}`,
           {
             headers: {
               "access-token": localStorage.getItem("token"),
@@ -86,7 +83,7 @@ function EditCustomerForm({
     e.preventDefault();
     try {
       const result = await axios.patch(
-        `https://aoura-backend-production.up.railway.app/api/v1/customers/${editCustomerId}`,
+        `${api_url}/api/v1/customers/${editCustomerId}`,
         {
           name: name,
           email: email,

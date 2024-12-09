@@ -9,6 +9,8 @@ function EditNetworkForm({
   setEditNetworkId,
   editNetworkId,
 }) {
+  const api_url = import.meta.env.VITE_API_URL;
+
   const [name, setName] = useState("");
 
   const [msg, setMsg] = useState("");
@@ -17,7 +19,7 @@ function EditNetworkForm({
     if (editNetworkId !== null) {
       try {
         const response = await axios.get(
-          `https://aoura-backend-production.up.railway.app/api/v1/networks/${editNetworkId}`,
+          `${api_url}/api/v1/networks/${editNetworkId}`,
           {
             headers: {
               "access-token": localStorage.getItem("token"),
@@ -42,7 +44,7 @@ function EditNetworkForm({
     e.preventDefault();
     try {
       const result = await axios.patch(
-        `https://aoura-backend-production.up.railway.app/api/v1/networks/${editNetworkId}`,
+        `${api_url}/api/v1/networks/${editNetworkId}`,
         {
           networkName: name,
         },

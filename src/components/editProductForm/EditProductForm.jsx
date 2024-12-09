@@ -9,6 +9,7 @@ function EditProductForm({
   setEditProductId,
   editProductId,
 }) {
+  const api_url = import.meta.env.VITE_API_URL;
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
@@ -18,7 +19,7 @@ function EditProductForm({
     if (editProductId !== null) {
       try {
         const response = await axios.get(
-          `https://aoura-backend-production.up.railway.app/api/v1/products/${editProductId}`,
+          `${api_url}/api/v1/products/${editProductId}`,
           {
             headers: {
               "access-token": localStorage.getItem("token"),
@@ -45,7 +46,7 @@ function EditProductForm({
     e.preventDefault();
     try {
       const result = await axios.patch(
-        `https://aoura-backend-production.up.railway.app/api/v1/products/${editProductId}`,
+        `${api_url}/api/v1/products/${editProductId}`,
         {
           name: name,
           price: price,

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function ViewProduct({ openViewModal, setOpenViewModal, viewProductId, id }) {
-  //const api_url = import.meta.env.VITE_API_URL;
+  const api_url = import.meta.env.VITE_API_URL;
 
   const [productName, setProductName] = useState("");
   const [type, setType] = useState("");
@@ -21,30 +21,32 @@ function ViewProduct({ openViewModal, setOpenViewModal, viewProductId, id }) {
   const navigate = useNavigate();
 
   const getProduct = async () => {
-    try {
-      const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/products/${viewProductId}`,
-        {
-          headers: {
-            "access-token": localStorage.getItem("token"),
-          },
-          withCredentials: true,
+    if (viewProductId !== null) {
+      try {
+        const response = await axios.get(
+          `${api_url}/api/v1/products/${viewProductId}`,
+          {
+            headers: {
+              "access-token": localStorage.getItem("token"),
+            },
+            withCredentials: true,
+          }
+        );
+        setProductName(response.data.name);
+
+        setQuantity(response.data.quantity);
+
+        setPrice(response.data.price);
+        setType(response.data.type);
+        setNetwork(response.data.network.name);
+        setUuid(response.data.uuid);
+        setCreateDate(response.data.createdAt);
+      } catch (error) {
+        if (error.response) {
+          //setMsg(error.response.data.msg);
+          //toast.error(error.response.data.msg);
+          console.log(error.response.data.msg);
         }
-      );
-      setProductName(response.data.name);
-
-      setQuantity(response.data.quantity);
-
-      setPrice(response.data.price);
-      setType(response.data.type);
-      setNetwork(response.data.network.name);
-      setUuid(response.data.uuid);
-      setCreateDate(response.data.createdAt);
-    } catch (error) {
-      if (error.response) {
-        //setMsg(error.response.data.msg);
-        //toast.error(error.response.data.msg);
-        console.log(error.response.data.msg);
       }
     }
   };

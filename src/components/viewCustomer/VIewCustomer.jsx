@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function ViewCustomer({ openViewModal, setOpenViewModal, viewCustomerId, id }) {
-  //const api_url = import.meta.env.VITE_API_URL;
+  const api_url = import.meta.env.VITE_API_URL;
 
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -19,27 +19,29 @@ function ViewCustomer({ openViewModal, setOpenViewModal, viewCustomerId, id }) {
   const navigate = useNavigate();
 
   const getCustomer = async () => {
-    try {
-      const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/customers/${viewCustomerId}`,
-        {
-          headers: {
-            "access-token": localStorage.getItem("token"),
-          },
-          withCredentials: true,
+    if (viewCustomerId !== null) {
+      try {
+        const response = await axios.get(
+          `${api_url}/api/v1/customers/${viewCustomerId}`,
+          {
+            headers: {
+              "access-token": localStorage.getItem("token"),
+            },
+            withCredentials: true,
+          }
+        );
+        setFullName(response.data.name);
+        setEmail(response.data.email);
+        setPhone(response.data.phone);
+        setAddress(response.data.address);
+        setNetwork(response.data.network.name);
+        setUuid(response.data.uuid);
+        setCreateDate(response.data.createdAt);
+      } catch (error) {
+        if (error.response) {
+          //setMsg(error.response.data.msg);
+          toast.error(error.response.data.msg);
         }
-      );
-      setFullName(response.data.name);
-      setEmail(response.data.email);
-      setPhone(response.data.phone);
-      setAddress(response.data.address);
-      setNetwork(response.data.network.name);
-      setUuid(response.data.uuid);
-      setCreateDate(response.data.createdAt);
-    } catch (error) {
-      if (error.response) {
-        //setMsg(error.response.data.msg);
-        toast.error(error.response.data.msg);
       }
     }
   };
