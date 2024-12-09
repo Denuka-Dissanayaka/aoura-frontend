@@ -225,20 +225,20 @@ function Dashboard() {
         <Card icon={<FaUserTie />} title="Staffs" value={staffsCount} />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4">
         <div className="bg-white p-4 dark:bg-gray-800 rounded-lg shadow-md">
           <h3 className="text-lg font-semibold mb-4">Sales Data</h3>
           <Line data={dataLine1} />
-        </div>
-        <div className="bg-white p-4 dark:bg-gray-800 rounded-lg shadow-md">
-          <h3 className="text-lg font-semibold mb-4">Customers Data</h3>
-          <Bar data={dataBar1} />
         </div>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-5">
         <div className="bg-white p-4 dark:bg-gray-800 rounded-lg shadow-md">
           <h3 className="text-lg font-semibold mb-4">Orders Data</h3>
           <Pie data={dataPie} />
+        </div>
+        <div className="bg-white p-4 dark:bg-gray-800 rounded-lg shadow-md">
+          <h3 className="text-lg font-semibold mb-4">Customers Data</h3>
+          <Bar data={dataBar1} />
         </div>
       </div>
     </div>
