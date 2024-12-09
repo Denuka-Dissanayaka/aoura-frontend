@@ -47,7 +47,7 @@ function Dashboard() {
   const [network, setNetwork] = useState("");
 
   useEffect(() => {
-    if (user.role === "user") {
+    if (user && user.role === "user") {
       setNetwork(user.networkId);
     }
     getOrdersStatusCount("pending", setPendingOrderCount);
