@@ -230,9 +230,10 @@ function Dashboard() {
           <h3 className="text-lg font-semibold mb-4">Sales Data</h3>
           <Line
             data={dataLine1}
-            // options={{
-            //   maintainAspectRatio: false,
-            // }}
+            options={{
+              maintainAspectRatio: false, // Disables default aspect ratio
+            }}
+            style={{ height: "400px", width: "100%" }}
           />
         </div>
       </div>
