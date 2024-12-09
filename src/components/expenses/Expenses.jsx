@@ -250,10 +250,10 @@ function Expenses() {
               ))
             )}
           </tbody>
-          <p className="text-right mt-1 mb-1">
-            Total Rows: {rows} Page: {rows ? page + 1 : 0} of {pages}
-          </p>
         </table>
+        <p className="text-right mt-1 mb-1">
+          Total Rows: {rows} Page: {rows ? page + 1 : 0} of {pages}
+        </p>
         <nav className="flex items-center gap-4 mt-6 justify-center">
           <ReactPaginate
             previousLabel={"< Prev"}

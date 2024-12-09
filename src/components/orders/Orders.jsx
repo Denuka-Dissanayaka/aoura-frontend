@@ -43,6 +43,9 @@ function Orders() {
   }, [openEditModal]);
 
   useEffect(() => {
+    setPage(0);
+    setPages(0);
+    setRows(0);
     network !== "" ? getOrdersBasedOnNetwork() : getOrders();
   }, [network]);
 
