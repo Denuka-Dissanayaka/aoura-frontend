@@ -45,7 +45,7 @@ const dataPie = {
 };
 
 function Dashboard() {
-  //const api_url = import.meta.env.VITE_API_URL;
+  const api_url = import.meta.env.VITE_API_URL;
   const { user } = useSelector((state) => state.auth);
 
   const [networks, setNetworks] = useState([]);
@@ -58,15 +58,12 @@ function Dashboard() {
 
   const getNetworks = async () => {
     try {
-      const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/networks`,
-        {
-          headers: {
-            "access-token": localStorage.getItem("token"),
-          },
-          withCredentials: true,
-        }
-      );
+      const response = await axios.get(`${api_url}/api/v1/networks`, {
+        headers: {
+          "access-token": localStorage.getItem("token"),
+        },
+        withCredentials: true,
+      });
 
       setNetworks(response.data);
     } catch (error) {
@@ -78,15 +75,12 @@ function Dashboard() {
 
   const getProductsCount = async () => {
     try {
-      const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/products/count`,
-        {
-          headers: {
-            "access-token": localStorage.getItem("token"),
-          },
-          withCredentials: true,
-        }
-      );
+      const response = await axios.get(`${api_url}/api/v1/products/count`, {
+        headers: {
+          "access-token": localStorage.getItem("token"),
+        },
+        withCredentials: true,
+      });
 
       setProductsCount(response.data.response);
     } catch (error) {
@@ -98,15 +92,12 @@ function Dashboard() {
 
   const getOrdersCount = async () => {
     try {
-      const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/orders/count`,
-        {
-          headers: {
-            "access-token": localStorage.getItem("token"),
-          },
-          withCredentials: true,
-        }
-      );
+      const response = await axios.get(`${api_url}/api/v1/orders/count`, {
+        headers: {
+          "access-token": localStorage.getItem("token"),
+        },
+        withCredentials: true,
+      });
 
       setOrdersCount(response.data.response);
     } catch (error) {
@@ -118,15 +109,12 @@ function Dashboard() {
 
   const getStaffsCount = async () => {
     try {
-      const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/staffs/count`,
-        {
-          headers: {
-            "access-token": localStorage.getItem("token"),
-          },
-          withCredentials: true,
-        }
-      );
+      const response = await axios.get(`${api_url}/api/v1/staffs/count`, {
+        headers: {
+          "access-token": localStorage.getItem("token"),
+        },
+        withCredentials: true,
+      });
 
       setStaffsCount(response.data.response);
     } catch (error) {
@@ -138,15 +126,12 @@ function Dashboard() {
 
   const getCustomers = async () => {
     try {
-      const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/customers/count`,
-        {
-          headers: {
-            "access-token": localStorage.getItem("token"),
-          },
-          withCredentials: true,
-        }
-      );
+      const response = await axios.get(`${api_url}/api/v1/customers/count`, {
+        headers: {
+          "access-token": localStorage.getItem("token"),
+        },
+        withCredentials: true,
+      });
 
       setCustomers(response.data.response);
     } catch (error) {
@@ -162,7 +147,7 @@ function Dashboard() {
   const cbForGetCustomersCounts = async (network) => {
     try {
       const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/customers/base-on-network/${network.id}`,
+        `${api_url}/api/v1/customers/base-on-network/${network.id}`,
         {
           headers: {
             "access-token": localStorage.getItem("token"),
@@ -215,6 +200,19 @@ function Dashboard() {
     ],
   };
 
+  const dataLine1 = {
+    labels: [...networkNames],
+    datasets: [
+      {
+        label: "Sales",
+        data: [...customersCount],
+        fill: false,
+        backgroundColor: "rgba(75,192,192,0.4)",
+        borderColor: "rgba(75,192,192,1)",
+      },
+    ],
+  };
+
   return (
     <div className="grow p-8">
       <h2 className="text-2xl mb-4">Dashboard</h2>
@@ -228,7 +226,7 @@ function Dashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div className="bg-white p-4 dark:bg-gray-800 rounded-lg shadow-md">
           <h3 className="text-lg font-semibold mb-4">Sales Data</h3>
-          <Line data={dataLine} />
+          <Line data={dataLine1} />
         </div>
         <div className="bg-white p-4 dark:bg-gray-800 rounded-lg shadow-md">
           <h3 className="text-lg font-semibold mb-4">Customers Data</h3>
