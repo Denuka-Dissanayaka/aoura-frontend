@@ -135,6 +135,18 @@ function AddOrderForm({ openModal, setOpenModal, getOrdersFunc }) {
     }
   }, [user]);
 
+  useEffect(() => {
+    if (openModal === false) {
+      setNetwork("");
+      setCustomer("");
+      setProduct("");
+      setDate("");
+      setQuantity("");
+      setUnitPrice("");
+      setTotalPrice(0);
+    }
+  }, [openModal]);
+
   const saveOrder = async (e) => {
     e.preventDefault();
     try {
