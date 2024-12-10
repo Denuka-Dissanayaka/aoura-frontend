@@ -21,11 +21,18 @@ function Expenses() {
   const [loading, setLoading] = useState(false);
 
   const [page, setPage] = useState(0);
+  const [pageWhenNetworkSelected, setPageWhenNetworkSelected] = useState(0);
   const [limit, setLimit] = useState(10);
   const [pages, setPages] = useState(0);
   const [rows, setRows] = useState(0);
 
   const { user } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (user?.role === "user") {
+      setNetwork(user.networkId);
+    }
+  }, [user]);
 
   useEffect(() => {
     getExpenses();
@@ -40,11 +47,18 @@ function Expenses() {
   }, [openEditModal]);
 
   useEffect(() => {
+    setPageWhenNetworkSelected(0);
     setPage(0);
     setPages(0);
     setRows(0);
     network !== "" ? getExpensesBasedOnNetwork() : getExpenses();
   }, [network]);
+
+  useEffect(() => {
+    if (network !== "") {
+      getExpensesBasedOnNetwork();
+    }
+  }, [pageWhenNetworkSelected]);
 
   const getExpenses = async () => {
     setLoading(true);
@@ -94,7 +108,7 @@ function Expenses() {
     setLoading(true);
     try {
       const response = await axios.get(
-        `${api_url}/api/v1/expenses/base-on-network/${network}`,
+        `${api_url}/api/v1/expenses/base-on-network/${network}?page=${pageWhenNetworkSelected}&limit=${limit}`,
         {
           headers: {
             "access-token": localStorage.getItem("token"),
@@ -103,7 +117,11 @@ function Expenses() {
         }
       );
       setLoading(false);
-      setExpenses(response.data);
+      setExpenses(response.data.response);
+      setPageWhenNetworkSelected(response.data.page);
+      setLimit(response.data.limit);
+      setPages(response.data.totalPage);
+      setRows(response.data.totalRows);
     } catch (error) {
       if (error.response) {
         //setMsg(error.response.data.msg);

@@ -32,7 +32,7 @@ function Customers() {
   const [rows, setRows] = useState(0);
 
   useEffect(() => {
-    if (user.role === "user") {
+    if (user?.role === "user") {
       setNetwork(user.networkId);
     }
   }, [user]);
@@ -173,7 +173,7 @@ function Customers() {
         >
           Add new Customer
         </button>
-        {user && user.role === "admin" && (
+        {user?.role === "admin" && (
           <div className="grid gap-4 mb-4 grid-cols-4 mt-4">
             <div className="col-span-1 ">
               <select
@@ -197,7 +197,7 @@ function Customers() {
             </div>
           </div>
         )}
-        {user && user.role === "user" && (
+        {user?.role === "user" && (
           <div className="grid gap-4 mb-4 grid-cols-4 mt-4">
             <div className="col-span-1 ">
               <input
