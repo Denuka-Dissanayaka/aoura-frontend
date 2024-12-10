@@ -90,7 +90,7 @@ function AddOrderForm({ openModal, setOpenModal, getOrdersFunc }) {
   const getProductPrice = async () => {
     try {
       const response = await axios.get(
-        `$https://aoura-backend-production.up.railway.app/api/v1/products/get-price/${product}`,
+        `https://aoura-backend-production.up.railway.app/api/v1/products/get-price/${product}`,
         {
           headers: {
             "access-token": localStorage.getItem("token"),
