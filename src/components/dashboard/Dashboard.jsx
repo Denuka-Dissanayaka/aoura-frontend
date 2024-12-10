@@ -287,7 +287,7 @@ function Dashboard() {
         {user?.role === "admin" && (
           <>
             <div className="bg-white p-4 dark:bg-gray-800 rounded-lg shadow-md">
-              <h3 className="text-lg font-semibold mb-4">Sales Data</h3>
+              <h3 className="text-lg font-semibold mb-4">Orders Count</h3>
               <Line data={dataLine1} />
             </div>
             <div className="bg-white p-4 dark:bg-gray-800 rounded-lg shadow-md">
