@@ -23,8 +23,10 @@ function Orders() {
   const [orders, setOrders] = useState([]);
   const [id, setId] = useState("");
   const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState("");
 
   const [page, setPage] = useState(0);
+  const [pageWhenNetworkSelected, setPageWhenNetworkSelected] = useState(0);
   const [limit, setLimit] = useState(10);
   const [pages, setPages] = useState(0);
   const [rows, setRows] = useState(0);
@@ -32,8 +34,15 @@ function Orders() {
   const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
+    if (user?.role === "user") {
+      setNetwork(user.networkId);
+    }
+  }, [user]);
+
+  useEffect(() => {
     getOrders();
   }, [page]);
+
   useEffect(() => {
     getNetworks();
   }, []);
@@ -43,11 +52,18 @@ function Orders() {
   }, [openEditModal]);
 
   useEffect(() => {
+    setPageWhenNetworkSelected(0);
     setPage(0);
     setPages(0);
     setRows(0);
-    network !== "" ? getOrdersBasedOnNetwork() : getOrders();
-  }, [network]);
+    network !== "" || status !== "" ? getOrdersBasedOnNetwork() : getOrders();
+  }, [network, status]);
+
+  useEffect(() => {
+    if (network !== "") {
+      getOrdersBasedOnNetwork();
+    }
+  }, [pageWhenNetworkSelected]);
 
   const getOrders = async () => {
     setLoading(true);
@@ -97,7 +113,7 @@ function Orders() {
     setLoading(true);
     try {
       const response = await axios.get(
-        `${api_url}/api/v1/orders/base-on-network/${network}`,
+        `${api_url}/api/v1/orders/base-on-network/${network}?page=${pageWhenNetworkSelected}&limit=${limit}&status=${status}`,
         {
           headers: {
             "access-token": localStorage.getItem("token"),
@@ -106,7 +122,11 @@ function Orders() {
         }
       );
       setLoading(false);
-      setOrders(response.data);
+      setOrders(response.data.response);
+      setPageWhenNetworkSelected(response.data.page);
+      setLimit(response.data.limit);
+      setPages(response.data.totalPage);
+      setRows(response.data.totalRows);
     } catch (error) {
       if (error.response) {
         //setMsg(error.response.data.msg);
@@ -135,7 +155,9 @@ function Orders() {
   };
 
   const changePage = ({ selected }) => {
-    setPage(selected);
+    network !== "" || status !== ""
+      ? setPageWhenNetworkSelected(selected)
+      : setPage(selected);
   };
 
   return (
@@ -152,46 +174,50 @@ function Orders() {
         </button>
 
         <div className="grid gap-4 mb-4 grid-cols-4 mt-4">
-          {user && user.role === "admin" && (
-            <div className="col-span-1 ">
-              <select
-                id="productType"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                value={network}
-                onChange={(e) => {
-                  setNetwork(e.target.value);
-                }}
-              >
-                <option selected value={""}>
-                  Search By Network
-                </option>
-
-                {networks.map((item, index) => (
-                  <option key={item.id} value={item.id}>
-                    {item.name}
+          {user?.role === "admin" && (
+            <>
+              <div className="col-span-1 ">
+                <select
+                  id="productType"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  value={network}
+                  onChange={(e) => {
+                    setNetwork(e.target.value);
+                  }}
+                >
+                  <option selected value={""}>
+                    Search By Network
                   </option>
-                ))}
-              </select>
-            </div>
+
+                  {networks.map((item, index) => (
+                    <option key={item.id} value={item.id}>
+                      {item.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="col-span-1 ">
+                <select
+                  id="productType"
+                  className={`bg-gray-50 border ${
+                    network === "" ? "hidden" : ""
+                  } border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500`}
+                  value={status}
+                  onChange={(e) => {
+                    setStatus(e.target.value);
+                  }}
+                >
+                  <option selected value={""}>
+                    Search By Status
+                  </option>
+
+                  <option value="pending">Pending</option>
+                  <option value="complete">Complete</option>
+                </select>
+              </div>
+            </>
           )}
-
-          <div className="col-span-1 ">
-            <select
-              id="productType"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              value=""
-              onChange={(e) => {
-                //setNetwork(e.target.value);
-              }}
-            >
-              <option selected value={""}>
-                Search By Status
-              </option>
-
-              <option value="pending">Pending</option>
-              <option value="complete">Complete</option>
-            </select>
-          </div>
         </div>
       </div>
 
