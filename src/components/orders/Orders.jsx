@@ -113,7 +113,7 @@ function Orders() {
     setLoading(true);
     try {
       const response = await axios.get(
-        `${api_url}/api/v1/orders/base-on-network/${network}?page=${pageWhenNetworkSelected}&limit=${limit}&status=${status}`,
+        `${api_url}/api/v1/orders/base-on-network2/${network}?page=${pageWhenNetworkSelected}&limit=${limit}&status=${status}`,
         {
           headers: {
             "access-token": localStorage.getItem("token"),
@@ -217,6 +217,28 @@ function Orders() {
                 </select>
               </div>
             </>
+          )}
+
+          {user?.role === "user" && (
+            <div className="col-span-1 ">
+              <select
+                id="productType"
+                className={`bg-gray-50 border ${
+                  network === "" ? "hidden" : ""
+                } border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500`}
+                value={status}
+                onChange={(e) => {
+                  setStatus(e.target.value);
+                }}
+              >
+                <option selected value={""}>
+                  Search By Status
+                </option>
+
+                <option value="pending">Pending</option>
+                <option value="complete">Complete</option>
+              </select>
+            </div>
           )}
         </div>
       </div>
