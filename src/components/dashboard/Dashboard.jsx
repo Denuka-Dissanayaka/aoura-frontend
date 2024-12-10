@@ -42,6 +42,7 @@ function Dashboard() {
   const [customers, setCustomers] = useState([]);
   const [networkNames, setNetworkNames] = useState([]);
   const [customersCount, setCustomersCount] = useState([]);
+  const [ordersCountBaseOnNetwork, setOrdersCountBaseOnNetwork] = useState([]);
   const [pendingOrderCount, setPendingOrderCount] = useState(0);
   const [completeOrderCount, setCompleteOrderCount] = useState(0);
   const [network, setNetwork] = useState("");
@@ -126,6 +127,27 @@ function Dashboard() {
     }
   };
 
+  //orders Count Base On Network
+  const getOrdersCountBaseOnNetwork = async (network) => {
+    try {
+      const response = await axios.get(
+        `${api_url}/api/v1/orders/orders-count-basedon-network?networkId=${network.id}`,
+        {
+          headers: {
+            "access-token": localStorage.getItem("token"),
+          },
+          withCredentials: true,
+        }
+      );
+
+      setOrdersCountBaseOnNetwork((prev) => [...prev, response.data.count]);
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data.msg);
+      }
+    }
+  };
+
   const getStaffsCount = async () => {
     try {
       const response = await axios.get(`${api_url}/api/v1/staffs/count`, {
@@ -201,12 +223,14 @@ function Dashboard() {
     networks.forEach((item) => {
       setNetworkNames((prev) => [...prev, item.name]);
       cbForGetCustomersCounts(item);
+      getOrdersCountBaseOnNetwork(item);
     });
     //getCustomersCounts();
   }, [networks]);
 
-  console.log(networkNames);
-  console.log(customersCount);
+  //console.log(networkNames);
+  //console.log(customersCount);
+  console.log(ordersCountBaseOnNetwork);
 
   const dataBar1 = {
     labels: [...networkNames],
