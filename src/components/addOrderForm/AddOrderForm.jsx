@@ -5,7 +5,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function AddOrderForm({ openModal, setOpenModal, getOrdersFunc }) {
-  //const api_url = import.meta.env.VITE_API_URL;
+  const api_url = import.meta.env.VITE_API_URL;
+
   const [network, setNetwork] = useState("");
   const [customer, setCustomer] = useState("");
   const [product, setProduct] = useState("");
@@ -24,15 +25,12 @@ function AddOrderForm({ openModal, setOpenModal, getOrdersFunc }) {
 
   const getNetworks = async () => {
     try {
-      const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/networks`,
-        {
-          headers: {
-            "access-token": localStorage.getItem("token"),
-          },
-          withCredentials: true,
-        }
-      );
+      const response = await axios.get(`${api_url}/api/v1/networks`, {
+        headers: {
+          "access-token": localStorage.getItem("token"),
+        },
+        withCredentials: true,
+      });
       setNetworks(response.data);
     } catch (error) {
       if (error.response) {
@@ -46,7 +44,7 @@ function AddOrderForm({ openModal, setOpenModal, getOrdersFunc }) {
   const getCustomers = async () => {
     try {
       const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/customers/base-on-network/${network}`,
+        `${api_url}/api/v1/customers/base-on-network/${network}`,
         {
           headers: {
             "access-token": localStorage.getItem("token"),
@@ -68,7 +66,7 @@ function AddOrderForm({ openModal, setOpenModal, getOrdersFunc }) {
   const getProducts = async () => {
     try {
       const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/products/base-on-network/${network}`,
+        `${api_url}/api/v1/products/base-on-network/${network}`,
         {
           headers: {
             "access-token": localStorage.getItem("token"),
@@ -90,7 +88,7 @@ function AddOrderForm({ openModal, setOpenModal, getOrdersFunc }) {
   const getProductPrice = async () => {
     try {
       const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/products/get-price/${product}`,
+        `${api_url}/api/v1/products/get-price/${product}`,
         {
           headers: {
             "access-token": localStorage.getItem("token"),
@@ -132,7 +130,7 @@ function AddOrderForm({ openModal, setOpenModal, getOrdersFunc }) {
   }, []);
 
   useEffect(() => {
-    if (user.role === "user") {
+    if (user?.role === "user") {
       setNetwork(user.networkId);
     }
   }, [user]);
@@ -141,7 +139,7 @@ function AddOrderForm({ openModal, setOpenModal, getOrdersFunc }) {
     e.preventDefault();
     try {
       const result = await axios.post(
-        `https://aoura-backend-production.up.railway.app/api/v1/orders`,
+        `${api_url}/api/v1/orders`,
         {
           productId: product,
           price: totalPrice,
@@ -219,7 +217,7 @@ function AddOrderForm({ openModal, setOpenModal, getOrdersFunc }) {
           <form className="p-4 md:p-5" onSubmit={saveOrder}>
             <div className="grid gap-4 mb-4 grid-cols-2">
               <p className="text-sm text-red-600">{msg}</p>
-              {user && user.role === "admin" && (
+              {user?.role === "admin" && (
                 <div className="col-span-2 ">
                   <label
                     for="network"
