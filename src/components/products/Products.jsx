@@ -56,6 +56,9 @@ function Products() {
     setPage(0);
     setPages(0);
     setRows(0);
+    if (network === "") {
+      setSearchByName("");
+    }
 
     network !== "" || searchByName !== ""
       ? getProductsBasedOnNetwork()

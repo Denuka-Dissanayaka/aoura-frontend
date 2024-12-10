@@ -56,6 +56,9 @@ function Orders() {
     setPage(0);
     setPages(0);
     setRows(0);
+    if (network === "") {
+      setStatus("");
+    }
     network !== "" || status !== "" ? getOrdersBasedOnNetwork() : getOrders();
   }, [network, status]);
 
