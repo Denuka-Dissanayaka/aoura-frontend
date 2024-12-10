@@ -7,7 +7,7 @@ import axios from "axios";
 import Invoice2 from "../invoice/Invoice2";
 
 function ViewOrder({ openViewModal, setOpenViewModal, viewOrderId, id }) {
-  //const api_url = import.meta.env.VITE_API_URL;
+  const api_url = import.meta.env.VITE_API_URL;
 
   const [openInvoiceModal, setOpenInvoiceModal] = useState(false);
 
@@ -38,7 +38,7 @@ function ViewOrder({ openViewModal, setOpenViewModal, viewOrderId, id }) {
   const getOrder = async () => {
     try {
       const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/orders/${viewOrderId}`,
+        `${api_url}/api/v1/orders/${viewOrderId}`,
         {
           headers: {
             "access-token": localStorage.getItem("token"),

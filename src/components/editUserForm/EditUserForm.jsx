@@ -9,7 +9,7 @@ function EditUserForm({
   setEditUserId,
   editUserId,
 }) {
-  //const api_url = import.meta.env.VITE_API_URL;
+  const api_url = import.meta.env.VITE_API_URL;
 
   const [fristName, setFristName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -27,7 +27,7 @@ function EditUserForm({
     if (editUserId !== null) {
       try {
         const response = await axios.get(
-          `https://aoura-backend-production.up.railway.app/api/v1/users/${editUserId}`,
+          `${api_url}/api/v1/users/${editUserId}`,
           {
             headers: {
               "access-token": localStorage.getItem("token"),
@@ -49,15 +49,12 @@ function EditUserForm({
   };
 
   const getNetworks = async () => {
-    const response = await axios.get(
-      `https://aoura-backend-production.up.railway.app/api/v1/networks`,
-      {
-        headers: {
-          "access-token": localStorage.getItem("token"),
-        },
-        withCredentials: true,
-      }
-    );
+    const response = await axios.get(`${api_url}/api/v1/networks`, {
+      headers: {
+        "access-token": localStorage.getItem("token"),
+      },
+      withCredentials: true,
+    });
     setNetworks(response.data);
   };
 
@@ -73,7 +70,7 @@ function EditUserForm({
     e.preventDefault();
     try {
       const result = await axios.patch(
-        `https://aoura-backend-production.up.railway.app/api/v1/users/${editUserId}`,
+        `${api_url}/api/v1/users/${editUserId}`,
         {
           fristName: fristName,
           lastName: lastName,

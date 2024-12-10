@@ -10,7 +10,8 @@ function EditStaffForm({
   setEditStaffId,
   editStaffId,
 }) {
-  //const api_url = import.meta.env.VITE_API_URL;
+  const api_url = import.meta.env.VITE_API_URL;
+
   const [fristName, setFristName] = useState("");
   const [lastName, setLastName] = useState("");
   const [gender, setGender] = useState("");
@@ -24,15 +25,12 @@ function EditStaffForm({
 
   const getNetworks = async () => {
     try {
-      const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/networks`,
-        {
-          headers: {
-            "access-token": localStorage.getItem("token"),
-          },
-          withCredentials: true,
-        }
-      );
+      const response = await axios.get(`${api_url}/api/v1/networks`, {
+        headers: {
+          "access-token": localStorage.getItem("token"),
+        },
+        withCredentials: true,
+      });
       setNetworks(response.data);
     } catch (error) {
       if (error.response) {
@@ -46,7 +44,7 @@ function EditStaffForm({
     if (editStaffId !== null) {
       try {
         const response = await axios.get(
-          `https://aoura-backend-production.up.railway.app/api/v1/staffs/${editStaffId}`,
+          `${api_url}/api/v1/staffs/${editStaffId}`,
           {
             headers: {
               "access-token": localStorage.getItem("token"),
@@ -80,7 +78,7 @@ function EditStaffForm({
     e.preventDefault();
     try {
       const result = await axios.patch(
-        `https://aoura-backend-production.up.railway.app/api/v1/staffs/${editStaffId}`,
+        `${api_url}/api/v1/staffs/${editStaffId}`,
         {
           fristName: fristName,
           lastName: lastName,

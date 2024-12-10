@@ -9,12 +9,14 @@ const initialState = {
   message: "",
 };
 
+const api_url = import.meta.env.VITE_API_URL;
+
 export const LoginUser = createAsyncThunk(
   "user/LoginUser",
   async (user, thunkAPI) => {
     try {
       const response = await axios.post(
-        `https://aoura-backend-production.up.railway.app/api/v1/login`,
+        `${api_url}/api/v1/login`,
         {
           username: user.username,
           password: user.password,
@@ -36,15 +38,12 @@ export const LoginUser = createAsyncThunk(
 
 export const getMe = createAsyncThunk("user/getMe", async (_, thunkAPI) => {
   try {
-    const response = await axios.get(
-      `https://aoura-backend-production.up.railway.app/api/v1/me`,
-      {
-        headers: {
-          "access-token": localStorage.getItem("token"),
-        },
-        withCredentials: true,
-      }
-    );
+    const response = await axios.get(`${api_url}/api/v1/me`, {
+      headers: {
+        "access-token": localStorage.getItem("token"),
+      },
+      withCredentials: true,
+    });
     return response.data;
   } catch (error) {
     if (error.response) {
@@ -55,9 +54,7 @@ export const getMe = createAsyncThunk("user/getMe", async (_, thunkAPI) => {
 });
 
 export const LogOut = createAsyncThunk("user/LogOut", async () => {
-  await axios.delete(
-    `https://aoura-backend-production.up.railway.app/api/v1/logout`
-  );
+  await axios.delete(`${api_url}/api/v1/logout`);
 });
 
 export const authSlice = createSlice({

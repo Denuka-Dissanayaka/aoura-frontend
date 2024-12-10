@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function ViewStaff({ openViewModal, setOpenViewModal, viewStaffId }) {
-  //const api_url = import.meta.env.VITE_API_URL;
+  const api_url = import.meta.env.VITE_API_URL;
 
   const [staffName, setStaffName] = useState("");
   const [uuid, setUuid] = useState("");
@@ -20,7 +20,7 @@ function ViewStaff({ openViewModal, setOpenViewModal, viewStaffId }) {
   const getStaff = async () => {
     try {
       const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/staffs/${viewStaffId}`,
+        `${api_url}/api/v1/staffs/${viewStaffId}`,
         {
           headers: {
             "access-token": localStorage.getItem("token"),

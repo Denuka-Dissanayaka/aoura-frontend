@@ -10,7 +10,8 @@ function EditOrderForm({
   editOrderId,
   setEditOrderId,
 }) {
-  //const api_url = import.meta.env.VITE_API_URL;
+  const api_url = import.meta.env.VITE_API_URL;
+
   const [network, setNetwork] = useState("");
   const [customer, setCustomer] = useState("");
   const [product, setProduct] = useState("");
@@ -32,7 +33,7 @@ function EditOrderForm({
     if (editOrderId !== null) {
       try {
         const response = await axios.get(
-          `https://aoura-backend-production.up.railway.app/api/v1/orders/${editOrderId}`,
+          `${api_url}/api/v1/orders/${editOrderId}`,
           {
             headers: {
               "access-token": localStorage.getItem("token"),
@@ -117,7 +118,7 @@ function EditOrderForm({
   const getProductPrice = async () => {
     try {
       const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/products/get-price/${product}`,
+        `${api_url}/api/v1/products/get-price/${product}`,
         {
           headers: {
             "access-token": localStorage.getItem("token"),
@@ -162,7 +163,7 @@ function EditOrderForm({
   //   }, []);
 
   useEffect(() => {
-    if (user.role === "user") {
+    if (user?.role === "user") {
       setNetwork(user.networkId);
     }
   }, [user]);
@@ -171,7 +172,7 @@ function EditOrderForm({
     e.preventDefault();
     try {
       const result = await axios.patch(
-        `https://aoura-backend-production.up.railway.app/api/v1/orders/${editOrderId}`,
+        `${api_url}/api/v1/orders/${editOrderId}`,
         {
           //productId: product,
           price: totalPrice,

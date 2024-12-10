@@ -74,7 +74,7 @@ function EditCustomerForm({
   }, [editCustomerId]);
 
   useEffect(() => {
-    if (user.role === "user") {
+    if (user?.role === "user") {
       setNetwork(user.networkId);
     }
   }, [user]);

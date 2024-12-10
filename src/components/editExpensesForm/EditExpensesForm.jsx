@@ -10,7 +10,8 @@ function EditExpensesForm({
   editExpensesId,
   setEditExpensesId,
 }) {
-  //const api_url = import.meta.env.VITE_API_URL;
+  const api_url = import.meta.env.VITE_API_URL;
+
   const [network, setNetwork] = useState("");
   const [type, setType] = useState("");
   const [value, setValue] = useState("");
@@ -27,7 +28,7 @@ function EditExpensesForm({
     if (editExpensesId !== null) {
       try {
         const response = await axios.get(
-          `https://aoura-backend-production.up.railway.app/api/v1/expenses/${editExpensesId}`,
+          `${api_url}/api/v1/expenses/${editExpensesId}`,
           {
             headers: {
               "access-token": localStorage.getItem("token"),
@@ -49,15 +50,12 @@ function EditExpensesForm({
 
   const getNetworks = async () => {
     try {
-      const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/networks`,
-        {
-          headers: {
-            "access-token": localStorage.getItem("token"),
-          },
-          withCredentials: true,
-        }
-      );
+      const response = await axios.get(`${api_url}/api/v1/networks`, {
+        headers: {
+          "access-token": localStorage.getItem("token"),
+        },
+        withCredentials: true,
+      });
       setNetworks(response.data);
     } catch (error) {
       if (error.response) {
@@ -85,7 +83,7 @@ function EditExpensesForm({
     e.preventDefault();
     try {
       const result = await axios.patch(
-        `https://aoura-backend-production.up.railway.app/api/v1/expenses/${editExpensesId}`,
+        `${api_url}/api/v1/expenses/${editExpensesId}`,
         {
           type: type,
           value: value,
