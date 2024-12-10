@@ -182,8 +182,8 @@ function Dashboard() {
     }
   };
 
-  console.log(networks);
-  console.log(customersCount);
+  //console.log(networks);
+  //console.log(customersCount);
 
   const cbForGetCustomersCounts = async (network) => {
     try {
@@ -230,7 +230,7 @@ function Dashboard() {
 
   //console.log(networkNames);
   //console.log(customersCount);
-  console.log(ordersCountBaseOnNetwork);
+  //console.log(ordersCountBaseOnNetwork);
 
   const dataBar1 = {
     labels: [...networkNames],
@@ -250,7 +250,7 @@ function Dashboard() {
     datasets: [
       {
         label: "Sales",
-        data: [...customersCount],
+        data: [...ordersCountBaseOnNetwork],
         fill: false,
         backgroundColor: "rgba(75,192,192,0.4)",
         borderColor: "rgba(75,192,192,1)",
