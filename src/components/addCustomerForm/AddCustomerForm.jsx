@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function AddCustomerForm({ openModal, setOpenModal, getCustomersFunc }) {
-  //const api_url = import.meta.env.VITE_API_URL;
+  const api_url = import.meta.env.VITE_API_URL;
 
   const [name, setname] = useState("");
   const [email, setEmail] = useState("");
@@ -19,15 +19,12 @@ function AddCustomerForm({ openModal, setOpenModal, getCustomersFunc }) {
 
   const getNetworks = async () => {
     try {
-      const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/networks`,
-        {
-          headers: {
-            "access-token": localStorage.getItem("token"),
-          },
-          withCredentials: true,
-        }
-      );
+      const response = await axios.get(`${api_url}/api/v1/networks`, {
+        headers: {
+          "access-token": localStorage.getItem("token"),
+        },
+        withCredentials: true,
+      });
       setNetworks(response.data);
     } catch (error) {
       if (error.response) {
@@ -51,7 +48,7 @@ function AddCustomerForm({ openModal, setOpenModal, getCustomersFunc }) {
     e.preventDefault();
     try {
       const result = await axios.post(
-        `https://aoura-backend-production.up.railway.app/api/v1/customers`,
+        `${api_url}/api/v1/customers`,
         {
           name: name,
           email: email,

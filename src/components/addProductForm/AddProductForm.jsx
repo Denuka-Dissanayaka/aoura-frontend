@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function AddProductForm({ openModal, setOpenModal, getProductsFunc }) {
+  const api_url = import.meta.env.VITE_API_URL;
+
   const [productName, setProductName] = useState("");
   const [productPrice, setProductPrice] = useState("");
   const [type, setType] = useState("");
@@ -17,15 +19,12 @@ function AddProductForm({ openModal, setOpenModal, getProductsFunc }) {
 
   const getNetworks = async () => {
     try {
-      const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/networks`,
-        {
-          headers: {
-            "access-token": localStorage.getItem("token"),
-          },
-          withCredentials: true,
-        }
-      );
+      const response = await axios.get(`${api_url}/api/v1/networks`, {
+        headers: {
+          "access-token": localStorage.getItem("token"),
+        },
+        withCredentials: true,
+      });
       setNetworks(response.data);
     } catch (error) {
       if (error.response) {
@@ -58,7 +57,7 @@ function AddProductForm({ openModal, setOpenModal, getProductsFunc }) {
     e.preventDefault();
     try {
       const result = await axios.post(
-        "https://aoura-backend-production.up.railway.app/api/v1/products",
+        `${api_url}/api/v1/products`,
         {
           name: productName,
           price: productPrice,

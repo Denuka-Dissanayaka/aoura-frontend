@@ -4,6 +4,8 @@ import { toast } from "react-toastify";
 import axios from "axios";
 
 function AdduserForm({ openModal, setOpenModal, getUsersFunc }) {
+  const api_url = import.meta.env.VITE_API_URL;
+
   const [fristName, setFristName] = useState("");
   const [lastName, setLastName] = useState("");
   const [userName, setUserName] = useState("");
@@ -17,15 +19,12 @@ function AdduserForm({ openModal, setOpenModal, getUsersFunc }) {
   const navigate = useNavigate();
 
   const getNetworks = async () => {
-    const response = await axios.get(
-      "https://aoura-backend-production.up.railway.app/api/v1/networks",
-      {
-        headers: {
-          "access-token": localStorage.getItem("token"),
-        },
-        withCredentials: true,
-      }
-    );
+    const response = await axios.get(`${api_url}/api/v1/networks`, {
+      headers: {
+        "access-token": localStorage.getItem("token"),
+      },
+      withCredentials: true,
+    });
     setNetworks(response.data);
   };
 
@@ -39,7 +38,7 @@ function AdduserForm({ openModal, setOpenModal, getUsersFunc }) {
     e.preventDefault();
     try {
       const result = await axios.post(
-        "https://aoura-backend-production.up.railway.app/api/v1/users",
+        `${api_url}/api/v1/users`,
         {
           fristName: fristName,
           lastName: lastName,

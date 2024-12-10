@@ -5,7 +5,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function AddExpensesForm({ openModal, setOpenModal, getExpensesFunc }) {
-  //const api_url = import.meta.env.VITE_API_URL;
+  const api_url = import.meta.env.VITE_API_URL;
+
   const [network, setNetwork] = useState("");
   const [type, setType] = useState("");
   const [value, setValue] = useState("");
@@ -20,15 +21,12 @@ function AddExpensesForm({ openModal, setOpenModal, getExpensesFunc }) {
 
   const getNetworks = async () => {
     try {
-      const response = await axios.get(
-        `https://aoura-backend-production.up.railway.app/api/v1/networks`,
-        {
-          headers: {
-            "access-token": localStorage.getItem("token"),
-          },
-          withCredentials: true,
-        }
-      );
+      const response = await axios.get(`${api_url}/api/v1/networks`, {
+        headers: {
+          "access-token": localStorage.getItem("token"),
+        },
+        withCredentials: true,
+      });
       setNetworks(response.data);
     } catch (error) {
       if (error.response) {
@@ -52,7 +50,7 @@ function AddExpensesForm({ openModal, setOpenModal, getExpensesFunc }) {
     e.preventDefault();
     try {
       const result = await axios.post(
-        `https://aoura-backend-production.up.railway.app/api/v1/expenses`,
+        `${api_url}/api/v1/expenses`,
         {
           type: type,
           value: value,

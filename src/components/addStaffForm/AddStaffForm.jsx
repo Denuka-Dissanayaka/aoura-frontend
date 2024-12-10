@@ -4,6 +4,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 function AddStaffForm({ openModal, setOpenModal, getStaffsFunc }) {
+  const api_url = import.meta.env.VITE_API_URL;
+
   const [fristName, setFristName] = useState("");
   const [lastName, setLastName] = useState("");
   const [gender, setGender] = useState("");
@@ -17,15 +19,12 @@ function AddStaffForm({ openModal, setOpenModal, getStaffsFunc }) {
 
   const getNetworks = async () => {
     try {
-      const response = await axios.get(
-        "https://aoura-backend-production.up.railway.app/api/v1/networks",
-        {
-          headers: {
-            "access-token": localStorage.getItem("token"),
-          },
-          withCredentials: true,
-        }
-      );
+      const response = await axios.get(`${api_url}/api/v1/networks`, {
+        headers: {
+          "access-token": localStorage.getItem("token"),
+        },
+        withCredentials: true,
+      });
       setNetworks(response.data);
     } catch (error) {
       if (error.response) {
@@ -45,7 +44,7 @@ function AddStaffForm({ openModal, setOpenModal, getStaffsFunc }) {
     e.preventDefault();
     try {
       const result = await axios.post(
-        "https://aoura-backend-production.up.railway.app/api/v1/staffs",
+        `${api_url}/api/v1/staffs`,
         {
           fristName: fristName,
           lastName: lastName,

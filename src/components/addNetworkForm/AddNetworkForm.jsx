@@ -5,6 +5,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 function AddNetworkForm({ openModal, setOpenModal, getNetworksFunc }) {
+  const api_url = import.meta.env.VITE_API_URL;
+
   const [networkName, setNetworkName] = useState("");
   const [type, setType] = useState("");
 
@@ -16,7 +18,7 @@ function AddNetworkForm({ openModal, setOpenModal, getNetworksFunc }) {
     e.preventDefault();
     try {
       const result = await axios.post(
-        "https://aoura-backend-production.up.railway.app/api/v1/networks",
+        `${api_url}/api/v1/networks`,
         {
           networkName: networkName,
           type: type,
