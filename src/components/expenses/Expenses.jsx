@@ -8,13 +8,16 @@ import ReactPaginate from "react-paginate";
 
 import AddExpensesForm from "../addExpensesForm/AddExpensesForm.jsx";
 import EditExpensesForm from "../editExpensesForm/EditExpensesForm.jsx";
+import ViewExpenses from "../viewExpenses/ViewExpenses.jsx";
 
 function Expenses() {
   const api_url = import.meta.env.VITE_API_URL;
 
   const [openModal, setOpenModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
+  const [openViewModal, setOpenViewModal] = useState(false);
   const [editExpensesId, setEditExpensesId] = useState(null);
+  const [viewExpenseId, setViewExpenseId] = useState(null);
   const [networks, setNetworks] = useState([]);
   const [network, setNetwork] = useState("");
   const [expenses, setExpenses] = useState([]);
@@ -208,6 +211,12 @@ function Expenses() {
         editExpensesId={editExpensesId}
       />
 
+      <ViewExpenses
+        openViewModal={openViewModal}
+        setOpenViewModal={setOpenViewModal}
+        viewExpensesId={viewExpenseId}
+      />
+
       <div>
         <table className=" table-auto w-full bg-white dark:bg-gray-800 rounded-lg shadow-md">
           <thead>
@@ -245,6 +254,15 @@ function Expenses() {
                     <td className="text-center">{expense.value}</td>
 
                     <td className="text-center">
+                      <button
+                        onClick={() => {
+                          setOpenViewModal(true);
+                          setViewExpenseId(expense.uuid);
+                        }}
+                        className="bg-blue-600 mr-2 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
+                      >
+                        View
+                      </button>
                       <button
                         onClick={() => {
                           setOpenEditModal(true);
