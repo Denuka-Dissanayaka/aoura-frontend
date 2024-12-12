@@ -197,7 +197,7 @@ function AdduserForm({ openModal, setOpenModal, getUsersFunc }) {
                 </label>
                 <div className="flex items-center">
                   <input
-                    type="password"
+                    type={eyeOpen ? "text" : "password"}
                     name="password"
                     id="password"
                     value={password}
@@ -209,7 +209,7 @@ function AdduserForm({ openModal, setOpenModal, getUsersFunc }) {
                     required
                   />
                   <p
-                    className="ml-[-20px] cursor-pointer text-xl"
+                    className="ml-[-22px] cursor-pointer text-xs"
                     onClick={handleEye}
                   >
                     {!eyeOpen ? <IoEye /> : <IoEyeOff />}
@@ -225,7 +225,7 @@ function AdduserForm({ openModal, setOpenModal, getUsersFunc }) {
                 </label>
                 <div className="flex items-center">
                   <input
-                    type="password"
+                    type={eyeOpenRe ? "text" : "password"}
                     name="retypepassword"
                     id="retypepassword"
                     value={conPassword}
@@ -237,7 +237,7 @@ function AdduserForm({ openModal, setOpenModal, getUsersFunc }) {
                     required
                   />
                   <p
-                    className="ml-[-20px] cursor-pointer text-xl"
+                    className="ml-[-22px] cursor-pointer text-xs"
                     onClick={handleEyeRe}
                   >
                     {!eyeOpenRe ? <IoEye /> : <IoEyeOff />}
