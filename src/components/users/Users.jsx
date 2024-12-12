@@ -40,6 +40,7 @@ function Users() {
     if (network === "") {
       setRole("");
     }
+    console.log(role);
     network !== "" ? getUsersBasedOnNetwork() : getUsers();
   }, [network, role]);
 
