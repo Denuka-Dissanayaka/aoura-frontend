@@ -5,6 +5,7 @@ import { Blocks } from "react-loader-spinner";
 import { useDispatch, useSelector } from "react-redux";
 import AdduserForm from "../addUserForm/AdduserForm";
 import EdituserForm from "../editUserForm/EditUserForm";
+import ViewUsers from "../viewUsers/ViewUsers";
 import { toast } from "react-toastify";
 
 function Users() {
@@ -12,7 +13,9 @@ function Users() {
 
   const [openModal, setOpenModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
+  const [openViewModal, setOpenViewModal] = useState(false);
   const [editUserId, setEditUserId] = useState(null);
+  const [viewUserId, setViewUserId] = useState(null);
   const [networks, setNetworks] = useState([]);
   const [network, setNetwork] = useState("");
   const [role, setRole] = useState("");
@@ -188,6 +191,12 @@ function Users() {
         editUserId={editUserId}
       />
 
+      <ViewExpenses
+        openViewModal={openViewModal}
+        setOpenViewModal={setOpenViewModal}
+        viewUserId={viewUserId}
+      />
+
       <div>
         <table className=" table-auto w-full bg-white dark:bg-gray-800 rounded-lg shadow-md">
           <thead>
@@ -226,6 +235,15 @@ function Users() {
                   <td className="text-center">{user.username}</td>
                   <td className="text-center">{user.network.name}</td>
                   <td className="text-center">
+                    <button
+                      onClick={() => {
+                        setOpenViewModal(true);
+                        setViewUserId(user.uuid);
+                      }}
+                      className="bg-blue-600 mr-2 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
+                    >
+                      View
+                    </button>
                     <button
                       onClick={() => {
                         setOpenEditModal(true);
