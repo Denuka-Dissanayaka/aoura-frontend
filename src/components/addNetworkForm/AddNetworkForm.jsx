@@ -34,6 +34,7 @@ function AddNetworkForm({ openModal, setOpenModal, getNetworksFunc }) {
       navigate("/networks");
       getNetworksFunc();
       setNetworkName("");
+      setType("");
       setOpenModal(false);
     } catch (error) {
       if (error.response) {
