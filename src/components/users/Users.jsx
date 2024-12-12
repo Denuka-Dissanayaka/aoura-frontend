@@ -83,7 +83,7 @@ function Users() {
     setLoading(true);
     try {
       const response = await axios.get(
-        `${api_url}/api/v1/users/base-on-network/${network}`,
+        `${api_url}/api/v1/users/base-on-network/${network}?role=${role}`,
         {
           headers: {
             "access-token": localStorage.getItem("token"),
