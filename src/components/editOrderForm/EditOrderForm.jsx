@@ -45,6 +45,7 @@ function EditOrderForm({
         setTotalPrice(response.data.price);
         setQuantity(response.data.quantity);
         setProduct(response.data.productId);
+        setPrice(response.data.product.price);
       } catch (error) {
         if (error.response) {
           setMsg(error.response.data.msg);
@@ -150,7 +151,7 @@ function EditOrderForm({
   }, [product]);
 
   useEffect(() => {
-    setTotalPrice(quantity * unitPrice);
+    setTotalPrice(quantity * price);
   }, [quantity]);
 
   //   useEffect(() => {
