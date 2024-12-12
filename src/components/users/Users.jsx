@@ -37,9 +37,11 @@ function Users() {
   }, [openEditModal]);
 
   useEffect(() => {
-    setRole("");
+    if (network === "") {
+      setRole("");
+    }
     network !== "" ? getUsersBasedOnNetwork() : getUsers();
-  }, [network]);
+  }, [network, role]);
 
   const getUsers = async () => {
     setLoading(true);
