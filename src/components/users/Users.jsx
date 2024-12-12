@@ -191,7 +191,7 @@ function Users() {
         editUserId={editUserId}
       />
 
-      <ViewExpenses
+      <ViewUsers
         openViewModal={openViewModal}
         setOpenViewModal={setOpenViewModal}
         viewUserId={viewUserId}
