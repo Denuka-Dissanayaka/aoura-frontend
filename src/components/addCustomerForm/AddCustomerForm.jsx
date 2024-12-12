@@ -44,6 +44,14 @@ function AddCustomerForm({ openModal, setOpenModal, getCustomersFunc }) {
     }
   }, [user]);
 
+  useEffect(() => {
+    setname("");
+    setAddress("");
+    setEmail("");
+    setPhone("");
+    setNetwork("");
+  }, [openModal]);
+
   const saveCustomer = async (e) => {
     e.preventDefault();
     try {
@@ -68,6 +76,7 @@ function AddCustomerForm({ openModal, setOpenModal, getCustomersFunc }) {
       setAddress("");
       setEmail("");
       setPhone("");
+      setNetwork("");
       navigate("/customers");
       getCustomersFunc();
       setOpenModal(false);
