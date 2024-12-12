@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { IoEye } from "react-icons/io5";
+import { IoEyeOff } from "react-icons/io5";
 
 function AdduserForm({ openModal, setOpenModal, getUsersFunc }) {
   const api_url = import.meta.env.VITE_API_URL;
@@ -15,6 +17,8 @@ function AdduserForm({ openModal, setOpenModal, getUsersFunc }) {
   const [network, setNetwork] = useState("");
   const [networks, setNetworks] = useState([]);
   const [msg, setMsg] = useState("");
+  const [eyeOpen, setEyeOpen] = useState(false);
+  const [eyeOpenRe, setEyeOpenRe] = useState(false);
 
   const navigate = useNavigate();
 
@@ -72,6 +76,14 @@ function AdduserForm({ openModal, setOpenModal, getUsersFunc }) {
         toast.error(error.response.data.msg);
       }
     }
+  };
+
+  const handleEye = () => {
+    setEyeOpen(!eyeOpen);
+  };
+
+  const handleEyeRe = () => {
+    setEyeOpenRe(!eyeOpenRe);
   };
   return (
     <div
@@ -183,18 +195,26 @@ function AdduserForm({ openModal, setOpenModal, getUsersFunc }) {
                 >
                   Password
                 </label>
-                <input
-                  type="password"
-                  name="password"
-                  id="password"
-                  value={password}
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                  }}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Password"
-                  required
-                />
+                <div className="flex items-center">
+                  <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    value={password}
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                    }}
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    placeholder="Password"
+                    required
+                  />
+                  <p
+                    className="ml-[-20px] cursor-pointer text-xl"
+                    onClick={handleEye}
+                  >
+                    {!eyeOpen ? <IoEye /> : <IoEyeOff />}
+                  </p>
+                </div>
               </div>
               <div className="col-span-2">
                 <label
@@ -203,18 +223,26 @@ function AdduserForm({ openModal, setOpenModal, getUsersFunc }) {
                 >
                   Re-type Password
                 </label>
-                <input
-                  type="password"
-                  name="retypepassword"
-                  id="retypepassword"
-                  value={conPassword}
-                  onChange={(e) => {
-                    setConPassword(e.target.value);
-                  }}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Re-type Password"
-                  required
-                />
+                <div className="flex items-center">
+                  <input
+                    type="password"
+                    name="retypepassword"
+                    id="retypepassword"
+                    value={conPassword}
+                    onChange={(e) => {
+                      setConPassword(e.target.value);
+                    }}
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    placeholder="Re-type Password"
+                    required
+                  />
+                  <p
+                    className="ml-[-20px] cursor-pointer text-xl"
+                    onClick={handleEyeRe}
+                  >
+                    {!eyeOpenRe ? <IoEye /> : <IoEyeOff />}
+                  </p>
+                </div>
               </div>
               {/* <div className="col-span-2 sm:col-span-1">
                 <label
