@@ -150,8 +150,8 @@ function EditOrderForm({
   }, [product]);
 
   useEffect(() => {
-    //setTotalPrice(quantity * unitPrice);
-  }, [quantity, unitPrice]);
+    setTotalPrice(quantity * unitPrice);
+  }, [quantity]);
 
   //   useEffect(() => {
   //     getCustomers();
