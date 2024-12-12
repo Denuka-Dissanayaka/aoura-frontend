@@ -17,25 +17,27 @@ function ViewExpenses({ openViewModal, setOpenViewModal, viewExpensesId }) {
   const navigate = useNavigate();
 
   const getExpense = async () => {
-    try {
-      const response = await axios.get(
-        `${api_url}/api/v1/expenses/${viewExpensesId}`,
-        {
-          headers: {
-            "access-token": localStorage.getItem("token"),
-          },
-          withCredentials: true,
+    if (viewExpensesId !== null) {
+      try {
+        const response = await axios.get(
+          `${api_url}/api/v1/expenses/${viewExpensesId}`,
+          {
+            headers: {
+              "access-token": localStorage.getItem("token"),
+            },
+            withCredentials: true,
+          }
+        );
+        setNetwork(response.data.network.name);
+        setUuid(response.data.uuid);
+        setType(response.data.type);
+        setValue(response.data.value);
+        setDate(response.data.date);
+      } catch (error) {
+        if (error.response) {
+          //setMsg(error.response.data.msg);
+          toast.error(error.response.data.msg);
         }
-      );
-      setNetwork(response.data.network.name);
-      setUuid(response.data.uuid);
-      setType(response.data.value);
-      setValue(response.data.type);
-      setDate(response.data.createdAt);
-    } catch (error) {
-      if (error.response) {
-        //setMsg(error.response.data.msg);
-        toast.error(error.response.data.msg);
       }
     }
   };
