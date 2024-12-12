@@ -3,10 +3,13 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { LoginUser, reset } from "../features/authSlice";
+import { IoEye } from "react-icons/io5";
+import { IoEyeOff } from "react-icons/io5";
 
 function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [eyeOpen, setEyeOpen] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -33,6 +36,10 @@ function LoginPage() {
     dispatch(LoginUser({ username, password }));
   };
 
+  const handleEye = () => {
+    setEyeOpen((prev) => !prev);
+  };
+
   return (
     <div className="w-full min-h-screen flex items-start">
       <div className="w-1/2 h-screen flex flex-col p-20 bg-slate-100">
@@ -57,15 +64,23 @@ function LoginPage() {
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                 />
-                <input
-                  type="password"
-                  className="w-full text-black py-2 my-4 bg-transparent border-b border-black outline-none focus:outline-none"
-                  placeholder="Password"
-                  name="password"
-                  id=""
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
+                <div className="flex items-center">
+                  <input
+                    type={eyeOpen ? "text" : "password"}
+                    className="w-full text-black py-2 my-4 bg-transparent border-b border-black outline-none focus:outline-none"
+                    placeholder="Password"
+                    name="password"
+                    id=""
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                  <p
+                    className="ml-[-20px] cursor-pointer text-xl"
+                    onClick={handleEye}
+                  >
+                    {!eyeOpen ? <IoEye /> : <IoEyeOff />}
+                  </p>
+                </div>
               </div>
 
               <div className="w-full flex flex-col my-4">
