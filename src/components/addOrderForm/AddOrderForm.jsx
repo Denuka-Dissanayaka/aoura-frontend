@@ -275,7 +275,7 @@ function AddOrderForm({ openModal, setOpenModal, getOrdersFunc }) {
                       {item.name}
                     </option>
                   ))}
-                  <option selected="temporary">Add Temporary Customer</option>
+                  <option value="temporary">Add Temporary Customer</option>
                 </select>
               </div>
 
@@ -317,6 +317,25 @@ function AddOrderForm({ openModal, setOpenModal, getOrdersFunc }) {
                       }}
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                       placeholder="Customer Email"
+                    />
+                  </div>
+                  <div className="col-span-2">
+                    <label
+                      htmlFor="temp_customer_Phone"
+                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >
+                      Customer Phone Number
+                    </label>
+                    <input
+                      type="text"
+                      name="temp_customer_Phone"
+                      id="temp_customer_Phone"
+                      //value={""}
+                      onChange={(e) => {
+                        //setDate(e.target.value);
+                      }}
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                      placeholder="Customer Phone Number"
                     />
                   </div>
                 </>
