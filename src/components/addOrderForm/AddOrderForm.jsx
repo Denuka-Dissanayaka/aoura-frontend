@@ -279,7 +279,7 @@ function AddOrderForm({ openModal, setOpenModal, getOrdersFunc }) {
                 </select>
               </div>
 
-              {customer === "temporart" && (
+              {customer === "temporary" && (
                 <>
                   <div className="col-span-2">
                     <label
