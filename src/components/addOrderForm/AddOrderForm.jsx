@@ -16,6 +16,9 @@ function AddOrderForm({ openModal, setOpenModal, getOrdersFunc }) {
   const [networks, setNetworks] = useState([]);
   const [customers, setCustomers] = useState([]);
   const [products, setProducts] = useState([]);
+  const [tempCustomerName, setTempCustomerName] = useState("");
+  const [tempCustomerEmail, setTempCustomerEmail] = useState("");
+  const [tempCustomerPhone, setTempCustomerPhone] = useState("");
   const [unitPrice, setUnitPrice] = useState("");
   const [totalPrice, setTotalPrice] = useState(0);
 
@@ -144,6 +147,9 @@ function AddOrderForm({ openModal, setOpenModal, getOrdersFunc }) {
       setQuantity("");
       setUnitPrice("");
       setTotalPrice(0);
+      setTempCustomerEmail("");
+      setTempCustomerName("");
+      setTempCustomerPhone("");
     }
   }, [openModal]);
 
@@ -159,6 +165,9 @@ function AddOrderForm({ openModal, setOpenModal, getOrdersFunc }) {
           customerId: customer,
           date: date,
           networkId: network,
+          tempCustomerName,
+          tempCustomerEmail,
+          tempCustomerPhone,
         },
         {
           headers: {
@@ -175,6 +184,9 @@ function AddOrderForm({ openModal, setOpenModal, getOrdersFunc }) {
       setQuantity("");
       setUnitPrice("");
       setTotalPrice(0);
+      setTempCustomerEmail("");
+      setTempCustomerName("");
+      setTempCustomerPhone("");
       navigate("/orders");
       getOrdersFunc();
       setOpenModal(false);
@@ -271,11 +283,15 @@ function AddOrderForm({ openModal, setOpenModal, getOrdersFunc }) {
                 >
                   <option selected="">Select Customer</option>
                   {customers.map((item, index) => (
-                    <option key={item.id} value={item.id}>
+                    <option
+                      key={item.id}
+                      value={item.id}
+                      className={`${item.id === 1 ? "hidden" : ""}`}
+                    >
                       {item.name}
                     </option>
                   ))}
-                  <option value="temporary">Add Temporary Customer</option>
+                  <option value={1}>Add Temporary Customer</option>
                 </select>
               </div>
 
@@ -292,9 +308,9 @@ function AddOrderForm({ openModal, setOpenModal, getOrdersFunc }) {
                       type="text"
                       name="temp_customer_name"
                       id="temp_customer_name"
-                      //value={""}
+                      value={tempCustomerName}
                       onChange={(e) => {
-                        //setDate(e.target.value);
+                        setTempCustomerName(e.target.value);
                       }}
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                       placeholder="Customer Name"
@@ -311,9 +327,9 @@ function AddOrderForm({ openModal, setOpenModal, getOrdersFunc }) {
                       type="email"
                       name="temp_customer_email"
                       id="temp_customer_email"
-                      //value={""}
+                      value={tempCustomerEmail}
                       onChange={(e) => {
-                        //setDate(e.target.value);
+                        setTempCustomerEmail(e.target.value);
                       }}
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                       placeholder="Customer Email"
@@ -330,9 +346,9 @@ function AddOrderForm({ openModal, setOpenModal, getOrdersFunc }) {
                       type="text"
                       name="temp_customer_Phone"
                       id="temp_customer_Phone"
-                      //value={""}
+                      value={tempCustomerPhone}
                       onChange={(e) => {
-                        //setDate(e.target.value);
+                        setTempCustomerPhone(e.target.value);
                       }}
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                       placeholder="Customer Phone Number"
