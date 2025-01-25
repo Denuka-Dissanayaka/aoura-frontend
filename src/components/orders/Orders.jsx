@@ -303,7 +303,11 @@ function Orders() {
                   <tr key={order.uuid}>
                     <td className="p-4 text-center">#{order.id}</td>
                     <td className="text-center">{order.product.name}</td>
-                    <td className="text-center">{order.customer.name}</td>
+                    <td className="text-center">
+                      {order.customer.name === "Temporary"
+                        ? order.tempCustomerName
+                        : order.customer.name}
+                    </td>
                     <td className="text-center">{order.network.name}</td>
                     {/* <td className="text-center">{order.quantity}</td> */}
                     <td className="text-center">{order.price}</td>
