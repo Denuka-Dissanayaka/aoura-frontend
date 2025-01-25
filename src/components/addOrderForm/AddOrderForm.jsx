@@ -295,7 +295,7 @@ function AddOrderForm({ openModal, setOpenModal, getOrdersFunc }) {
                 </select>
               </div>
 
-              {customer === 1 && (
+              {customer === "1" && (
                 <>
                   <div className="col-span-2">
                     <label
