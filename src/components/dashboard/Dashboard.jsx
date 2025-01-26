@@ -339,7 +339,7 @@ function Dashboard() {
                 </thead>
                 <tbody>
                   <tr>
-                    <td className="text-center">Kamal</td>
+                    <td className="text-center p-4">Kamal</td>
                     <td className="text-center">2025-01-26</td>
                     <td className="text-center">2025-01-28</td>
                     <td className="text-center">233</td>
