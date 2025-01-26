@@ -40,6 +40,7 @@ function Dashboard() {
   const [productsCount, setProductsCount] = useState([]);
   const [staffsCount, setStaffsCount] = useState([]);
   const [customers, setCustomers] = useState([]);
+  const [chequeData, setChequeData] = useState([]);
   const [networkNames, setNetworkNames] = useState([]);
   const [customersCount, setCustomersCount] = useState([]);
   const [ordersCountBaseOnNetwork, setOrdersCountBaseOnNetwork] = useState([]);
@@ -182,6 +183,23 @@ function Dashboard() {
     }
   };
 
+  const getChequeData = async () => {
+    try {
+      const response = await axios.get(`${api_url}/api/v1/customers/cheque`, {
+        headers: {
+          "access-token": localStorage.getItem("token"),
+        },
+        withCredentials: true,
+      });
+
+      setChequeData(response.data.response);
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data.msg);
+      }
+    }
+  };
+
   //console.log(networks);
   //console.log(customersCount);
 
@@ -215,6 +233,7 @@ function Dashboard() {
     getStaffsCount();
     getOrdersCount();
     getProductsCount();
+    getChequeData();
   }, []);
 
   useEffect(() => {
@@ -304,31 +323,35 @@ function Dashboard() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 mt-5">
-        <div className="bg-white p-4 dark:bg-gray-800 rounded-lg shadow-md">
-          <h3 className="text-lg font-semibold mb-4">Cheque Info</h3>
-          <div>
-            <table className=" table-auto w-full bg-white dark:bg-gray-800 rounded-lg shadow-md">
-              <thead>
-                <tr>
-                  <th className="p-4">Customer Name</th>
-                  <th>Given Date</th>
-                  <th>Due Date</th>
-                  <th>Amount</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="p-4 text-center">Kasun</td>
-                  <td className="text-center">2022/1/23</td>
-                  <td className="text-center">2023/3/3</td>
-                  <td className="text-center">233</td>
-                </tr>
-              </tbody>
-            </table>
+      {user?.role === "admin" && (
+        <div className="grid grid-cols-1 gap-4 mt-5">
+          <div className="bg-white p-4 dark:bg-gray-800 rounded-lg shadow-md">
+            <h3 className="text-lg font-semibold mb-4">Cheque Info</h3>
+            <div>
+              <table className=" table-auto w-full bg-white dark:bg-gray-800 rounded-lg shadow-md">
+                <thead>
+                  <tr>
+                    <th>Customer Name</th>
+                    <th>Given Date</th>
+                    <th>Due Date</th>
+                    <th>Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {chequeData?.map((data, i) => (
+                    <tr key={i}>
+                      <td className="text-center">{data.name}</td>
+                      <td className="text-center">{data.ChequeGivenDate}</td>
+                      <td className="text-center">{data.ChequeDueDate}</td>
+                      <td className="text-center">{data.ChequeBalance}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
