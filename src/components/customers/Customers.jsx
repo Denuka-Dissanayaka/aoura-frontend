@@ -245,8 +245,8 @@ function Customers() {
             <tr>
               <th className="p-4">ID</th>
               <th>Name</th>
-              <th>Email</th>
-              <th>Address</th>
+              <th>Loan Amount</th>
+              <th>Paid Loan Amount</th>
               {/* <th>Phone No</th> */}
               <th>Network</th>
               <th>Action</th>
@@ -274,8 +274,8 @@ function Customers() {
                   >
                     <td className="p-4 text-center">#{customer.id}</td>
                     <td className="text-center">{customer.name}</td>
-                    <td className="text-center">{customer.email}</td>
-                    <td className="text-center">{customer.address}</td>
+                    <td className="text-center">{customer.loanAmount}</td>
+                    <td className="text-center">{customer.paidloanAmount}</td>
                     {/* <td className="text-center">{customer.phone}</td> */}
                     <td className="text-center">{customer.network.name}</td>
 

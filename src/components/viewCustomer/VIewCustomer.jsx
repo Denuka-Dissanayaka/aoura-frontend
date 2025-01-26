@@ -14,6 +14,15 @@ function ViewCustomer({ openViewModal, setOpenViewModal, viewCustomerId, id }) {
   const [network, setNetwork] = useState("");
   const [uuid, setUuid] = useState("");
   const [createDate, setCreateDate] = useState("");
+  const [loanAmount, setLoanAmount] = useState(0);
+  const [paidloanAmount, setPaidLoanAmount] = useState(0);
+  const [isChequePayment, setIsChequePayment] = useState("");
+  const [ChequeBalance, setChequeBalance] = useState(0);
+  const [ChequeGivenDate, setChequeGivenDate] = useState("");
+  const [ChequeDueDate, setChequeDueDate] = useState("");
+  const [bankDeposit, setBankDeposit] = useState("");
+  const [bankName, setBankName] = useState("");
+  const [depositAmount, setDepositAmount] = useState(0);
 
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
@@ -37,6 +46,15 @@ function ViewCustomer({ openViewModal, setOpenViewModal, viewCustomerId, id }) {
         setNetwork(response.data.network.name);
         setUuid(response.data.uuid);
         setCreateDate(response.data.createdAt);
+        setLoanAmount(response.data.loanAmount);
+        setPaidLoanAmount(response.data.paidloanAmount);
+        setIsChequePayment(response.data.isChequePayment);
+        setChequeBalance(response.data.ChequeBalance);
+        setChequeGivenDate(response.data.ChequeGivenDate);
+        setChequeDueDate(response.data.ChequeDueDate);
+        setBankDeposit(response.data.bankDeposit);
+        setBankName(response.data.bankName);
+        setDepositAmount(response.data.depositAmount);
       } catch (error) {
         if (error.response) {
           //setMsg(error.response.data.msg);
@@ -55,6 +73,15 @@ function ViewCustomer({ openViewModal, setOpenViewModal, viewCustomerId, id }) {
     setNetwork("");
     setUuid("");
     setCreateDate("");
+    setLoanAmount("");
+    setPaidLoanAmount("");
+    setIsChequePayment("");
+    setChequeBalance("");
+    setChequeGivenDate("");
+    setChequeDueDate("");
+    setBankDeposit("");
+    setBankName("");
+    setDepositAmount("");
     getCustomer();
   }, [viewCustomerId]);
 
@@ -122,6 +149,42 @@ function ViewCustomer({ openViewModal, setOpenViewModal, viewCustomerId, id }) {
             <div className="m-2">
               <p className="font-semibold text-lg">Network :</p>
               <p>{`${network}`}</p>
+            </div>
+            <div className="m-2">
+              <p className="font-semibold text-lg">Loan Amount :</p>
+              <p>{`${loanAmount}`}</p>
+            </div>
+            <div className="m-2">
+              <p className="font-semibold text-lg">Paid Loan Amount :</p>
+              <p>{`${paidloanAmount}`}</p>
+            </div>
+            <div className="m-2">
+              <p className="font-semibold text-lg">Is Cheque Payment :</p>
+              <p>{`${isChequePayment}`}</p>
+            </div>
+            <div className="m-2">
+              <p className="font-semibold text-lg">Cheque Balance :</p>
+              <p>{`${ChequeBalance}`}</p>
+            </div>
+            <div className="m-2">
+              <p className="font-semibold text-lg">Cheque Given Date :</p>
+              <p>{`${ChequeGivenDate}`}</p>
+            </div>
+            <div className="m-2">
+              <p className="font-semibold text-lg">Cheque Due Date :</p>
+              <p>{`${ChequeDueDate}`}</p>
+            </div>
+            <div className="m-2">
+              <p className="font-semibold text-lg">Bank Deposit :</p>
+              <p>{`${bankDeposit}`}</p>
+            </div>
+            <div className="m-2">
+              <p className="font-semibold text-lg">Bank Name :</p>
+              <p>{`${bankName}`}</p>
+            </div>
+            <div className="m-2">
+              <p className="font-semibold text-lg">Bank Deposit Amount :</p>
+              <p>{`${depositAmount}`}</p>
             </div>
             <div className="m-2">
               <p className="font-semibold text-lg">Created Date :</p>
