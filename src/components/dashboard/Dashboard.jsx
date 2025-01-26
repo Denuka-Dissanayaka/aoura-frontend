@@ -303,6 +303,32 @@ function Dashboard() {
           <Pie data={dataPie} />
         </div>
       </div>
+
+      <div className="grid grid-cols-1 gap-4 mt-5">
+        <div className="bg-white p-4 dark:bg-gray-800 rounded-lg shadow-md">
+          <h3 className="text-lg font-semibold mb-4">Cheque Info</h3>
+          <div>
+            <table className=" table-auto w-full bg-white dark:bg-gray-800 rounded-lg shadow-md">
+              <thead>
+                <tr>
+                  <th className="p-4">Customer Name</th>
+                  <th>Given Date</th>
+                  <th>Due Date</th>
+                  <th>Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="p-4 text-center">Kasun</td>
+                  <td className="text-center">2022/1/23</td>
+                  <td className="text-center">2023/3/3</td>
+                  <td className="text-center">233</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
