@@ -13,6 +13,15 @@ function AddCustomerForm({ openModal, setOpenModal, getCustomersFunc }) {
   const [phone, setPhone] = useState("");
   const [network, setNetwork] = useState("");
   const [networks, setNetworks] = useState([]);
+  const [loanAmount, setLoanAmount] = useState(0);
+  const [paidloanAmount, setPaidLoanAmount] = useState(0);
+  const [isChequePayment, setIsChequePayment] = useState("");
+  const [ChequeBalance, setChequeBalance] = useState(0);
+  const [ChequeGivenDate, setChequeGivenDate] = useState("");
+  const [ChequeDueDate, setChequeDueDate] = useState("");
+  const [bankDeposit, setBankDeposit] = useState("");
+  const [bankName, setBankName] = useState("");
+  const [depositAmount, setDepositAmount] = useState(0);
   const [msg, setMsg] = useState("");
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
@@ -50,6 +59,15 @@ function AddCustomerForm({ openModal, setOpenModal, getCustomersFunc }) {
     setEmail("");
     setPhone("");
     setNetwork("");
+    setLoanAmount(0);
+    setPaidLoanAmount(0);
+    setIsChequePayment("");
+    setChequeBalance(0);
+    setChequeGivenDate("");
+    setChequeDueDate("");
+    setBankDeposit("");
+    setBankName("");
+    setDepositAmount(0);
   }, [openModal]);
 
   const saveCustomer = async (e) => {
@@ -63,6 +81,15 @@ function AddCustomerForm({ openModal, setOpenModal, getCustomersFunc }) {
           address: address,
           phone: phone,
           networkId: network,
+          loanAmount: loanAmount,
+          paidloanAmount: paidloanAmount,
+          isChequePayment: isChequePayment,
+          ChequeBalance: ChequeBalance,
+          ChequeGivenDate: ChequeGivenDate,
+          ChequeDueDate: ChequeDueDate,
+          bankDeposit: bankDeposit,
+          bankName: bankName,
+          depositAmount: depositAmount,
         },
         {
           headers: {
@@ -77,6 +104,15 @@ function AddCustomerForm({ openModal, setOpenModal, getCustomersFunc }) {
       setEmail("");
       setPhone("");
       setNetwork("");
+      setLoanAmount(0);
+      setPaidLoanAmount(0);
+      setIsChequePayment("");
+      setChequeBalance(0);
+      setChequeGivenDate("");
+      setChequeDueDate("");
+      setBankDeposit("");
+      setBankName("");
+      setDepositAmount(0);
       navigate("/customers");
       getCustomersFunc();
       setOpenModal(false);
@@ -236,6 +272,196 @@ function AddCustomerForm({ openModal, setOpenModal, getCustomersFunc }) {
                     ))}
                   </select>
                 </div>
+              )}
+
+              <div className="col-span-2">
+                <label
+                  for="loanAmount"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Loan Amount
+                </label>
+                <input
+                  type="number"
+                  name="loanAmount"
+                  value={loanAmount}
+                  onChange={(e) => {
+                    setLoanAmount(e.target.value);
+                  }}
+                  id="loanAmount"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  placeholder="Loan Amount"
+                />
+              </div>
+
+              <div className="col-span-2">
+                <label
+                  for="paidloanAmount"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Paid Loan Amount
+                </label>
+                <input
+                  type="number"
+                  name="paidloanAmount"
+                  value={paidloanAmount}
+                  onChange={(e) => {
+                    setPaidLoanAmount(e.target.value);
+                  }}
+                  id="paidloanAmount"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  placeholder="Paid Loan Amount"
+                />
+              </div>
+
+              <div className="col-span-2">
+                <label
+                  for="isChequePayment"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Is Cheque Payment
+                </label>
+                <select
+                  id="isChequePayment"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  value={isChequePayment}
+                  onChange={(e) => {
+                    setIsChequePayment(e.target.value);
+                  }}
+                >
+                  <option selected="">Is Cheque Payment</option>
+                  <option value={"yes"}>Yes</option>
+                  <option value={"no"}>No</option>
+                </select>
+              </div>
+
+              {isChequePayment === "yes" && (
+                <>
+                  <div className="col-span-2">
+                    <label
+                      for="ChequeBalance"
+                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >
+                      Cheque Balance
+                    </label>
+                    <input
+                      type="number"
+                      name="ChequeBalance"
+                      value={ChequeBalance}
+                      onChange={(e) => {
+                        setChequeBalance(e.target.value);
+                      }}
+                      id="paidloanAmount"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                      placeholder="Cheque Balance"
+                    />
+                  </div>
+
+                  <div className="col-span-2">
+                    <label
+                      for="ChequeGivenDate"
+                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >
+                      Cheque Given Date
+                    </label>
+                    <input
+                      type="date"
+                      name="ChequeGivenDate"
+                      id="ChequeGivenDate"
+                      value={ChequeGivenDate}
+                      onChange={(e) => {
+                        setChequeGivenDate(e.target.value);
+                      }}
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                      placeholder="Cheque Given Date"
+                    />
+                  </div>
+
+                  <div className="col-span-2">
+                    <label
+                      for="ChequeDueDate"
+                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >
+                      Cheque Due Date
+                    </label>
+                    <input
+                      type="date"
+                      name="ChequeDueDate"
+                      id="ChequeDueDate"
+                      value={ChequeDueDate}
+                      onChange={(e) => {
+                        setChequeDueDate(e.target.value);
+                      }}
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                      placeholder="Cheque Due Date"
+                    />
+                  </div>
+                </>
+              )}
+
+              <div className="col-span-2">
+                <label
+                  for="bankDeposit"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Bank Deposit
+                </label>
+                <select
+                  id="bankDeposit"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  value={bankDeposit}
+                  onChange={(e) => {
+                    setBankDeposit(e.target.value);
+                  }}
+                >
+                  <option selected="">Is Bank Deposit</option>
+                  <option value={"yes"}>Yes</option>
+                  <option value={"no"}>No</option>
+                </select>
+              </div>
+
+              {bankDeposit === "yes" && (
+                <>
+                  <div className="col-span-2">
+                    <label
+                      for="ChequeBalance"
+                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >
+                      Bank Name
+                    </label>
+                    <input
+                      type="text"
+                      name="bankName"
+                      value={bankName}
+                      onChange={(e) => {
+                        setBankName(e.target.value);
+                      }}
+                      id="bankName"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                      placeholder="Bank Name"
+                    />
+                  </div>
+
+                  <div className="col-span-2">
+                    <label
+                      for="depositAmount"
+                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >
+                      Deposit Amount
+                    </label>
+                    <input
+                      type="number"
+                      name="depositAmount"
+                      value={depositAmount}
+                      onChange={(e) => {
+                        setDepositAmount(e.target.value);
+                      }}
+                      id="depositAmount"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                      placeholder="Deposit Amount"
+                    />
+                  </div>
+                </>
               )}
 
               {/* <div className="col-span-2">

@@ -268,7 +268,10 @@ function Customers() {
             ) : (
               customers.map((customer, index) => (
                 <>
-                  <tr key={customer.uuid}>
+                  <tr
+                    key={customer.uuid}
+                    className={`${customer.id === 1 ? "hidden" : ""}`}
+                  >
                     <td className="p-4 text-center">#{customer.id}</td>
                     <td className="text-center">{customer.name}</td>
                     <td className="text-center">{customer.email}</td>
