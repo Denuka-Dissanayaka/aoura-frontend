@@ -338,14 +338,20 @@ function Dashboard() {
                   </tr>
                 </thead>
                 <tbody>
-                  {chequeData?.map((data, i) => (
+                  <tr>
+                    <td className="text-center">Kamal</td>
+                    <td className="text-center">2025-01-26</td>
+                    <td className="text-center">2025-01-28</td>
+                    <td className="text-center">233</td>
+                  </tr>
+                  {/* {chequeData?.map((data, i) => (
                     <tr key={i}>
                       <td className="text-center">{data.name}</td>
                       <td className="text-center">{data.ChequeGivenDate}</td>
                       <td className="text-center">{data.ChequeDueDate}</td>
                       <td className="text-center">{data.ChequeBalance}</td>
                     </tr>
-                  ))}
+                  ))} */}
                 </tbody>
               </table>
             </div>
