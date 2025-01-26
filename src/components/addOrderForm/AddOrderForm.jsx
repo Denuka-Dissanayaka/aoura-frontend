@@ -16,6 +16,8 @@ function AddOrderForm({ openModal, setOpenModal, getOrdersFunc }) {
   const [networks, setNetworks] = useState([]);
   const [customers, setCustomers] = useState([]);
   const [products, setProducts] = useState([]);
+  const [productType, setProductType] = useState("");
+  const [trackingNumber, setTrackingNumber] = useState("");
   const [tempCustomerName, setTempCustomerName] = useState("");
   const [tempCustomerEmail, setTempCustomerEmail] = useState("");
   const [tempCustomerPhone, setTempCustomerPhone] = useState("");
@@ -147,6 +149,8 @@ function AddOrderForm({ openModal, setOpenModal, getOrdersFunc }) {
       setQuantity("");
       setUnitPrice("");
       setTotalPrice(0);
+      setProductType("");
+      setTrackingNumber("");
       setTempCustomerEmail("");
       setTempCustomerName("");
       setTempCustomerPhone("");
@@ -165,6 +169,8 @@ function AddOrderForm({ openModal, setOpenModal, getOrdersFunc }) {
           customerId: customer,
           date: date,
           networkId: network,
+          productType: productType,
+          trackingNumber: trackingNumber,
           tempCustomerName,
           tempCustomerEmail,
           tempCustomerPhone,
@@ -184,6 +190,8 @@ function AddOrderForm({ openModal, setOpenModal, getOrdersFunc }) {
       setQuantity("");
       setUnitPrice("");
       setTotalPrice(0);
+      setProductType("");
+      setTrackingNumber("");
       setTempCustomerEmail("");
       setTempCustomerName("");
       setTempCustomerPhone("");
@@ -380,6 +388,49 @@ function AddOrderForm({ openModal, setOpenModal, getOrdersFunc }) {
                   ))}
                 </select>
               </div>
+
+              <div className={`col-span-2 ${network != "" ? "" : "hidden"}`}>
+                <label
+                  for="productType"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Select Product Type
+                </label>
+                <select
+                  id="productType"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  value={productType}
+                  onChange={(e) => {
+                    setProductType(e.target.value);
+                  }}
+                >
+                  <option selected="">Select Product Type</option>
+                  <option value="physical">Physical Product</option>
+                  <option value="virtual">Virtual Product</option>
+                </select>
+              </div>
+
+              {productType === "physical" && (
+                <div className="col-span-2">
+                  <label
+                    for="trackingNumber"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Tracking Number
+                  </label>
+                  <input
+                    type="text"
+                    name="trackingNumber"
+                    id="trackingNumber"
+                    value={trackingNumber}
+                    onChange={(e) => {
+                      setTrackingNumber(e.target.value);
+                    }}
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    placeholder="Tracking Number"
+                  />
+                </div>
+              )}
 
               <div className="col-span-2">
                 <label
