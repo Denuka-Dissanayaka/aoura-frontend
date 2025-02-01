@@ -185,12 +185,15 @@ function Dashboard() {
 
   const getChequeData = async () => {
     try {
-      const response = await axios.get(`${api_url}/api/v1/customers/cheque`, {
-        headers: {
-          "access-token": localStorage.getItem("token"),
-        },
-        withCredentials: true,
-      });
+      const response = await axios.get(
+        `${api_url}/api/v1/customers/chequedata`,
+        {
+          headers: {
+            "access-token": localStorage.getItem("token"),
+          },
+          withCredentials: true,
+        }
+      );
 
       setChequeData(response.data.response);
     } catch (error) {
