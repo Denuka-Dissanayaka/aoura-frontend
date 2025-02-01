@@ -14,6 +14,7 @@ import { FaDiceD6 } from "react-icons/fa";
 import { IoIosPeople } from "react-icons/io";
 import { FaBuilding } from "react-icons/fa";
 import { FaUserTie } from "react-icons/fa";
+import { AiFillAccountBook } from "react-icons/ai";
 
 function Sidebar() {
   const [navbarResize, setNavbarReside] = useState(false);
@@ -76,6 +77,12 @@ function Sidebar() {
       link: "/expenses",
       onlyAdmin: false,
       icon: <FaMoneyBillWave />,
+    },
+    {
+      title: "Cashbook",
+      link: "/cashbook",
+      onlyAdmin: true,
+      icon: <AiFillAccountBook />,
     },
     { title: "Users", link: "/users", onlyAdmin: true, icon: <FaUserTie /> },
   ];
