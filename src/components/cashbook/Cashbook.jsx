@@ -8,28 +8,51 @@ import { Blocks } from "react-loader-spinner";
 function Cashbook() {
   const api_url = import.meta.env.VITE_API_URL;
 
+  const [cashbookRecords, setCashbookRecords] = useState([]);
+
+  useEffect(() => {
+    getOrders();
+  }, []);
+
+  const getOrders = async () => {
+    //setLoading(true);
+    try {
+      const response = await axios.get(`${api_url}/api/v1/cashbook`, {
+        headers: {
+          "access-token": localStorage.getItem("token"),
+        },
+        withCredentials: true,
+      });
+
+      setCashbookRecords(response.data.response);
+    } catch (error) {
+      if (error.response) {
+        toast.error(error.response.data.msg);
+      }
+    }
+  };
+
   return (
     <div className="grow p-8">
       <h2 className="text-2xl mb-4">Cashbook</h2>
 
       <div>
         <div className="grid grid-cols-4 gap-2">
-          <div className="p-3 bg-gray-800 rounded-md">
-            <p className="">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus
-              iusto dolore rerum corporis fugiat consequatur quod molestias,
-              earum quos temporibus?
-            </p>
-            <div className="flex items-center justify-between mt-2">
-              <button className=" bg-amber-500 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded">
-                {" "}
-                View Details
-              </button>
-              <button className="bg-red-600 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded">
-                Delete
-              </button>
+          {cashbookRecords.map((record, i) => (
+            <div className="p-3 bg-gray-800 rounded-md" key={i}>
+              <p className="">{record.description}</p>
+              <p className="mt-1">{` Date: ${record.date}`}</p>
+              <div className="flex items-center justify-between mt-2">
+                <button className=" bg-amber-500 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded">
+                  {" "}
+                  View Details
+                </button>
+                <button className="bg-red-600 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded">
+                  Delete
+                </button>
+              </div>
             </div>
-          </div>
+          ))}
         </div>
       </div>
     </div>
