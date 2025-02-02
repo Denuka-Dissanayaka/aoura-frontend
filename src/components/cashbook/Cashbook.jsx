@@ -14,18 +14,18 @@ function Cashbook() {
 
       <div>
         <div className="grid grid-cols-4 gap-2">
-          <div className="p-2">
+          <div className="p-2 bg-gray-800">
             <p>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus
               iusto dolore rerum corporis fugiat consequatur quod molestias,
               earum quos temporibus?
             </p>
-            <div>
-              <button className="bg-dark-purple dark:bg-gray-800 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded">
+            <div className="flex items-center justify-between mt-2">
+              <button className=" bg-amber-500 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded">
                 {" "}
                 View Details
               </button>
-              <button className="bg-dark-purple dark:bg-gray-800 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded">
+              <button className="bg-red-600 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded">
                 Delete
               </button>
             </div>
