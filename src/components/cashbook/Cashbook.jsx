@@ -5,10 +5,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { Blocks } from "react-loader-spinner";
 
+import ViewCashbookOrder from "../viewCashbookOrder/ViewCashbookOrder";
+
 function Cashbook() {
   const api_url = import.meta.env.VITE_API_URL;
 
   const [cashbookRecords, setCashbookRecords] = useState([]);
+  const [openViewModal, setOpenViewModal] = useState(false);
+  const [recordId, setRecordId] = useState(false);
 
   useEffect(() => {
     getCashbookRecords();
@@ -36,6 +40,12 @@ function Cashbook() {
     <div className="grow p-8">
       <h2 className="text-2xl mb-4">Cashbook</h2>
 
+      <ViewCashbookOrder
+        openViewModal={openViewModal}
+        setOpenViewModal={setOpenViewModal}
+        recordId={recordId}
+      />
+
       <div>
         <div className="grid grid-cols-4 gap-2">
           {cashbookRecords.map((record, i) => (
@@ -43,7 +53,13 @@ function Cashbook() {
               <p className="font-semibold text-lg">{record.description}</p>
               <p className="mt-1 text-green-500">{` Date: ${record.date}`}</p>
               <div className="flex items-center justify-between mt-2">
-                <button className=" bg-amber-500 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded">
+                <button
+                  className=" bg-amber-500 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
+                  onClick={() => {
+                    setOpenViewModal(true);
+                    setRecordId(record.recordID);
+                  }}
+                >
                   {" "}
                   View Details
                 </button>
