@@ -182,6 +182,24 @@ function AddOrderForm({ openModal, setOpenModal, getOrdersFunc }) {
           withCredentials: true,
         }
       );
+
+      await axios.post(
+        `${api_url}/api/v1/cashbook`,
+        {
+          description: "New order has been placed",
+
+          date: date,
+          type: "order",
+          recordID: result.data.result.uuid,
+        },
+        {
+          headers: {
+            "access-token": localStorage.getItem("token"),
+          },
+          withCredentials: true,
+        }
+      );
+
       toast.success(result.data.msg);
       setNetwork("");
       setCustomer("");
