@@ -14,8 +14,8 @@ function Cashbook() {
 
       <div>
         <div className="grid grid-cols-4 gap-2">
-          <div className="p-2 bg-gray-800">
-            <p>
+          <div className="p-3 bg-gray-800 rounded-md">
+            <p className="">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus
               iusto dolore rerum corporis fugiat consequatur quod molestias,
               earum quos temporibus?
