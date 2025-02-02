@@ -11,10 +11,10 @@ function Cashbook() {
   const [cashbookRecords, setCashbookRecords] = useState([]);
 
   useEffect(() => {
-    getOrders();
+    getCashbookRecords();
   }, []);
 
-  const getOrders = async () => {
+  const getCashbookRecords = async () => {
     //setLoading(true);
     try {
       const response = await axios.get(`${api_url}/api/v1/cashbook`, {
@@ -40,8 +40,8 @@ function Cashbook() {
         <div className="grid grid-cols-4 gap-2">
           {cashbookRecords.map((record, i) => (
             <div className="p-3 bg-gray-800 rounded-md" key={i}>
-              <p className="">{record.description}</p>
-              <p className="mt-1">{` Date: ${record.date}`}</p>
+              <p className="font-semibold text-lg">{record.description}</p>
+              <p className="mt-1 text-green-500">{` Date: ${record.date}`}</p>
               <div className="flex items-center justify-between mt-2">
                 <button className=" bg-amber-500 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded">
                   {" "}
