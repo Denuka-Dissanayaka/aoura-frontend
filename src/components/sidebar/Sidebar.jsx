@@ -15,6 +15,7 @@ import { IoIosPeople } from "react-icons/io";
 import { FaBuilding } from "react-icons/fa";
 import { FaUserTie } from "react-icons/fa";
 import { AiFillAccountBook } from "react-icons/ai";
+import { FaTruckFast } from "react-icons/fa6";
 
 function Sidebar() {
   const [navbarResize, setNavbarReside] = useState(false);
@@ -65,6 +66,12 @@ function Sidebar() {
       //   { title: "Submenu 2" },
       //   { title: "Submenu 3" },
       // ],
+    },
+    {
+      title: "Suppliers",
+      link: "/suppliers",
+      onlyAdmin: true,
+      icon: <FaTruckFast />,
     },
     {
       title: "Orders",

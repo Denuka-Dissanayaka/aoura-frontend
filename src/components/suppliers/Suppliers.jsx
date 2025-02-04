@@ -1,0 +1,271 @@
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import { Blocks } from "react-loader-spinner";
+import { useDispatch, useSelector } from "react-redux";
+
+import { toast } from "react-toastify";
+import ReactPaginate from "react-paginate";
+
+function Suppliers() {
+  const api_url = import.meta.env.VITE_API_URL;
+
+  const [openModal, setOpenModal] = useState(false);
+  const [suppliers, setSuppliers] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [networks, setNetworks] = useState([]);
+  const [network, setNetwork] = useState("");
+  const [editStaffId, setEditStaffId] = useState(null);
+  const [viewStaffId, setViewStaffId] = useState(null);
+  const [openEditModal, setOpenEditModal] = useState(false);
+  const [openViewModal, setOpenViewModal] = useState(false);
+
+  const [searchByName, setSearchByName] = useState("");
+  const [page, setPage] = useState(0);
+  const [pageWhenNetworkSelected, setPageWhenNetworkSelected] = useState(0);
+  const [limit, setLimit] = useState(10);
+  const [pages, setPages] = useState(0);
+  const [rows, setRows] = useState(0);
+
+  const { user } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    getNetworks();
+  }, []);
+
+  useEffect(() => {
+    getStaffs();
+  }, [page]);
+
+  useEffect(() => {
+    getStaffs();
+  }, [openEditModal]);
+
+  useEffect(() => {
+    setPageWhenNetworkSelected(0);
+    setPage(0);
+    setPages(0);
+    setRows(0);
+
+    network !== "" || searchByName !== ""
+      ? getStaffsBasedOnNetwork()
+      : getStaffs();
+  }, [network, searchByName]);
+
+  useEffect(() => {
+    getStaffsBasedOnNetwork();
+  }, [pageWhenNetworkSelected]);
+
+  const getStaffs = async () => {
+    // setLoading(true);
+    // try {
+    //   const response = await axios.get(
+    //     `${api_url}/api/v1/staffs?page=${page}&limit=${limit}`,
+    //     {
+    //       headers: {
+    //         "access-token": localStorage.getItem("token"),
+    //       },
+    //       withCredentials: true,
+    //     }
+    //   );
+    //   setLoading(false);
+    //   setUsers(response.data.response);
+    //   setPage(response.data.page);
+    //   setLimit(response.data.limit);
+    //   setPages(response.data.totalPage);
+    //   setRows(response.data.totalRows);
+    // } catch (error) {
+    //   if (error.response) {
+    //     toast.error(error.response.data.msg);
+    //   }
+    // }
+  };
+
+  const getNetworks = async () => {
+    try {
+      const response = await axios.get(`${api_url}/api/v1/networks`, {
+        headers: {
+          "access-token": localStorage.getItem("token"),
+        },
+        withCredentials: true,
+      });
+
+      setNetworks(response.data);
+    } catch (error) {
+      if (error.response) {
+        //setMsg(error.response.data.msg);
+        toast.error(error.response.data.msg);
+      }
+    }
+  };
+
+  // get staffs based on network
+  const getStaffsBasedOnNetwork = async () => {
+    setLoading(true);
+
+    try {
+      const response = await axios.get(
+        `${api_url}/api/v1/staffs/base-on-network/${network}?page=${pageWhenNetworkSelected}&limit=${limit}&search_by_name=${searchByName}`,
+        {
+          headers: {
+            "access-token": localStorage.getItem("token"),
+          },
+          withCredentials: true,
+        }
+      );
+      setLoading(false);
+      setUsers(response.data.response);
+      setPageWhenNetworkSelected(response.data.page);
+      setLimit(response.data.limit);
+      setPages(response.data.totalPage);
+      setRows(response.data.totalRows);
+    } catch (error) {
+      if (error.response) {
+        //setMsg(error.response.data.msg);
+        toast.error(error.response.data.msg);
+        console.log(error.response.data.msg);
+      }
+    }
+  };
+
+  const deleteStaff = async (id) => {
+    try {
+      const result = await axios.delete(`${api_url}/api/v1/staffs/${id}`, {
+        headers: {
+          "access-token": localStorage.getItem("token"),
+        },
+        withCredentials: true,
+      });
+      toast.success(result.data.msg);
+      getStaffs();
+    } catch (error) {
+      if (error.response) {
+        toast.error(error.response.data.msg);
+      }
+    }
+  };
+
+  const changePage = ({ selected }) => {
+    //setPage(selected);
+    network !== "" ? setPageWhenNetworkSelected(selected) : setPage(selected);
+    // if (selected === 9) {
+    //   setMsg(
+    //     "Jika tidak menemukan data yang Anda cari, silahkan cari data dengan kata kunci spesifik!"
+    //   );
+    // } else {
+    //   setMsg("");
+    // }
+  };
+  return (
+    <div className="grow p-8">
+      <h2 className="text-2xl mb-4">Suppliers</h2>
+      <div className="mb-6">
+        <button
+          onClick={() => setOpenModal(true)}
+          data-modal-target="crud-modal"
+          data-modal-toggle="crud-modal"
+          className="bg-dark-purple dark:bg-gray-800 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
+        >
+          Add new Supplier
+        </button>
+      </div>
+
+      <div>
+        <table className=" table-auto w-full bg-white dark:bg-gray-800 rounded-lg shadow-md">
+          <thead>
+            <tr>
+              <th className="p-4">ID</th>
+              <th>User ID</th>
+              <th>Frist Name</th>
+              <th>Last Name</th>
+              {/* <th>NIC</th> */}
+              <th>Network Name</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {loading ? (
+              <div className="flex justify-center mt-2 w-full">
+                <Blocks
+                  height="80"
+                  width="80"
+                  color="#4fa94d"
+                  ariaLabel="blocks-loading"
+                  wrapperStyle={{}}
+                  wrapperClass="blocks-wrapper"
+                  visible={true}
+                />
+              </div>
+            ) : (
+              suppliers.map((user, index) => (
+                <tr key={user.id}>
+                  <td className="p-4 text-center">#{user.id}</td>
+                  <td className="text-center">{user.uuid}</td>
+                  <td className="text-center">{user.fristname}</td>
+                  <td className="text-center">{user.lastname}</td>
+                  {/* <td className="text-center">{user.nic}</td> */}
+                  <td className="text-center">{user.network.name}</td>
+                  <td className="text-center">
+                    <button
+                      onClick={() => {
+                        setOpenViewModal(true);
+                        setViewStaffId(user.uuid);
+                      }}
+                      className="bg-blue-600 mr-2 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
+                    >
+                      View
+                    </button>
+                    <button
+                      onClick={() => {
+                        setOpenEditModal(true);
+                        setEditStaffId(user.uuid);
+                      }}
+                      className="bg-green-600 mr-2 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => {
+                        deleteStaff(user.uuid);
+                      }}
+                      className="bg-red-600 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+        <p className="text-right mt-1 mb-1">
+          Total Rows: {rows} Page: {rows ? page + 1 : 0} of {pages}
+        </p>
+        <nav className="flex items-center gap-4 mt-6 justify-center">
+          <ReactPaginate
+            previousLabel={"< Prev"}
+            nextLabel={"Next >"}
+            pageCount={pages}
+            onPageChange={changePage}
+            containerClassName={"flex items-center gap-4"}
+            pageClassName={
+              "bg-dark-purple dark:bg-gray-800 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
+            }
+            activeClassName={
+              "bg-gray-500 dark:bg-red-600 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
+            }
+            previousClassName={
+              "bg-dark-purple dark:bg-gray-800 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
+            }
+            nextClassName={
+              "bg-dark-purple dark:bg-gray-800 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
+            }
+            disabledLinkClassName={" text-gray-400 dark:text-gray-700"}
+          />
+        </nav>
+      </div>
+    </div>
+  );
+}
+
+export default Suppliers;
