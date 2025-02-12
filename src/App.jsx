@@ -15,6 +15,7 @@ import OrderPage from "./pages/OrderPage";
 import ExpensePage from "./pages/ExpensePage";
 import CashbookPage from "./pages/CashbookPage";
 import Invoice from "./components/invoice/Invoice";
+import SuppliersPage from "./pages/SuppliersPage";
 
 import "react-toastify/dist/ReactToastify.css";
 
@@ -33,6 +34,7 @@ function App() {
           <Route path="/orders" element={<OrderPage />}></Route>
           <Route path="/expenses" element={<ExpensePage />}></Route>
           <Route path="/cashbook" element={<CashbookPage />}></Route>
+          <Route path="/suppliers" element={<SuppliersPage />}></Route>
           <Route path="/invoice/:id" element={<Invoice />}></Route>
           {/* <Panel /> */}
           {/* <LoginPage /> */}
