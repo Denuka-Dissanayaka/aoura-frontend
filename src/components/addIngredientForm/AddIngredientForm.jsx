@@ -40,7 +40,7 @@ function AddIngredientForm({ openModal, setOpenModal, getIngredientFunc }) {
         }
       );
       toast.success(result.data.msg);
-      navigate("/suppliers");
+      navigate("/ingredients");
       getIngredientFunc();
       setName("");
       setQuantity("");
