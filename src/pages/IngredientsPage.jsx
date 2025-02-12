@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Panel from "../panel/Panel";
 
-import Suppliers from "../components/suppliers/Suppliers";
+import Ingredients from "../components/ingredients/Ingredients";
 import { getMe } from "../features/authSlice";
 
 function IngredientsPage() {
@@ -26,7 +26,7 @@ function IngredientsPage() {
   }, [isError, user, navigate]);
   return (
     <Panel>
-      <div>hello</div>
+      <Ingredients />
     </Panel>
   );
 }
