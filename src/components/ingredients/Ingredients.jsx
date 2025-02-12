@@ -73,7 +73,7 @@ function Ingredients() {
         withCredentials: true,
       });
       toast.success(result.data.msg);
-      getSuppliers();
+      //getSuppliers();
     } catch (error) {
       if (error.response) {
         toast.error(error.response.data.msg);
