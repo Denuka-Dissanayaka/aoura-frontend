@@ -8,13 +8,15 @@ import { toast } from "react-toastify";
 import ReactPaginate from "react-paginate";
 
 import ViewSupplier from "../viewSupplier/ViewSupplier";
+import AddSupplierForm from "../addSupplierForm/AddSupplierForm";
 
 function Suppliers() {
   const api_url = import.meta.env.VITE_API_URL;
 
   const [openModal, setOpenModal] = useState(false);
-  const [suppliers, setSuppliers] = useState([]);
+
   const [loading, setLoading] = useState(false);
+  const [suppliers, setSuppliers] = useState([]);
 
   const [editSupplierId, setEditSupplierId] = useState(null);
   const [viewSupplierId, setViewSupplierId] = useState(null);
@@ -38,28 +40,28 @@ function Suppliers() {
   }, [openEditModal]);
 
   const getSuppliers = async () => {
-    // setLoading(true);
-    // try {
-    //   const response = await axios.get(
-    //     `${api_url}/api/v1/staffs?page=${page}&limit=${limit}`,
-    //     {
-    //       headers: {
-    //         "access-token": localStorage.getItem("token"),
-    //       },
-    //       withCredentials: true,
-    //     }
-    //   );
-    //   setLoading(false);
-    //   setUsers(response.data.response);
-    //   setPage(response.data.page);
-    //   setLimit(response.data.limit);
-    //   setPages(response.data.totalPage);
-    //   setRows(response.data.totalRows);
-    // } catch (error) {
-    //   if (error.response) {
-    //     toast.error(error.response.data.msg);
-    //   }
-    // }
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `${api_url}/api/v1/suppliers?page=${page}&limit=${limit}`,
+        {
+          headers: {
+            "access-token": localStorage.getItem("token"),
+          },
+          withCredentials: true,
+        }
+      );
+      setLoading(false);
+      setSuppliers(response.data.response);
+      setPage(response.data.page);
+      setLimit(response.data.limit);
+      setPages(response.data.totalPage);
+      setRows(response.data.totalRows);
+    } catch (error) {
+      if (error.response) {
+        toast.error(error.response.data.msg);
+      }
+    }
   };
 
   const deleteSupplier = async (id) => {
@@ -102,6 +104,12 @@ function Suppliers() {
         viewSupplierId={viewSupplierId}
       />
 
+      <AddSupplierForm
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        getSuppilersFunc={getSuppliers}
+      />
+
       <div>
         <table className=" table-auto w-full bg-white dark:bg-gray-800 rounded-lg shadow-md">
           <thead>
@@ -112,6 +120,7 @@ function Suppliers() {
               <th>Loan</th>
               {/* <th>NIC</th> */}
               <th>Paid Amount</th>
+              <th>Balance</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -134,14 +143,15 @@ function Suppliers() {
                   <td className="p-4 text-center">#{user.id}</td>
                   <td className="text-center">{user.name}</td>
                   <td className="text-center">{user.paymentMethod}</td>
-                  <td className="text-center">{user.Loan}</td>
+                  <td className="text-center">{user.loanAmount}</td>
 
                   <td className="text-center">{user.paidAmount}</td>
+                  <td className="text-center">{user.balance}</td>
                   <td className="text-center">
                     <button
                       onClick={() => {
-                        setOpenViewModal(true);
-                        setViewSupplierId(user.uuid);
+                        //setOpenViewModal(true);
+                        //setViewSupplierId(user.uuid);
                       }}
                       className="bg-blue-600 mr-2 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
                     >
@@ -149,8 +159,8 @@ function Suppliers() {
                     </button>
                     <button
                       onClick={() => {
-                        setOpenEditModal(true);
-                        setEditSupplierId(user.uuid);
+                        //setOpenEditModal(true);
+                        //setEditSupplierId(user.uuid);
                       }}
                       className="bg-green-600 mr-2 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
                     >
@@ -158,7 +168,7 @@ function Suppliers() {
                     </button>
                     <button
                       onClick={() => {
-                        deleteSupplier(user.uuid);
+                        //deleteSupplier(user.uuid);
                       }}
                       className="bg-red-600 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
                     >
