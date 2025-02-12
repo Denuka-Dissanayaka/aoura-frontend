@@ -13,8 +13,8 @@ function ViewSupplier({ openViewModal, setOpenViewModal, viewSupplierId }) {
   const [phoneNo, setPhoneNo] = useState("");
   const [loan, setLoan] = useState(0);
   const [paidAmount, setPaidAmount] = useState(0);
-  const [paymentMethod, setPaymentMethod] = useState('');
-  const [bankName, setBankName] = useState('');
+  const [paymentMethod, setPaymentMethod] = useState("");
+  const [bankName, setBankName] = useState("");
   const [createDate, setCreateDate] = useState("");
 
   const { user } = useSelector((state) => state.auth);
@@ -31,15 +31,15 @@ function ViewSupplier({ openViewModal, setOpenViewModal, viewSupplierId }) {
           withCredentials: true,
         }
       );
-      
+
       setUuid(response.data.uuid);
       setName(response.data.uuid);
-    setEmail(response.data.);
-    setPhoneNo(response.data.phone)
-    setLoan(response.data.loan);
-    setBankName(response.data.bank);
-    setPaidAmount(response.data.paidAmount);
-    setPaymentMethod(response.data.paymentMethod);
+      setEmail(response.data.email);
+      setPhoneNo(response.data.phone);
+      setLoan(response.data.loan);
+      setBankName(response.data.bank);
+      setPaidAmount(response.data.paidAmount);
+      setPaymentMethod(response.data.paymentMethod);
       setCreateDate(response.data.createdAt);
     } catch (error) {
       if (error.response) {
@@ -54,7 +54,7 @@ function ViewSupplier({ openViewModal, setOpenViewModal, viewSupplierId }) {
     setName("");
     setUuid("");
     setEmail("");
-    setPhoneNo('')
+    setPhoneNo("");
     setLoan("");
     setBankName("");
     setBankName("");
