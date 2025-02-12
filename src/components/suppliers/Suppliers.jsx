@@ -7,22 +7,22 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import ReactPaginate from "react-paginate";
 
+import ViewSupplier from "../viewSupplier/ViewSupplier";
+
 function Suppliers() {
   const api_url = import.meta.env.VITE_API_URL;
 
   const [openModal, setOpenModal] = useState(false);
   const [suppliers, setSuppliers] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [networks, setNetworks] = useState([]);
-  const [network, setNetwork] = useState("");
-  const [editStaffId, setEditStaffId] = useState(null);
-  const [viewStaffId, setViewStaffId] = useState(null);
+
+  const [editSupplierId, setEditSupplierId] = useState(null);
+  const [viewSupplierId, setViewSupplierId] = useState(null);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [openViewModal, setOpenViewModal] = useState(false);
 
-  const [searchByName, setSearchByName] = useState("");
   const [page, setPage] = useState(0);
-  const [pageWhenNetworkSelected, setPageWhenNetworkSelected] = useState(0);
+
   const [limit, setLimit] = useState(10);
   const [pages, setPages] = useState(0);
   const [rows, setRows] = useState(0);
@@ -30,33 +30,14 @@ function Suppliers() {
   const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    getNetworks();
-  }, []);
-
-  useEffect(() => {
-    getStaffs();
+    getSuppliers();
   }, [page]);
 
   useEffect(() => {
-    getStaffs();
+    getSuppliers();
   }, [openEditModal]);
 
-  useEffect(() => {
-    setPageWhenNetworkSelected(0);
-    setPage(0);
-    setPages(0);
-    setRows(0);
-
-    network !== "" || searchByName !== ""
-      ? getStaffsBasedOnNetwork()
-      : getStaffs();
-  }, [network, searchByName]);
-
-  useEffect(() => {
-    getStaffsBasedOnNetwork();
-  }, [pageWhenNetworkSelected]);
-
-  const getStaffs = async () => {
+  const getSuppliers = async () => {
     // setLoading(true);
     // try {
     //   const response = await axios.get(
@@ -81,54 +62,7 @@ function Suppliers() {
     // }
   };
 
-  const getNetworks = async () => {
-    try {
-      const response = await axios.get(`${api_url}/api/v1/networks`, {
-        headers: {
-          "access-token": localStorage.getItem("token"),
-        },
-        withCredentials: true,
-      });
-
-      setNetworks(response.data);
-    } catch (error) {
-      if (error.response) {
-        //setMsg(error.response.data.msg);
-        toast.error(error.response.data.msg);
-      }
-    }
-  };
-
-  // get staffs based on network
-  const getStaffsBasedOnNetwork = async () => {
-    setLoading(true);
-
-    try {
-      const response = await axios.get(
-        `${api_url}/api/v1/staffs/base-on-network/${network}?page=${pageWhenNetworkSelected}&limit=${limit}&search_by_name=${searchByName}`,
-        {
-          headers: {
-            "access-token": localStorage.getItem("token"),
-          },
-          withCredentials: true,
-        }
-      );
-      setLoading(false);
-      setUsers(response.data.response);
-      setPageWhenNetworkSelected(response.data.page);
-      setLimit(response.data.limit);
-      setPages(response.data.totalPage);
-      setRows(response.data.totalRows);
-    } catch (error) {
-      if (error.response) {
-        //setMsg(error.response.data.msg);
-        toast.error(error.response.data.msg);
-        console.log(error.response.data.msg);
-      }
-    }
-  };
-
-  const deleteStaff = async (id) => {
+  const deleteSupplier = async (id) => {
     try {
       const result = await axios.delete(`${api_url}/api/v1/staffs/${id}`, {
         headers: {
@@ -137,7 +71,7 @@ function Suppliers() {
         withCredentials: true,
       });
       toast.success(result.data.msg);
-      getStaffs();
+      getSuppliers();
     } catch (error) {
       if (error.response) {
         toast.error(error.response.data.msg);
@@ -146,15 +80,7 @@ function Suppliers() {
   };
 
   const changePage = ({ selected }) => {
-    //setPage(selected);
-    network !== "" ? setPageWhenNetworkSelected(selected) : setPage(selected);
-    // if (selected === 9) {
-    //   setMsg(
-    //     "Jika tidak menemukan data yang Anda cari, silahkan cari data dengan kata kunci spesifik!"
-    //   );
-    // } else {
-    //   setMsg("");
-    // }
+    setPage(selected);
   };
   return (
     <div className="grow p-8">
@@ -170,16 +96,22 @@ function Suppliers() {
         </button>
       </div>
 
+      <ViewSupplier
+        openViewModal={openViewModal}
+        setOpenViewModal={setOpenViewModal}
+        viewSupplierId={viewSupplierId}
+      />
+
       <div>
         <table className=" table-auto w-full bg-white dark:bg-gray-800 rounded-lg shadow-md">
           <thead>
             <tr>
               <th className="p-4">ID</th>
-              <th>User ID</th>
-              <th>Frist Name</th>
-              <th>Last Name</th>
+              <th>Name</th>
+              <th>Payment Method</th>
+              <th>Loan</th>
               {/* <th>NIC</th> */}
-              <th>Network Name</th>
+              <th>Paid Amount</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -200,16 +132,16 @@ function Suppliers() {
               suppliers.map((user, index) => (
                 <tr key={user.id}>
                   <td className="p-4 text-center">#{user.id}</td>
-                  <td className="text-center">{user.uuid}</td>
-                  <td className="text-center">{user.fristname}</td>
-                  <td className="text-center">{user.lastname}</td>
-                  {/* <td className="text-center">{user.nic}</td> */}
-                  <td className="text-center">{user.network.name}</td>
+                  <td className="text-center">{user.name}</td>
+                  <td className="text-center">{user.paymentMethod}</td>
+                  <td className="text-center">{user.Loan}</td>
+
+                  <td className="text-center">{user.paidAmount}</td>
                   <td className="text-center">
                     <button
                       onClick={() => {
                         setOpenViewModal(true);
-                        setViewStaffId(user.uuid);
+                        setViewSupplierId(user.uuid);
                       }}
                       className="bg-blue-600 mr-2 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
                     >
@@ -218,7 +150,7 @@ function Suppliers() {
                     <button
                       onClick={() => {
                         setOpenEditModal(true);
-                        setEditStaffId(user.uuid);
+                        setEditSupplierId(user.uuid);
                       }}
                       className="bg-green-600 mr-2 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
                     >
@@ -226,7 +158,7 @@ function Suppliers() {
                     </button>
                     <button
                       onClick={() => {
-                        deleteStaff(user.uuid);
+                        deleteSupplier(user.uuid);
                       }}
                       className="bg-red-600 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
                     >
