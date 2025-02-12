@@ -7,6 +7,7 @@ import { RiArrowDropDownLine } from "react-icons/ri";
 import { RiFlowerFill } from "react-icons/ri";
 import { FaShoppingCart } from "react-icons/fa";
 import { FaMoneyBillWave } from "react-icons/fa";
+import { BiExclude } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 
 // icons
@@ -72,6 +73,12 @@ function Sidebar() {
       link: "/suppliers",
       onlyAdmin: true,
       icon: <FaTruckFast />,
+    },
+    {
+      title: "Ingredients",
+      link: "/ingredients",
+      onlyAdmin: true,
+      icon: <BiExclude />,
     },
     {
       title: "Orders",
