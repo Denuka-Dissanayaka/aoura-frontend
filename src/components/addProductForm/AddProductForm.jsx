@@ -19,6 +19,8 @@ function AddProductForm({ openModal, setOpenModal, getProductsFunc }) {
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
+  console.log(preview);
+
   const getNetworks = async () => {
     try {
       const response = await axios.get(`${api_url}/api/v1/networks`, {
@@ -272,9 +274,7 @@ function AddProductForm({ openModal, setOpenModal, getProductsFunc }) {
                 <input
                   type="file"
                   name="image"
-                  onChange={(e) => {
-                    loadImage(e);
-                  }}
+                  onChange={loadImage}
                   id="quantity"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="$Quantity"
