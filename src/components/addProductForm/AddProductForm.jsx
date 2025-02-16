@@ -281,6 +281,14 @@ function AddProductForm({ openModal, setOpenModal, getProductsFunc }) {
                 />
               </div>
 
+              {preview ? (
+                <div className="w-[100px] h-[100px]">
+                  <img src={preview} alt="Preview Image" />
+                </div>
+              ) : (
+                ""
+              )}
+
               {/* <div className="col-span-2">
                 <label
                   for="description"
