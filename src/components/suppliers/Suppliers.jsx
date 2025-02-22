@@ -150,8 +150,8 @@ function Suppliers() {
                   <td className="text-center">
                     <button
                       onClick={() => {
-                        //setOpenViewModal(true);
-                        //setViewSupplierId(user.uuid);
+                        setOpenViewModal(true);
+                        setViewSupplierId(user.uuid);
                       }}
                       className="bg-blue-600 mr-2 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
                     >
