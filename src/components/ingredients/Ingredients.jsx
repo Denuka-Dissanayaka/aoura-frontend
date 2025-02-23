@@ -9,6 +9,7 @@ import ReactPaginate from "react-paginate";
 
 //import ViewSupplier from "../viewSupplier/ViewSupplier";
 import AddIngredientForm from "../addIngredientForm/AddIngredientForm";
+import ViewIngredient from "../viewingredient/ViewIngredient";
 
 function Ingredients() {
   const api_url = import.meta.env.VITE_API_URL;
@@ -19,7 +20,7 @@ function Ingredients() {
   const [ingredients, setIngredients] = useState([]);
 
   const [editSupplierId, setEditSupplierId] = useState(null);
-  const [viewSupplierId, setViewSupplierId] = useState(null);
+  const [viewIngredientId, setViewIngredientId] = useState(null);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [openViewModal, setOpenViewModal] = useState(false);
 
@@ -104,6 +105,12 @@ function Ingredients() {
         getIngredientFunc={getIngredients}
       />
 
+      <ViewIngredient
+        openViewModal={openViewModal}
+        setOpenViewModal={setOpenViewModal}
+        viewIngredientId={viewIngredientId}
+      />
+
       <div>
         <table className=" table-auto w-full bg-white dark:bg-gray-800 rounded-lg shadow-md">
           <thead>
@@ -140,8 +147,8 @@ function Ingredients() {
                   <td className="text-center">
                     <button
                       onClick={() => {
-                        //setOpenViewModal(true);
-                        //setViewSupplierId(user.uuid);
+                        setOpenViewModal(true);
+                        setViewIngredientId(user.uuid);
                       }}
                       className="bg-blue-600 mr-2 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
                     >
