@@ -148,7 +148,7 @@ function Ingredients() {
                     <button
                       onClick={() => {
                         setOpenViewModal(true);
-                        setViewIngredientId(user.uuid);
+                        setViewIngredientId(item.uuid);
                       }}
                       className="bg-blue-600 mr-2 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
                     >
