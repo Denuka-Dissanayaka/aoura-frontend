@@ -30,9 +30,9 @@ function ViewIngredient({ openViewModal, setOpenViewModal, viewIngredientId }) {
       );
 
       setUuid(response.data.uuid);
-      setName(response.data.uuid);
+      setName(response.data.name);
       setQuantity(response.data.email);
-      setStatus(response.data.phone);
+      setStatus(response.data.status);
 
       setCreateDate(response.data.createdAt);
     } catch (error) {
