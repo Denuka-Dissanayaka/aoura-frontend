@@ -9,6 +9,7 @@ import ReactPaginate from "react-paginate";
 
 import ViewSupplier from "../viewSupplier/ViewSupplier";
 import AddSupplierForm from "../addSupplierForm/AddSupplierForm";
+import EditSupplierForm from "../editSupplierForm/EditSupplierForm";
 
 function Suppliers() {
   const api_url = import.meta.env.VITE_API_URL;
@@ -110,6 +111,13 @@ function Suppliers() {
         getSuppilersFunc={getSuppliers}
       />
 
+      <EditSupplierForm
+        openEditModal={openEditModal}
+        setOpenEditModal={setOpenEditModal}
+        editSupplierId={editSupplierId}
+        setEditSupplierId={setEditSupplierId}
+      />
+
       <div>
         <table className=" table-auto w-full bg-white dark:bg-gray-800 rounded-lg shadow-md">
           <thead>
@@ -159,8 +167,8 @@ function Suppliers() {
                     </button>
                     <button
                       onClick={() => {
-                        //setOpenEditModal(true);
-                        //setEditSupplierId(user.uuid);
+                        setOpenEditModal(true);
+                        setEditSupplierId(user.uuid);
                       }}
                       className="bg-green-600 mr-2 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
                     >

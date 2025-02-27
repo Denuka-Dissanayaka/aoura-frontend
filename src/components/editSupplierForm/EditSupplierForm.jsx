@@ -7,29 +7,32 @@ function EditSupplierForm({
   openEditModal,
   setOpenEditModal,
 
-  setEditStaffId,
-  editStaffId,
+  setEditSupplierId,
+  editSupplierId,
 }) {
   const api_url = import.meta.env.VITE_API_URL;
 
   const [name, setName] = useState("");
-    const [uuid, setUuid] = useState("");
     const [email, setEmail] = useState("");
-    const [phoneNo, setPhoneNo] = useState("");
-    const [loan, setLoan] = useState(0);
-    const [paidAmount, setPaidAmount] = useState(0);
-    const [paymentMethod, setPaymentMethod] = useState('');
-    const [bankName, setBankName] = useState('');
+    const [productName, setProductName] = useState("");
+  
+    const [productPrice, setProductPrice] = useState("");
+    const [loanAmount, setLoanAmount] = useState("");
+    const [paidAmount, setPaidAmount] = useState("");
+    const [balance, setBalance] = useState("");
+    const [paymentMethod, setPaymentMethod] = useState("");
+    const [bankName, setBankName] = useState("");
+    const [msg, setMsg] = useState("");
 
   const navigate = useNavigate();
 
   
 
   const getSupplierById = async () => {
-    if (editStaffId !== null) {
+    if (editSupplierId !== null) {
       try {
         const response = await axios.get(
-          `${api_url}/api/v1/suppliers/${editStaffId}`,
+          `${api_url}/api/v1/suppliers/${editSupplierId}`,
           {
             headers: {
               "access-token": localStorage.getItem("token"),
@@ -56,7 +59,7 @@ function EditSupplierForm({
 
   useEffect(() => {
     getSupplierById();
-  }, [editStaffId]);
+  }, [editSupplierId]);
 
 
 
@@ -64,13 +67,17 @@ function EditSupplierForm({
     e.preventDefault();
     try {
       const result = await axios.patch(
-        `${api_url}/api/v1/suppliers/${editStaffId}`,
+        `${api_url}/api/v1/suppliers/${editSupplierId}`,
         {
-          fristName: fristName,
-          lastName: lastName,
-          gender: gender,
-          nic: nic,
-          //networkId: network,
+          name,
+          email,
+          productName,
+          productPrice,
+          loanAmount,
+          paidAmount,
+          balance,
+          paymentMethod,
+          bankName,
         },
         {
           headers: {
@@ -85,7 +92,7 @@ function EditSupplierForm({
       setOpenEditModal(false);
     } catch (error) {
       if (error.response) {
-        //setMsg(error.response.data.msg);
+        setMsg(error.response.data.msg);
         toast.error(error.response.data.msg);
       }
     }
@@ -108,7 +115,7 @@ function EditSupplierForm({
             <button
               onClick={() => {
                 setOpenEditModal(false);
-                setEditStaffId(null);
+                setEditSupplierId(null);
               }}
               type="button"
               className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -133,26 +140,26 @@ function EditSupplierForm({
             </button>
           </div>
 
-          <form className="p-4 md:p-5" onSubmit={updateStaff}>
+          <form className="p-4 md:p-5" onSubmit={saveSupplier}>
             <div className="grid gap-4 mb-4 grid-cols-2">
-              <p className="text-sm text-red-600"></p>
+              <p className="text-sm text-red-600">{msg}</p>
               <div className="col-span-2">
                 <label
                   for="fristname"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Frist Name
+                  Name
                 </label>
                 <input
                   type="text"
                   name="fristname"
                   id="fristname"
-                  value={fristName}
+                  value={name}
                   onChange={(e) => {
-                    setFristName(e.target.value);
+                    setName(e.target.value);
                   }}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Type frist name"
+                  placeholder="Type name"
                   required
                 />
               </div>
@@ -161,19 +168,18 @@ function EditSupplierForm({
                   for="lastname"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Last Name
+                  Email
                 </label>
                 <input
                   type="text"
                   name="lastname"
                   id="lastname"
-                  value={lastName}
+                  value={email}
                   onChange={(e) => {
-                    setLastName(e.target.value);
+                    setEmail(e.target.value);
                   }}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Type last name"
-                  required
+                  placeholder="Type email"
                 />
               </div>
               <div className="col-span-2">
@@ -181,19 +187,101 @@ function EditSupplierForm({
                   for="nic"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  NIC
+                  Product Name
                 </label>
                 <input
                   type="text"
                   name="nic"
                   id="nic"
-                  value={nic}
+                  value={productName}
                   onChange={(e) => {
-                    setNic(e.target.value);
+                    setProductName(e.target.value);
                   }}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="NIC"
-                  required
+                  placeholder="Product name"
+                />
+              </div>
+
+              <div className="col-span-2">
+                <label
+                  for="nic"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Product Price
+                </label>
+                <input
+                  type="number"
+                  name="nic"
+                  id="nic"
+                  step={0.01}
+                  value={productPrice}
+                  onChange={(e) => {
+                    setProductPrice(e.target.value);
+                  }}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  placeholder="Product price"
+                />
+              </div>
+
+              <div className="col-span-2">
+                <label
+                  for="nic"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Loan Amount
+                </label>
+                <input
+                  type="number"
+                  name="nic"
+                  id="nic"
+                  step={0.01}
+                  value={loanAmount}
+                  onChange={(e) => {
+                    setLoanAmount(e.target.value);
+                  }}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  placeholder="Loan Amount"
+                />
+              </div>
+              <div className="col-span-2">
+                <label
+                  for="nic"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Paid Amount
+                </label>
+                <input
+                  type="number"
+                  name="nic"
+                  id="nic"
+                  step={0.01}
+                  value={paidAmount}
+                  onChange={(e) => {
+                    setPaidAmount(e.target.value);
+                  }}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  placeholder="Paid Amount"
+                />
+              </div>
+
+              <div className="col-span-2">
+                <label
+                  for="nic"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Balance
+                </label>
+                <input
+                  type="number"
+                  name="nic"
+                  id="nic"
+                  step={0.01}
+                  value={balance}
+                  onChange={(e) => {
+                    setBalance(e.target.value);
+                  }}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  placeholder="Balance"
                 />
               </div>
 
@@ -202,44 +290,42 @@ function EditSupplierForm({
                   for="Gender"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Select Gender
+                  Select Payment Method
                 </label>
                 <select
                   id="Gender"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  value={gender}
+                  value={paymentMethod}
                   onChange={(e) => {
-                    setGender(e.target.value);
+                    setPaymentMethod(e.target.value);
                   }}
                 >
-                  <option selected="">Select Gender</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
+                  <option selected="">Select Method</option>
+                  <option value="Cash">Cash</option>
+                  <option value="Cheque">Cheque</option>
+                  <option value="bank_deposit">Bank Deposit</option>
                 </select>
               </div>
-              {/* <div className="col-span-2 sm:col-span-1">
+
+              <div className="col-span-2">
                 <label
-                  for="network"
+                  for="nic"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Select Network
+                  Bank Name
                 </label>
-                <select
-                  id="network"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  value={network}
+                <input
+                  type="text"
+                  name="nic"
+                  id="nic"
+                  value={bankName}
                   onChange={(e) => {
-                    setNetwork(e.target.value);
+                    setBankName(e.target.value);
                   }}
-                >
-                  <option selected="">Select Network</option>
-                  {networks.map((item, index) => (
-                    <option key={item.id} value={item.id}>
-                      {item.name}
-                    </option>
-                  ))}
-                </select>
-              </div> */}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  placeholder="Bank name"
+                />
+              </div>
             </div>
             <button
               type="submit"
@@ -257,7 +343,7 @@ function EditSupplierForm({
                   clip-rule="evenodd"
                 ></path>
               </svg>
-              Update Member
+              Update Supplier
             </button>
           </form>
         </div>
