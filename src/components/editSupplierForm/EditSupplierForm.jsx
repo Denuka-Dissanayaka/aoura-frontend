@@ -58,7 +58,7 @@ function EditSupplierForm({
     getSupplierById();
   }, [editSupplierId]);
 
-  const updateStaff = async (e) => {
+  const updateSupplier = async (e) => {
     e.preventDefault();
     try {
       const result = await axios.patch(
@@ -135,7 +135,7 @@ function EditSupplierForm({
             </button>
           </div>
 
-          <form className="p-4 md:p-5" onSubmit={""}>
+          <form className="p-4 md:p-5" onSubmit={updateSupplier}>
             <div className="grid gap-4 mb-4 grid-cols-2">
               <p className="text-sm text-red-600">{msg}</p>
               <div className="col-span-2">
