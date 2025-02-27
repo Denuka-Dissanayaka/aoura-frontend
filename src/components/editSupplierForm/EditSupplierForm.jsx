@@ -135,7 +135,7 @@ function EditSupplierForm({
             </button>
           </div>
 
-          <form className="p-4 md:p-5" onSubmit={saveSupplier}>
+          <form className="p-4 md:p-5" onSubmit={""}>
             <div className="grid gap-4 mb-4 grid-cols-2">
               <p className="text-sm text-red-600">{msg}</p>
               <div className="col-span-2">
