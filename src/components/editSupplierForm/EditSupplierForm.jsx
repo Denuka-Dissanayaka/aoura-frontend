@@ -38,7 +38,7 @@ function EditSupplierForm({
             withCredentials: true,
           }
         );
-        setName(response.data.uuid);
+        setName(response.data.name);
         setEmail(response.data.email);
         setProductName(response.data.productName);
         setProductPrice(response.data.productPrice);
@@ -59,38 +59,37 @@ function EditSupplierForm({
   }, [editSupplierId]);
 
   const updateSupplier = async (e) => {
-    e.preventDefault();
-    try {
-      const result = await axios.patch(
-        `${api_url}/api/v1/suppliers/${editSupplierId}`,
-        {
-          name,
-          email,
-          productName,
-          productPrice,
-          loanAmount,
-          paidAmount,
-          balance,
-          paymentMethod,
-          bankName,
-        },
-        {
-          headers: {
-            "access-token": localStorage.getItem("token"),
-          },
-          withCredentials: true,
-        }
-      );
-      toast.success(result.data.msg);
-      //navigate("/staff");
-      //getStaffsFunc();
-      setOpenEditModal(false);
-    } catch (error) {
-      if (error.response) {
-        setMsg(error.response.data.msg);
-        toast.error(error.response.data.msg);
-      }
-    }
+    setOpenEditModal(false);
+    // e.preventDefault();
+    // try {
+    //   const result = await axios.patch(
+    //     `${api_url}/api/v1/suppliers/${editSupplierId}`,
+    //     {
+    //       name,
+    //       email,
+    //       productName,
+    //       productPrice,
+    //       loanAmount,
+    //       paidAmount,
+    //       balance,
+    //       paymentMethod,
+    //       bankName,
+    //     },
+    //     {
+    //       headers: {
+    //         "access-token": localStorage.getItem("token"),
+    //       },
+    //       withCredentials: true,
+    //     }
+    //   );
+    //   toast.success(result.data.msg);
+    //   setOpenEditModal(false);
+    // } catch (error) {
+    //   if (error.response) {
+    //     setMsg(error.response.data.msg);
+    //     toast.error(error.response.data.msg);
+    //   }
+    // }
   };
   return (
     <div
