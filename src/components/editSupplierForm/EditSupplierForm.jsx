@@ -13,20 +13,18 @@ function EditSupplierForm({
   const api_url = import.meta.env.VITE_API_URL;
 
   const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [productName, setProductName] = useState("");
-  
-    const [productPrice, setProductPrice] = useState("");
-    const [loanAmount, setLoanAmount] = useState("");
-    const [paidAmount, setPaidAmount] = useState("");
-    const [balance, setBalance] = useState("");
-    const [paymentMethod, setPaymentMethod] = useState("");
-    const [bankName, setBankName] = useState("");
-    const [msg, setMsg] = useState("");
+  const [email, setEmail] = useState("");
+  const [productName, setProductName] = useState("");
+
+  const [productPrice, setProductPrice] = useState("");
+  const [loanAmount, setLoanAmount] = useState("");
+  const [paidAmount, setPaidAmount] = useState("");
+  const [balance, setBalance] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState("");
+  const [bankName, setBankName] = useState("");
+  const [msg, setMsg] = useState("");
 
   const navigate = useNavigate();
-
-  
 
   const getSupplierById = async () => {
     if (editSupplierId !== null) {
@@ -41,9 +39,10 @@ function EditSupplierForm({
           }
         );
         setName(response.data.uuid);
-        setEmail(response.data.);
-        setPhoneNo(response.data.phone)
-        setLoan(response.data.loan);
+        setEmail(response.data.email);
+        setProductName(response.data.productName);
+        setProductPrice(response.data.productPrice);
+        setLoanAmount(response.data.loan);
         setBankName(response.data.bank);
         setPaidAmount(response.data.paidAmount);
         setPaymentMethod(response.data.paymentMethod);
@@ -55,13 +54,9 @@ function EditSupplierForm({
     }
   };
 
- 
-
   useEffect(() => {
     getSupplierById();
   }, [editSupplierId]);
-
-
 
   const updateStaff = async (e) => {
     e.preventDefault();
