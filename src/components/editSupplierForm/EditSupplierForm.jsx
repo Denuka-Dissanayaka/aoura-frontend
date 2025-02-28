@@ -60,7 +60,7 @@ function EditSupplierForm({
 
   const updateSupplier = async (e) => {
     setOpenEditModal(false);
-    // e.preventDefault();
+    e.preventDefault();
     // try {
     //   const result = await axios.patch(
     //     `${api_url}/api/v1/suppliers/${editSupplierId}`,

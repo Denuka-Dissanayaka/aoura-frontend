@@ -147,7 +147,7 @@ function ViewSupplier({ openViewModal, setOpenViewModal, viewSupplierId }) {
               <p className="font-semibold text-lg">Payment Method :</p>
               <p>{`${paymentMethod}`}</p>
             </div>
-            {paymentMethod === "bank" && (
+            {paymentMethod === "bank_deposit" && (
               <div className="m-2">
                 <p className="font-semibold text-lg">Bank Name :</p>
                 <p>{`${bankName}`}</p>
