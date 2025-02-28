@@ -10,6 +10,7 @@ import ReactPaginate from "react-paginate";
 //import ViewSupplier from "../viewSupplier/ViewSupplier";
 import AddIngredientForm from "../addIngredientForm/AddIngredientForm";
 import ViewIngredient from "../viewingredient/ViewIngredient";
+import EditIngredientForm from "../editIngredientForm/EditIngredientForm";
 
 function Ingredients() {
   const api_url = import.meta.env.VITE_API_URL;
@@ -19,7 +20,7 @@ function Ingredients() {
   const [loading, setLoading] = useState(false);
   const [ingredients, setIngredients] = useState([]);
 
-  const [editSupplierId, setEditSupplierId] = useState(null);
+  const [editIngredientId, setEditIngredientId] = useState(null);
   const [viewIngredientId, setViewIngredientId] = useState(null);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [openViewModal, setOpenViewModal] = useState(false);
@@ -111,6 +112,13 @@ function Ingredients() {
         viewIngredientId={viewIngredientId}
       />
 
+      <EditIngredientForm
+        openEditModal={openEditModal}
+        setOpenEditModal={setOpenEditModal}
+        editIngredientID={editIngredientId}
+        setEditIngredientId={setEditIngredientId}
+      />
+
       <div>
         <table className=" table-auto w-full bg-white dark:bg-gray-800 rounded-lg shadow-md">
           <thead>
@@ -156,8 +164,8 @@ function Ingredients() {
                     </button>
                     <button
                       onClick={() => {
-                        //setOpenEditModal(true);
-                        //setEditSupplierId(user.uuid);
+                        setOpenEditModal(true);
+                        setEditIngredientId(item.uuid);
                       }}
                       className="bg-green-600 mr-2 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
                     >
