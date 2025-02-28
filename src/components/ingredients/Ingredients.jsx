@@ -110,6 +110,7 @@ function Ingredients() {
         openViewModal={openViewModal}
         setOpenViewModal={setOpenViewModal}
         viewIngredientId={viewIngredientId}
+        setViewIngredientId={setViewIngredientId}
       />
 
       <EditIngredientForm
