@@ -10,9 +10,11 @@ function ViewSupplier({ openViewModal, setOpenViewModal, viewSupplierId }) {
   const [name, setName] = useState("");
   const [uuid, setUuid] = useState("");
   const [email, setEmail] = useState("");
-  const [phoneNo, setPhoneNo] = useState("");
+  const [productName, setProductName] = useState("");
+  const [productPrice, setProductPrice] = useState("");
   const [loan, setLoan] = useState(0);
   const [paidAmount, setPaidAmount] = useState(0);
+  const [balance, setBalance] = useState(0);
   const [paymentMethod, setPaymentMethod] = useState("");
   const [bankName, setBankName] = useState("");
   const [createDate, setCreateDate] = useState("");
@@ -33,13 +35,15 @@ function ViewSupplier({ openViewModal, setOpenViewModal, viewSupplierId }) {
       );
 
       setUuid(response.data.uuid);
-      setName(response.data.uuid);
+      setName(response.data.name);
       setEmail(response.data.email);
-      setPhoneNo(response.data.phone);
-      setLoan(response.data.loan);
-      setBankName(response.data.bank);
+      setProductName(response.data.productName);
+      setProductPrice(response.data.productPrice);
+      setLoan(response.data.loanAmount);
       setPaidAmount(response.data.paidAmount);
+      setBalance(response.data.balance);
       setPaymentMethod(response.data.paymentMethod);
+      setBankName(response.data.bankName);
       setCreateDate(response.data.createdAt);
     } catch (error) {
       if (error.response) {
@@ -54,12 +58,14 @@ function ViewSupplier({ openViewModal, setOpenViewModal, viewSupplierId }) {
     setName("");
     setUuid("");
     setEmail("");
-    setPhoneNo("");
+    setProductName("");
+    setProductPrice("");
     setLoan("");
-    setBankName("");
-    setBankName("");
     setPaidAmount("");
+    setBalance("");
     setPaymentMethod("");
+    setBankName("");
+    setBankName("");
     setCreateDate("");
     getSupplier();
   }, [viewSupplierId]);
@@ -118,11 +124,15 @@ function ViewSupplier({ openViewModal, setOpenViewModal, viewSupplierId }) {
               <p>{`${email}`}</p>
             </div>
             <div className="m-2">
-              <p className="font-semibold text-lg">Phone No :</p>
-              <p>{`${phoneNo}`}</p>
+              <p className="font-semibold text-lg">Product Name :</p>
+              <p>{`${productName}`}</p>
             </div>
             <div className="m-2">
-              <p className="font-semibold text-lg">Loan :</p>
+              <p className="font-semibold text-lg">Product Price :</p>
+              <p>{`${productPrice}`}</p>
+            </div>
+            <div className="m-2">
+              <p className="font-semibold text-lg">Loan Amount :</p>
               <p>{`${loan}`}</p>
             </div>
             <div className="m-2">
@@ -130,13 +140,20 @@ function ViewSupplier({ openViewModal, setOpenViewModal, viewSupplierId }) {
               <p>{`${paidAmount}`}</p>
             </div>
             <div className="m-2">
+              <p className="font-semibold text-lg">Balance :</p>
+              <p>{`${balance}`}</p>
+            </div>
+            <div className="m-2">
               <p className="font-semibold text-lg">Payment Method :</p>
               <p>{`${paymentMethod}`}</p>
             </div>
-            <div className="m-2">
-              <p className="font-semibold text-lg">Bank Name :</p>
-              <p>{`${bankName}`}</p>
-            </div>
+            {paymentMethod === "bank" && (
+              <div className="m-2">
+                <p className="font-semibold text-lg">Bank Name :</p>
+                <p>{`${bankName}`}</p>
+              </div>
+            )}
+
             <div className="m-2">
               <p className="font-semibold text-lg">Created Date :</p>
               <p>{`${createDate}`}</p>
