@@ -42,8 +42,8 @@ function EditSupplierForm({
         setEmail(response.data.email);
         setProductName(response.data.productName);
         setProductPrice(response.data.productPrice);
-        setLoanAmount(response.data.loan);
-        setBankName(response.data.bank);
+        setLoanAmount(response.data.loanAmount);
+        setBankName(response.data.bankName);
         setPaidAmount(response.data.paidAmount);
         setPaymentMethod(response.data.paymentMethod);
       } catch (error) {
@@ -59,37 +59,36 @@ function EditSupplierForm({
   }, [editSupplierId]);
 
   const updateSupplier = async (e) => {
-    setOpenEditModal(false);
     e.preventDefault();
-    // try {
-    //   const result = await axios.patch(
-    //     `${api_url}/api/v1/suppliers/${editSupplierId}`,
-    //     {
-    //       name,
-    //       email,
-    //       productName,
-    //       productPrice,
-    //       loanAmount,
-    //       paidAmount,
-    //       balance,
-    //       paymentMethod,
-    //       bankName,
-    //     },
-    //     {
-    //       headers: {
-    //         "access-token": localStorage.getItem("token"),
-    //       },
-    //       withCredentials: true,
-    //     }
-    //   );
-    //   toast.success(result.data.msg);
-    //   setOpenEditModal(false);
-    // } catch (error) {
-    //   if (error.response) {
-    //     setMsg(error.response.data.msg);
-    //     toast.error(error.response.data.msg);
-    //   }
-    // }
+    try {
+      const result = await axios.patch(
+        `${api_url}/api/v1/suppliers/${editSupplierId}`,
+        {
+          name,
+          email,
+          productName,
+          productPrice,
+          loanAmount,
+          paidAmount,
+          balance,
+          paymentMethod,
+          bankName,
+        },
+        {
+          headers: {
+            "access-token": localStorage.getItem("token"),
+          },
+          withCredentials: true,
+        }
+      );
+      toast.success(result.data.msg);
+      setOpenEditModal(false);
+    } catch (error) {
+      if (error.response) {
+        setMsg(error.response.data.msg);
+        toast.error(error.response.data.msg);
+      }
+    }
   };
   return (
     <div
@@ -301,25 +300,27 @@ function EditSupplierForm({
                 </select>
               </div>
 
-              <div className="col-span-2">
-                <label
-                  for="nic"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Bank Name
-                </label>
-                <input
-                  type="text"
-                  name="nic"
-                  id="nic"
-                  value={bankName}
-                  onChange={(e) => {
-                    setBankName(e.target.value);
-                  }}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Bank name"
-                />
-              </div>
+              {paymentMethod === "bank_deposit" && (
+                <div className="col-span-2">
+                  <label
+                    for="nic"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Bank Name
+                  </label>
+                  <input
+                    type="text"
+                    name="nic"
+                    id="nic"
+                    value={bankName}
+                    onChange={(e) => {
+                      setBankName(e.target.value);
+                    }}
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    placeholder="Bank name"
+                  />
+                </div>
+              )}
             </div>
             <button
               type="submit"
