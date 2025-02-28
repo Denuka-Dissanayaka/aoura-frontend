@@ -31,7 +31,7 @@ function ViewIngredient({ openViewModal, setOpenViewModal, viewIngredientId }) {
 
       setUuid(response.data.uuid);
       setName(response.data.name);
-      setQuantity(response.data.email);
+      setQuantity(response.data.quantity);
       setStatus(response.data.status);
 
       setCreateDate(response.data.createdAt);
