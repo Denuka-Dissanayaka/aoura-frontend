@@ -67,7 +67,7 @@ function Suppliers() {
 
   const deleteSupplier = async (id) => {
     try {
-      const result = await axios.delete(`${api_url}/api/v1/staffs/${id}`, {
+      const result = await axios.delete(`${api_url}/api/v1/suppliers/${id}`, {
         headers: {
           "access-token": localStorage.getItem("token"),
         },
@@ -176,7 +176,7 @@ function Suppliers() {
                     </button>
                     <button
                       onClick={() => {
-                        //deleteSupplier(user.uuid);
+                        deleteSupplier(user.uuid);
                       }}
                       className="bg-red-600 hover:bg-dark-purple-[300] text-white font-bold py-2 px-4 rounded"
                     >

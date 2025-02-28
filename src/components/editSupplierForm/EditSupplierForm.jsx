@@ -46,6 +46,7 @@ function EditSupplierForm({
         setBankName(response.data.bankName);
         setPaidAmount(response.data.paidAmount);
         setPaymentMethod(response.data.paymentMethod);
+        setBalance(response.data.balance);
       } catch (error) {
         if (error.response) {
           console.log(error.response.data.msg);
