@@ -9,6 +9,7 @@ function AddProductForm({ openModal, setOpenModal, getProductsFunc }) {
 
   const [productName, setProductName] = useState("");
   const [productPrice, setProductPrice] = useState("");
+  const [cost, setCost] = useState("");
   const [type, setType] = useState("");
   const [productQuantity, setProductQuantity] = useState(0);
   const [networks, setNetworks] = useState([]);
@@ -46,6 +47,7 @@ function AddProductForm({ openModal, setOpenModal, getProductsFunc }) {
     setProductName("");
     setProductPrice("");
     setProductQuantity(0);
+    setCost("");
     setMsg("");
     setType("");
     setNetwork([]);
@@ -71,6 +73,7 @@ function AddProductForm({ openModal, setOpenModal, getProductsFunc }) {
         {
           name: productName,
           price: productPrice,
+          cost: cost,
           quantity: productQuantity,
           type: type,
           networkId: network,
@@ -87,6 +90,7 @@ function AddProductForm({ openModal, setOpenModal, getProductsFunc }) {
       getProductsFunc();
       setProductName("");
       setProductPrice("");
+      setCost("");
       setProductQuantity(0);
       setType("");
       setNetwork([]);
@@ -226,6 +230,7 @@ function AddProductForm({ openModal, setOpenModal, getProductsFunc }) {
                 <input
                   type="number"
                   name="price"
+                  step={0.01}
                   value={productPrice}
                   onChange={(e) => {
                     setProductPrice(e.target.value);
@@ -256,7 +261,31 @@ function AddProductForm({ openModal, setOpenModal, getProductsFunc }) {
                   }}
                   id="quantity"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="$Quantity"
+                  placeholder="Quantity"
+                />
+              </div>
+              <div
+                className={`col-span-2 sm:col-span-1 ${
+                  type === "product" ? "" : "hidden"
+                }`}
+              >
+                <label
+                  for="cost"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Cost
+                </label>
+                <input
+                  type="number"
+                  name="cost"
+                  step={0.01}
+                  value={cost}
+                  onChange={(e) => {
+                    setCost(e.target.value);
+                  }}
+                  id="cost"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  placeholder="Cost"
                 />
               </div>
 
